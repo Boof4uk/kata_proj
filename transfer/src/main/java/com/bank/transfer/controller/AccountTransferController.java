@@ -25,17 +25,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/account-transfer")
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class AccountTransferController {
 
     /**
      * сервис для работы с переводами между счетами
      */
     private final AccountTransferService accountTransferService;
-
-    public AccountTransferController(AccountTransferService accountTransferService) {
-        this.accountTransferService = accountTransferService;
-    }
-
 
     /**
      * Получить все переводы между счетами
