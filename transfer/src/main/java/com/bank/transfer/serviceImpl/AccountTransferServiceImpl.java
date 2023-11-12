@@ -60,8 +60,10 @@ public class AccountTransferServiceImpl implements AccountTransferService {
     @Override
     public AccountTransferDTO update(AccountTransferDTO accountTransferDTO) {
         AccountTransfer accountTransfer = accountTransferMapper.toEntity(accountTransferDTO);
-        accountTransferRepository.save(accountTransfer);
-        return accountTransferMapper.toDto(accountTransfer);
+        AccountTransfer account = accountTransferRepository.findById(accountTransfer.getId())
+                .orElseThrow(() -> new RuntimeException("AccountTransfer not found with id: " + accountTransfer.getId()));
+        accountTransferRepository.save(account);
+        return accountTransferMapper.toDto(account);
     }
 
     /**
@@ -82,7 +84,8 @@ public class AccountTransferServiceImpl implements AccountTransferService {
 
     @Override
     public AccountTransferDTO showById(Long id) {
-        AccountTransfer accountTransfer = accountTransferRepository.findById(id).get();
+        AccountTransfer accountTransfer = accountTransferRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("AccountTransfer not found with id: " + id));
         return accountTransferMapper.toDto(accountTransfer);
     }
 }
