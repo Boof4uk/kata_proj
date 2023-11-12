@@ -69,7 +69,7 @@ public class TransferAuditController {
 
     @PostMapping
     @ApiOperation(value = "Добавить аудит")
-    public ResponseEntity<TransferAuditDTO> newAccount(@Valid @RequestBody TransferAuditDTO transferAuditDTO) {
+    public ResponseEntity<TransferAuditDTO> newTransfer(@Valid @RequestBody TransferAuditDTO transferAuditDTO) {
         transferAuditService.add(transferAuditDTO);
         return new ResponseEntity<>(transferAuditDTO, HttpStatus.OK);
     }
