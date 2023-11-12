@@ -69,7 +69,7 @@ public class AccountTransferController {
 
     @PostMapping
     @ApiOperation(value = "Добавить сущность")
-    public ResponseEntity<AccountTransferDTO> newAccount(@Valid @RequestBody AccountTransferDTO accountTransferDTO) {
+    public ResponseEntity<AccountTransferDTO> newTransfer(@Valid @RequestBody AccountTransferDTO accountTransferDTO) {
         accountTransferService.add(accountTransferDTO);
         return new ResponseEntity<>(accountTransferDTO, HttpStatus.OK);
     }
