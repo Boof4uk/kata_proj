@@ -24,6 +24,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/phone-transfer")
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class PhoneTransferController {
 
     /**
@@ -31,10 +32,6 @@ public class PhoneTransferController {
      */
 
     private final PhoneTransferService phoneTransferService;
-
-    public PhoneTransferController(PhoneTransferService phoneTransferService) {
-        this.phoneTransferService = phoneTransferService;
-    }
 
     /**
      * Получить все телефонные переводы
