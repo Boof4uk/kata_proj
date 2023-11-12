@@ -14,6 +14,7 @@ import java.util.List;
  */
 
 @Service
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class PhoneTransferServiceImpl implements PhoneTransferService {
 
     /**
@@ -27,11 +28,6 @@ public class PhoneTransferServiceImpl implements PhoneTransferService {
      */
 
     private final PhoneTransferMapper phoneTransferMapper;
-
-    public PhoneTransferServiceImpl(PhoneTransferRepository phoneTransferRepository, PhoneTransferMapper phoneTransferMapper) {
-        this.phoneTransferRepository = phoneTransferRepository;
-        this.phoneTransferMapper = phoneTransferMapper;
-    }
 
     /**
      * Добавить перевод
