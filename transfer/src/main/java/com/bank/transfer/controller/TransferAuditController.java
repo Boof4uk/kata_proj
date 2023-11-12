@@ -24,6 +24,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/transfer-audit")
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class TransferAuditController {
 
     /**
@@ -31,10 +32,6 @@ public class TransferAuditController {
      */
 
     private final TransferAuditService transferAuditService;
-
-    public TransferAuditController(TransferAuditService transferAuditService) {
-        this.transferAuditService = transferAuditService;
-    }
 
     /**
      * Получить все аудиты
