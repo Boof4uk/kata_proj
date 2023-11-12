@@ -14,6 +14,7 @@ import java.util.List;
  */
 
 @Service
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class CardTransferServiceImpl implements CardTransferService {
 
     /**
@@ -27,11 +28,6 @@ public class CardTransferServiceImpl implements CardTransferService {
      */
 
     private final CardTransferMapper cardTransferMapper;
-
-    public CardTransferServiceImpl(CardTransferRepository cardTransferRepository, CardTransferMapper cardTransferMapper) {
-        this.cardTransferRepository = cardTransferRepository;
-        this.cardTransferMapper = cardTransferMapper;
-    }
 
     /**
      * Добавить перевод
