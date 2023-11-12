@@ -14,9 +14,9 @@ management:
         include: '*'
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
-    username: user
-    password: password
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
   liquibase:
     default-schema: profile
     change-log: db/changelog/db.changelog-master.yaml
@@ -24,3 +24,10 @@ spring:
     drop-first: false
   application:
     name: profile-app
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://host.docker.internal:8761/eureka/
+  instance:
+    preferIpAddress: true
+    lease-renewal-interval-in-seconds: 30
