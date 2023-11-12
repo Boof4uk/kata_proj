@@ -24,16 +24,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/card-transfer")
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class CardTransferController {
 
     /**
      * сервис для работы с переводами на карту
      */
     private final CardTransferService cardTransferService;
-
-    public CardTransferController(CardTransferService cardTransferService) {
-        this.cardTransferService = cardTransferService;
-    }
 
     /**
      * Получить все переводы на карту
