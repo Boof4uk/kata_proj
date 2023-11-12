@@ -14,6 +14,7 @@ import java.util.List;
  */
 
 @Service
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class TransferAuditServiceImpl implements TransferAuditService {
 
     /**
@@ -27,11 +28,6 @@ public class TransferAuditServiceImpl implements TransferAuditService {
      */
 
     private final TransferAuditMapper transferAuditMapper;
-
-    public TransferAuditServiceImpl(TransferAuditRepository transferAuditRepository, TransferAuditMapper transferAuditMapper) {
-        this.transferAuditRepository = transferAuditRepository;
-        this.transferAuditMapper = transferAuditMapper;
-    }
 
     /**
      * Добавить аудит
