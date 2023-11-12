@@ -69,7 +69,7 @@ public class PhoneTransferController {
 
     @PostMapping
     @ApiOperation(value = "Добавить перевод")
-    public ResponseEntity<PhoneTransferDTO> newAccount(@Valid @RequestBody PhoneTransferDTO phoneTransferDTO) {
+    public ResponseEntity<PhoneTransferDTO> newTransfer(@Valid @RequestBody PhoneTransferDTO phoneTransferDTO) {
         phoneTransferService.add(phoneTransferDTO);
         return new ResponseEntity<>(phoneTransferDTO, HttpStatus.OK);
     }
