@@ -68,7 +68,7 @@ public class CardTransferController {
 
     @PostMapping
     @ApiOperation(value = "Добавить перевод")
-    public ResponseEntity<CardTransferDTO> newAccount(@Valid @RequestBody CardTransferDTO cardTransferDTO) {
+    public ResponseEntity<CardTransferDTO> newTransfer(@Valid @RequestBody CardTransferDTO cardTransferDTO) {
         cardTransferService.add(cardTransferDTO);
         return new ResponseEntity<>(cardTransferDTO, HttpStatus.OK);
     }
