@@ -14,6 +14,7 @@ import java.util.List;
  */
 
 @Service
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class AccountTransferServiceImpl implements AccountTransferService {
 
     /**
@@ -27,11 +28,6 @@ public class AccountTransferServiceImpl implements AccountTransferService {
      */
 
     private final AccountTransferMapper accountTransferMapper;
-
-    public AccountTransferServiceImpl(AccountTransferRepository accountTransferRepository, AccountTransferMapper accountTransferMapper) {
-        this.accountTransferRepository = accountTransferRepository;
-        this.accountTransferMapper = accountTransferMapper;
-    }
 
     /**
      * Добавить перевод между счетами
