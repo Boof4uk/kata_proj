@@ -5,6 +5,8 @@ import com.bank.transfer.entity.CardTransfer;
 import com.bank.transfer.mapper.CardTransferMapper;
 import com.bank.transfer.repository.CardTransferRepository;
 import com.bank.transfer.service.CardTransferService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

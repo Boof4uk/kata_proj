@@ -5,6 +5,8 @@ import com.bank.transfer.entity.PhoneTransfer;
 import com.bank.transfer.mapper.PhoneTransferMapper;
 import com.bank.transfer.repository.PhoneTransferRepository;
 import com.bank.transfer.service.PhoneTransferService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

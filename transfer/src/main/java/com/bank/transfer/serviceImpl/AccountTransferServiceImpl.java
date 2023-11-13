@@ -5,6 +5,8 @@ import com.bank.transfer.entity.AccountTransfer;
 import com.bank.transfer.mapper.AccountTransferMapper;
 import com.bank.transfer.repository.AccountTransferRepository;
 import com.bank.transfer.service.AccountTransferService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

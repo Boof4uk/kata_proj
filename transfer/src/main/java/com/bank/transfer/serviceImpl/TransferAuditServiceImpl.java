@@ -5,6 +5,8 @@ import com.bank.transfer.entity.TransferAudit;
 import com.bank.transfer.mapper.TransferAuditMapper;
 import com.bank.transfer.repository.TransferAuditRepository;
 import com.bank.transfer.service.TransferAuditService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

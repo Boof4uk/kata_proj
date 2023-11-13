@@ -3,6 +3,8 @@ package com.bank.transfer.controller;
 import com.bank.transfer.dto.AccountTransferDTO;
 import com.bank.transfer.service.AccountTransferService;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
