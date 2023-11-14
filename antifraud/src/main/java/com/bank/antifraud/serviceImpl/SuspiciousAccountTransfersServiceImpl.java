@@ -63,7 +63,7 @@ public class SuspiciousAccountTransfersServiceImpl implements SuspiciousAccountT
     }
 
     /**
-     * Удалить по id подозрительный перевод по номеру счета
+     * Удалить по id подозрительный перевод по номеру счетa
      *
      * @param id подозрительного перевода по номеру счета
      */

@@ -34,7 +34,6 @@ public class AntifraudAuditServiceImpl implements AntifraudAuditService {
      * @return объект AntifraudAuditDTO
      */
     @Override
-    @Transactional
     public AntifraudAuditDTO add(AntifraudAuditDTO suspiciousAuditDTO) {
         AntifraudAudit antifraudAudit = auditRepository.save(auditMapper.toEntity(suspiciousAuditDTO));
         return auditMapper.toDTO(antifraudAudit);
@@ -47,7 +46,6 @@ public class AntifraudAuditServiceImpl implements AntifraudAuditService {
      * @return список аудитов (объектов AntifraudAuditDTO)
      */
     @Override
-    @Transactional
     public List<AntifraudAuditDTO> getAll() {
         return auditMapper.toDtoList(auditRepository.findAll());
     }
@@ -55,11 +53,10 @@ public class AntifraudAuditServiceImpl implements AntifraudAuditService {
     /**
      * Обновить данные для аудита
      *
-     * @param suspiciousAuditDTO объект, содержащий данные для аудита
+     * @param suspiciousAuditDTO объект, содержащий данные для аудитa
      * @return объект AntifraudAuditDTO
      */
     @Override
-    @Transactional
     public AntifraudAuditDTO update(AntifraudAuditDTO suspiciousAuditDTO) {
         AntifraudAudit antifraudAudit = auditRepository.findById(suspiciousAuditDTO.getId())
                 .orElseThrow(() -> new RuntimeException("AccountTransfer not found with id: " + suspiciousAuditDTO.getId()));
@@ -72,7 +69,6 @@ public class AntifraudAuditServiceImpl implements AntifraudAuditService {
      * @param id идентификатор аудита
      */
     @Override
-    @Transactional
     public void delete(Long id) {
         auditRepository.deleteById(id);
     }
@@ -84,7 +80,6 @@ public class AntifraudAuditServiceImpl implements AntifraudAuditService {
      * @return объект AntifraudAuditDTO
      */
     @Override
-    @Transactional
     public AntifraudAuditDTO getById(Long id) {
         AntifraudAudit antifraudAudit = auditRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("AccountTransfer not found with id: " + id));
