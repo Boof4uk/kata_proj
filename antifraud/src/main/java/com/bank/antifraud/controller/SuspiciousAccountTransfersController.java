@@ -77,8 +77,8 @@ public class SuspiciousAccountTransfersController {
 
     @PatchMapping("/{id}")
     @ApiOperation(value = "Обновить подозрительный перевод на счет")
-    public ResponseEntity<SuspiciousAccountTransfersDTO> update(@Valid @RequestBody SuspiciousAccountTransfersDTO accountTransfersDTO) {
-        return new ResponseEntity<>(suspiciousAccountTransfersService.update(accountTransfersDTO), HttpStatus.OK);
+    public ResponseEntity<SuspiciousAccountTransfersDTO> update(@Valid @PathVariable Long id, @RequestBody SuspiciousAccountTransfersDTO accountTransfersDTO) {
+        return new ResponseEntity<>(suspiciousAccountTransfersService.update(id,accountTransfersDTO), HttpStatus.OK);
     }
 
     /**

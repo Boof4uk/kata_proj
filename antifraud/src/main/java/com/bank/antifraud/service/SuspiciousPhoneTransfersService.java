@@ -9,7 +9,7 @@ public interface SuspiciousPhoneTransfersService {
 
     List<SuspiciousPhoneTransfersDTO> getAll();
 
-    SuspiciousPhoneTransfersDTO update(SuspiciousPhoneTransfersDTO suspiciousPhoneTransfersDTO);
+    SuspiciousPhoneTransfersDTO update(Long id,SuspiciousPhoneTransfersDTO suspiciousPhoneTransfersDTO);
 
     void delete(Long id);
 

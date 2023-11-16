@@ -46,6 +46,7 @@ public class AntifraudAuditServiceImpl implements AntifraudAuditService {
      */
     @Override
     public List<AntifraudAuditDTO> getAll() {
+
         return auditMapper.toDtoList(auditRepository.findAll());
     }
 
@@ -56,10 +57,11 @@ public class AntifraudAuditServiceImpl implements AntifraudAuditService {
      * @return объект AntifraudAuditDTO
      */
     @Override
-    public AntifraudAuditDTO update(AntifraudAuditDTO suspiciousAuditDTO) {
-        AntifraudAudit antifraudAudit = auditRepository.findById(suspiciousAuditDTO.getId())
-                .orElseThrow(() -> new RuntimeException("AccountTransfer not found with id: " + suspiciousAuditDTO.getId()));
-        return auditMapper.toDTO(auditRepository.save(antifraudAudit));
+    public AntifraudAuditDTO update(Long id, AntifraudAuditDTO suspiciousAuditDTO) {
+        auditRepository.findById(id).orElseThrow(() -> new RuntimeException("AntifraudAudit not found with id: " + id));
+        AntifraudAudit antifraudAuditUpdate = auditMapper.toEntity(suspiciousAuditDTO);
+        antifraudAuditUpdate.setId(id);
+        return auditMapper.toDTO(auditRepository.save(antifraudAuditUpdate));
     }
 
     /**
@@ -81,7 +83,7 @@ public class AntifraudAuditServiceImpl implements AntifraudAuditService {
     @Override
     public AntifraudAuditDTO getById(Long id) {
         AntifraudAudit antifraudAudit = auditRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("AccountTransfer not found with id: " + id));
+                .orElseThrow(() -> new RuntimeException("AntifraudAudit not found with id: " + id));
         return auditMapper.toDTO(antifraudAudit);
     }
 }

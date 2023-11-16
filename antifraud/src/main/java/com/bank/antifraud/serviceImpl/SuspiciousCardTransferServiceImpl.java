@@ -55,11 +55,11 @@ public class SuspiciousCardTransferServiceImpl implements SuspiciousCardTransfer
      * @return объект SuspiciousCardTransferDTO
      */
     @Override
-    public SuspiciousCardTransferDTO update(SuspiciousCardTransferDTO suspiciousCardTransferDTO) {
-        SuspiciousCardTransfer cardTransfer = cardRepository
-                .findById(suspiciousCardTransferDTO.getId())
-                .orElseThrow(() -> new RuntimeException("AccountTransfer not found with id: " + suspiciousCardTransferDTO.getId()));
-        return cardMapper.toDto(cardRepository.save(cardTransfer));
+    public SuspiciousCardTransferDTO update(Long id,SuspiciousCardTransferDTO suspiciousCardTransferDTO) {
+        cardRepository.findById(id).orElseThrow(() -> new RuntimeException("CardTransfer not found with id: " + id));
+        SuspiciousCardTransfer cardTransferUpdate = cardMapper.toEntity(suspiciousCardTransferDTO);
+        cardTransferUpdate.setId(id);
+        return cardMapper.toDto(cardRepository.save(cardTransferUpdate));
     }
 
     /**
@@ -81,7 +81,7 @@ public class SuspiciousCardTransferServiceImpl implements SuspiciousCardTransfer
     @Override
     public SuspiciousCardTransferDTO getById(Long id) {
         SuspiciousCardTransfer cardTransfer = cardRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("AccountTransfer not found with id: " + id));
+                .orElseThrow(() -> new RuntimeException("CardTransfer not found with id: " + id));
         return cardMapper.toDto(cardTransfer);
     }
 

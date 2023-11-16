@@ -78,8 +78,8 @@ public class AntifraudAuditController {
 
     @PatchMapping("/{id}")
     @ApiOperation(value = "Обновить")
-    public ResponseEntity<AntifraudAuditDTO> update(@Valid @RequestBody AntifraudAuditDTO antifraudAuditDTO) {
-        return new ResponseEntity<>(antifraudAuditService.update(antifraudAuditDTO), HttpStatus.OK);
+    public ResponseEntity<AntifraudAuditDTO> update(@Valid @PathVariable Long id, @RequestBody AntifraudAuditDTO antifraudAuditDTO) {
+        return new ResponseEntity<>(antifraudAuditService.update(id,antifraudAuditDTO), HttpStatus.OK);
     }
 
     /**

@@ -9,7 +9,7 @@ public interface AntifraudAuditService {
 
     List<AntifraudAuditDTO> getAll();
 
-    AntifraudAuditDTO update(AntifraudAuditDTO suspiciousAuditDTO);
+    AntifraudAuditDTO update(Long id,AntifraudAuditDTO suspiciousAuditDTO);
 
     void delete(Long id);
 

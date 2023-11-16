@@ -78,8 +78,8 @@ public class SuspiciousPhoneTransfersController {
 
     @PatchMapping("/{id}")
     @ApiOperation(value = "Обновить подозрительный перевод по номеру телефона")
-    public ResponseEntity<SuspiciousPhoneTransfersDTO> update(@Valid @RequestBody SuspiciousPhoneTransfersDTO suspiciousPhoneTransfersDTO) {
-        return new ResponseEntity<>(suspiciousPhoneTransfersService.update(suspiciousPhoneTransfersDTO), HttpStatus.OK);
+    public ResponseEntity<SuspiciousPhoneTransfersDTO> update(@Valid @PathVariable Long id, @RequestBody SuspiciousPhoneTransfersDTO suspiciousPhoneTransfersDTO) {
+        return new ResponseEntity<>(suspiciousPhoneTransfersService.update(id,suspiciousPhoneTransfersDTO), HttpStatus.OK);
     }
 
     /**

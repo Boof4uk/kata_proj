@@ -12,7 +12,7 @@ public interface SuspiciousAccountTransfersService {
 
     List<SuspiciousAccountTransfersDTO> getAll();
 
-    SuspiciousAccountTransfersDTO update(SuspiciousAccountTransfersDTO suspiciousaccountTransfersDTO);
+    SuspiciousAccountTransfersDTO update(Long id, SuspiciousAccountTransfersDTO suspiciousaccountTransfersDTO);
 
     void delete(Long id);
 

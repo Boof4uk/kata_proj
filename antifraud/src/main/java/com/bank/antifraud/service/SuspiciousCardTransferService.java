@@ -12,7 +12,7 @@ public interface SuspiciousCardTransferService {
 
     List<SuspiciousCardTransferDTO> getAll();
 
-    SuspiciousCardTransferDTO update(SuspiciousCardTransferDTO suspiciousCardTransferDTO);
+    SuspiciousCardTransferDTO update(Long id,SuspiciousCardTransferDTO suspiciousCardTransferDTO);
 
     void delete(Long id);
 

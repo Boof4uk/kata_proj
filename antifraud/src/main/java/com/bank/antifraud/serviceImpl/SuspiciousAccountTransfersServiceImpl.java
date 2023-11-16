@@ -55,11 +55,11 @@ public class SuspiciousAccountTransfersServiceImpl implements SuspiciousAccountT
      * @return объект SuspiciousAccountTransfersDTO
      */
     @Override
-    public SuspiciousAccountTransfersDTO update(SuspiciousAccountTransfersDTO suspiciousAccountTransfersDTO) {
-        SuspiciousAccountTransfers accountTransfers = accountRepository
-                .findById(suspiciousAccountTransfersDTO.getId())
-                .orElseThrow(() -> new RuntimeException("AccountTransfer not found with id: " + suspiciousAccountTransfersDTO.getId()));
-        return accountMapper.toDto(accountRepository.save(accountTransfers));
+    public SuspiciousAccountTransfersDTO update(Long id,SuspiciousAccountTransfersDTO suspiciousAccountTransfersDTO) {
+        accountRepository.findById(id).orElseThrow(() -> new RuntimeException("AccountTransfer not found with id: " + id));
+        SuspiciousAccountTransfers accountTransfersUpdate = accountMapper.toEntity(suspiciousAccountTransfersDTO);
+        accountTransfersUpdate.setId(id);
+        return accountMapper.toDto(accountRepository.save(accountTransfersUpdate));
     }
 
     /**

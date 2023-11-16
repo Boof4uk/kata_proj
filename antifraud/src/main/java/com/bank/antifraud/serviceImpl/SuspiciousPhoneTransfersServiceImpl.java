@@ -57,11 +57,11 @@ public class SuspiciousPhoneTransfersServiceImpl implements SuspiciousPhoneTrans
      */
 
     @Override
-    public SuspiciousPhoneTransfersDTO update(SuspiciousPhoneTransfersDTO suspiciousPhoneTransfersDTO) {
-        SuspiciousPhoneTransfers phoneTransfer = suspiciousPhoneTransfersRepository
-                .findById(suspiciousPhoneTransfersDTO.getId())
-                .orElseThrow(() -> new RuntimeException("AccountTransfer not found with id: " + suspiciousPhoneTransfersDTO.getId()));
-        return suspiciousPhoneTransfersMapper.toDto(suspiciousPhoneTransfersRepository.save(phoneTransfer));
+    public SuspiciousPhoneTransfersDTO update(Long id,SuspiciousPhoneTransfersDTO suspiciousPhoneTransfersDTO) {
+        suspiciousPhoneTransfersRepository.findById(id).orElseThrow(() -> new RuntimeException("CardTransfer not found with id: " + id));
+        SuspiciousPhoneTransfers phoneTransferUpdate = suspiciousPhoneTransfersMapper.toEntity(suspiciousPhoneTransfersDTO);
+        phoneTransferUpdate.setId(id);
+        return suspiciousPhoneTransfersMapper.toDto(suspiciousPhoneTransfersRepository.save(phoneTransferUpdate));
     }
 
     /**
@@ -84,7 +84,7 @@ public class SuspiciousPhoneTransfersServiceImpl implements SuspiciousPhoneTrans
     public SuspiciousPhoneTransfersDTO getById(Long id) {
 
         SuspiciousPhoneTransfers cardTransfer = suspiciousPhoneTransfersRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("AccountTransfer not found with id: " + id));
+                .orElseThrow(() -> new RuntimeException("PhoneTransfers not found with id: " + id));
         return suspiciousPhoneTransfersMapper.toDto(cardTransfer);
     }
 }
