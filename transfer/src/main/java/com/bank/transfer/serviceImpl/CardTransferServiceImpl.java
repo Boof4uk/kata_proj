@@ -62,10 +62,10 @@ public class CardTransferServiceImpl implements CardTransferService {
     @Override
     public CardTransferDTO update(CardTransferDTO cardTransferDTO) {
         CardTransfer cardTransfer = cardTransferMapper.toEntity(cardTransferDTO);
-        CardTransfer card = cardTransferRepository.findById(cardTransfer.getId())
+        cardTransferRepository.findById(cardTransfer.getId())
                 .orElseThrow(() -> new RuntimeException("CardTransfer not found with id: " + cardTransfer.getId()));
-        cardTransferRepository.save(card);
-        return cardTransferMapper.toDto(card);
+        cardTransferRepository.save(cardTransfer);
+        return cardTransferMapper.toDto(cardTransfer);
     }
 
     /**

@@ -62,10 +62,10 @@ public class PhoneTransferServiceImpl implements PhoneTransferService {
     @Override
     public PhoneTransferDTO update(PhoneTransferDTO phoneTransferDTO) {
         PhoneTransfer phoneTransfer = phoneTransferMapper.toEntity(phoneTransferDTO);
-        PhoneTransfer phone = phoneTransferRepository.findById(phoneTransfer.getId())
+        phoneTransferRepository.findById(phoneTransfer.getId())
                 .orElseThrow(() -> new RuntimeException("PhoneTransfer not found with id: " + phoneTransfer.getId()));
-        phoneTransferRepository.save(phone);
-        return phoneTransferMapper.toDto(phone);
+        phoneTransferRepository.save(phoneTransfer);
+        return phoneTransferMapper.toDto(phoneTransfer);
     }
 
     /**

@@ -62,10 +62,10 @@ public class AccountTransferServiceImpl implements AccountTransferService {
     @Override
     public AccountTransferDTO update(AccountTransferDTO accountTransferDTO) {
         AccountTransfer accountTransfer = accountTransferMapper.toEntity(accountTransferDTO);
-        AccountTransfer account = accountTransferRepository.findById(accountTransfer.getId())
+        accountTransferRepository.findById(accountTransfer.getId())
                 .orElseThrow(() -> new RuntimeException("AccountTransfer not found with id: " + accountTransfer.getId()));
-        accountTransferRepository.save(account);
-        return accountTransferMapper.toDto(account);
+        accountTransferRepository.save(accountTransfer);
+        return accountTransferMapper.toDto(accountTransfer);
     }
 
     /**
