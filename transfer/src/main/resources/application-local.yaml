@@ -2,6 +2,9 @@ server:
   port: 8092
   servlet:
     context-path: /api/transfer
+logging:
+  level:
+      org.springframework.boot.autoconfigure.jdbc: DEBUG
 management:
   server:
     port: 8191
