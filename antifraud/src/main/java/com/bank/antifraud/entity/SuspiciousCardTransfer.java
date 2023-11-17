@@ -36,7 +36,7 @@ public class SuspiciousCardTransfer {
      * Tехнический идентификатор на перевод по номеру карты
      */
     @NotNull
-    @Column(name = "card_transfer", unique = true)
+    @Column(name = "card_transfer_id", unique = true)
     private Integer cardTransferId;
     /**
      * Заблокировано ли
@@ -60,6 +60,6 @@ public class SuspiciousCardTransfer {
      * Причина почему перевод попал в антифрод
      */
     @NotNull
-    @Column(name = "suspicious-reason")
+    @Column(name = "suspicious_reason")
     private String suspiciousReason;
 }

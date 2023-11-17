@@ -36,7 +36,7 @@ public class SuspiciousPhoneTransfers {
      * Tехнический идентификатор на перевод по номеру телефона
      */
     @NotNull
-    @Column(name = "phone_transfer", unique = true)
+    @Column(name = "phone_transfer_id", unique = true)
     private Integer phoneTransferId;
     /**
      * Заблокировано ли
@@ -60,6 +60,6 @@ public class SuspiciousPhoneTransfers {
      * Причина почему перевод попал в антифрод
      */
     @NotNull
-    @Column(name = "suspicious-reason")
+    @Column(name = "suspicious_reason")
     private String suspiciousReason;
 }

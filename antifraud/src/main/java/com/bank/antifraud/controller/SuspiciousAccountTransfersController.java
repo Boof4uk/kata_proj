@@ -85,16 +85,12 @@ public class SuspiciousAccountTransfersController {
      * Удалить подозрительный переводы на счет по id
      *
      * @param id            идентификатор подозрительного перевода
-     * @param bindingResult обработка ошибок
      * @return объект ResponseEntity со строкой ответа
      */
 
     @DeleteMapping("/{id}")
     @ApiOperation(value = "Удалить подозрительный переводы на счет по id")
-    public ResponseEntity<SuspiciousAccountTransfersDTO> delete(@Valid @PathVariable Long id, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<SuspiciousAccountTransfersDTO> delete(@Valid @PathVariable Long id) {
         suspiciousAccountTransfersService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }

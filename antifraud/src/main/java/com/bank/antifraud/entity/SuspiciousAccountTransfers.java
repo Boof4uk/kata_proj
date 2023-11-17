@@ -35,7 +35,7 @@ public class SuspiciousAccountTransfers {
     /**
      * Tехнический идентификатор на перевод по номеру cчёта
      */
-    @Column(name = "account_transfer", unique = true)
+    @Column(name = "account_transfer_id", unique = true)
     private Long accountTransferId;
     /**
      * Заблокировано ли
@@ -56,6 +56,6 @@ public class SuspiciousAccountTransfers {
     /**
      * Причина почему перевод попал в антифрод
      */
-    @Column(name = "suspicious-reason")
+    @Column(name = "suspicious_reason")
     private String suspiciousReason;
 }

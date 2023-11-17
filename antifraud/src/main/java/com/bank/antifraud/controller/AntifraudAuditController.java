@@ -86,16 +86,12 @@ public class AntifraudAuditController {
      * Удалить  аудит по id
      *
      * @param id            идентификатор аудита
-     * @param bindingResult обработка ошибок
      * @return объект ResponseEntity со строкой ответа
      */
 
     @DeleteMapping("/{id}")
     @ApiOperation(value = "Удалить аудит по id")
-    public ResponseEntity<AntifraudAuditDTO> delete(@Valid @PathVariable Long id, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<AntifraudAuditDTO> delete(@Valid @PathVariable Long id) {
         antifraudAuditService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
