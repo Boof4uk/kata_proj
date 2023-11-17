@@ -100,7 +100,7 @@ public class TransferAuditController {
 
     @DeleteMapping("/{id}")
     @ApiOperation(value = "Удалить аудит")
-    public ResponseEntity<String> delete(@Valid @PathVariable Long id, BindingResult bindingResult) {
+    public ResponseEntity<String> delete(@Valid @RequestBody Long id, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body("Invalid input data");
         }
