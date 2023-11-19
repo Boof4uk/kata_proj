@@ -2,10 +2,12 @@ package com.bank.authorization.service.impl;
 
 import com.bank.authorization.dto.UserDto;
 import com.bank.authorization.entity.User;
+import com.bank.authorization.exception.EntityNotFoundException;
 import com.bank.authorization.mapper.UserMapper;
 import com.bank.authorization.repository.UserRepository;
 import com.bank.authorization.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,7 +16,10 @@ import java.util.List;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Slf4j
 public class UserServiceImpl implements UserService {
+
+    private static final String ENTITY_NAME = "User";
 
     private final UserRepository userRepository;
 
@@ -23,37 +28,66 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserDto add(UserDto userDto) {
-        User user = userRepository.save(userMapper.toEntity(userDto));
-        return userMapper.toDto(user);
+        log.info("Creating user {}", userDto);
+        try {
+            return userMapper.toDto(userRepository.save(userMapper.toEntity(userDto)));
+        } catch (RuntimeException e) {
+            log.error("Error creating user: {}", e.getMessage());
+            throw e;
+        }
     }
 
     @Override
     public List<UserDto> getAll() {
-        List<User> userList = userRepository.findAll();
-        return userMapper.toDtoList(userList);
+        log.info("Getting all users");
+        try {
+            final List<User> userList = userRepository.findAll();
+            return userMapper.toDtoList(userList);
+        } catch (RuntimeException e) {
+            log.error("Error getting all users: {}", e.getMessage());
+            throw e;
+        }
     }
 
     @Override
     @Transactional
     public UserDto update(UserDto userDto) {
-        User userEntity = userMapper.toEntity(userDto);
-        User user = userRepository.findById(userEntity.getId())
-                .orElseThrow(() -> new RuntimeException("User ID not found. id: " + userEntity.getId()));
-        return userMapper.toDto(userRepository.save(user));
+        log.info("Updating user with id: {} and body: {}", userDto.getId(), userDto);
+        try {
+            final User userEntity = userMapper.toEntity(userDto);
+            userRepository.findById(userEntity.getId())
+                    .orElseThrow(() -> new EntityNotFoundException(ENTITY_NAME, userEntity.getId()));
+            return userMapper.toDto(userRepository.save(userEntity));
+        } catch (EntityNotFoundException e) {
+            log.error("Error updating user with id: {}. Error: {}", userDto.getId(), e.getMessage());
+            throw e;
+        }
     }
 
     @Override
     @Transactional
     public void deleteById(Long id) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User ID not found. id: " + id));
-        userRepository.deleteById(user.getId());
+        log.info("Deleting user with id: {}", id);
+        try {
+            final User user = userRepository.findById(id)
+                    .orElseThrow(() -> new EntityNotFoundException(ENTITY_NAME, id));
+            userRepository.deleteById(user.getId());
+        } catch (EntityNotFoundException e) {
+            log.error("Error deleting user with id: {}. Error: {}", id, e.getMessage());
+            throw e;
+        }
     }
 
     @Override
     public UserDto getById(Long id) {
-        User user = userRepository.findById(id)
-                .orElseThrow(()-> new RuntimeException("User ID not found. id: " + id));
-        return userMapper.toDto(user);
+        log.info("Getting user with id: {}", id);
+        try {
+            final User user = userRepository.findById(id)
+                    .orElseThrow(() -> new EntityNotFoundException(ENTITY_NAME, id));
+            return userMapper.toDto(user);
+        } catch (EntityNotFoundException e) {
+            log.error("Error getting user with id: {}. Error: {}", id, e.getMessage());
+            throw e;
+        }
     }
 }

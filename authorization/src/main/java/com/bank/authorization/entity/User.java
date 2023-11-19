@@ -22,7 +22,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @ToString
 @Entity
-@Table(schema = "authorization", name = "users")
+@Table(schema = "\"authorization\"", name = "user")
 public class User {
 
     @Id

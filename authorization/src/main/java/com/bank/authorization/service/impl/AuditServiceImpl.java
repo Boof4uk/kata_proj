@@ -2,10 +2,12 @@ package com.bank.authorization.service.impl;
 
 import com.bank.authorization.dto.AuditDto;
 import com.bank.authorization.entity.Audit;
+import com.bank.authorization.exception.EntityNotFoundException;
 import com.bank.authorization.mapper.AuditMapper;
 import com.bank.authorization.repository.AuditRepository;
 import com.bank.authorization.service.AuditService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,7 +16,10 @@ import java.util.List;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Slf4j
 public class AuditServiceImpl implements AuditService {
+
+    private static final String ENTITY_NAME = "Audit";
 
     private final AuditRepository auditRepository;
 
@@ -23,36 +28,66 @@ public class AuditServiceImpl implements AuditService {
     @Override
     @Transactional
     public AuditDto add(AuditDto auditDto) {
-        Audit audit = auditRepository.save(auditMapper.toEntity(auditDto));
-        return auditMapper.toDto(audit);
+        log.info("Creating audit {}", auditDto);
+        try {
+            return auditMapper.toDto(auditRepository.save(auditMapper.toEntity(auditDto)));
+        } catch (RuntimeException e) {
+            log.error("Error creating audit: {}", e.getMessage());
+            throw e;
+        }
     }
 
     @Override
     public List<AuditDto> getAll() {
-        return auditMapper.toDtoList(auditRepository.findAll());
+        log.info("Getting all audits");
+        try {
+            return auditMapper.toDtoList(auditRepository.findAll());
+        } catch (RuntimeException e) {
+            log.error("Error getting audits: {}", e.getMessage());
+            throw e;
+        }
     }
 
     @Override
     @Transactional
     public AuditDto update(AuditDto auditDto) {
-        Audit auditEntity = auditMapper.toEntity(auditDto);
-        Audit audit = auditRepository.findById(auditEntity.getId())
-                .orElseThrow(() -> new RuntimeException("Audit ID not found. id: " + auditEntity.getId()));
-        return auditMapper.toDto(auditRepository.save(audit));
+        log.info("Updating audit with id: {} and body: {}", auditDto.getId(), auditDto);
+        try {
+            final Audit auditEntity = auditMapper.toEntity(auditDto);
+            auditRepository.findById(auditEntity.getId())
+                    .orElseThrow(() -> new EntityNotFoundException(ENTITY_NAME, auditEntity.getId()));
+            auditRepository.save(auditEntity);
+            return auditMapper.toDto(auditEntity);
+        } catch (EntityNotFoundException e) {
+            log.error("Error updating audit with id: {}. Error: {}", auditDto.getId(), e.getMessage());
+            throw e;
+        }
     }
 
     @Override
     @Transactional
     public void deleteById(Long id) {
-        Audit audit = auditRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Audit ID not found. id: " + id));
-        auditRepository.deleteById(audit.getId());
+        log.info("Deleting audit with id: {}", id);
+        try {
+            final Audit audit = auditRepository.findById(id)
+                    .orElseThrow(() -> new EntityNotFoundException(ENTITY_NAME, id));
+            auditRepository.deleteById(audit.getId());
+        } catch (EntityNotFoundException e) {
+            log.error("Error deleting audit with id: {}. Error: {}", id, e.getMessage());
+            throw e;
+        }
     }
 
     @Override
     public AuditDto getById(Long id) {
-        Audit audit = auditRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Audit ID not found. id: " + id));
-        return auditMapper.toDto(audit);
+        log.info("Getting audit with id: {}", id);
+        try {
+            final Audit audit = auditRepository.findById(id)
+                    .orElseThrow(() -> new EntityNotFoundException(ENTITY_NAME, id));
+            return auditMapper.toDto(audit);
+        } catch (EntityNotFoundException e) {
+            log.error("Error getting audit with id: {}. Error: {}", id, e.getMessage());
+            throw e;
+        }
     }
 }

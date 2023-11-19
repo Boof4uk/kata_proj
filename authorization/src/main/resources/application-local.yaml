@@ -24,3 +24,5 @@ spring:
     drop-first: false
   application:
     name: authorization-app
+  jpa:
+    show-sql: false

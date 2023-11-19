@@ -23,11 +23,12 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@Table(schema = "authorization", name = "audit")
+@Table(schema = "\"authorization\"", name = "audit")
 public class Audit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
     private Long id;
 
     @NotNull
