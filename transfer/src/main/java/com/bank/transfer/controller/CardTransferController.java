@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -70,7 +71,7 @@ public class CardTransferController {
 
     @PostMapping
     @ApiOperation(value = "Добавить перевод")
-    public ResponseEntity<CardTransferDTO> newTransfer(@Valid @RequestBody CardTransferDTO cardTransferDTO) {
+    public ResponseEntity<CardTransferDTO> newTransfer(@Valid @RequestBody(required = false) CardTransferDTO cardTransferDTO) {
         cardTransferService.add(cardTransferDTO);
         return new ResponseEntity<>(cardTransferDTO, HttpStatus.OK);
     }
@@ -84,7 +85,7 @@ public class CardTransferController {
 
     @PatchMapping("/{id}")
     @ApiOperation(value = "Обновить данные")
-    public ResponseEntity<CardTransferDTO> update(@Valid @RequestBody CardTransferDTO cardTransferDTO) {
+    public ResponseEntity<CardTransferDTO> update(@Valid @RequestBody(required = false) CardTransferDTO cardTransferDTO) {
         cardTransferService.update(cardTransferDTO);
         return new ResponseEntity<>(cardTransferDTO, HttpStatus.OK);
     }
@@ -99,8 +100,8 @@ public class CardTransferController {
 
     @DeleteMapping("/{id}")
     @ApiOperation(value = "Удалить перевод")
-    public ResponseEntity<String> delete(@Valid @RequestBody Long id, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
+    public ResponseEntity<String> delete(@Valid @RequestBody(required = false) Long id, @Nullable BindingResult bindingResult) {
+        if (bindingResult == null || bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body("Invalid input data");
         }
         cardTransferService.delete(id);

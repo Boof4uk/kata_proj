@@ -5,6 +5,7 @@ import com.bank.transfer.entity.TransferAudit;
 import com.bank.transfer.mapper.TransferAuditMapper;
 import com.bank.transfer.repository.TransferAuditRepository;
 import com.bank.transfer.service.TransferAuditService;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import java.util.List;
  */
 
 @Service
+@NoArgsConstructor(force = true)
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class TransferAuditServiceImpl implements TransferAuditService {
 
@@ -33,6 +35,7 @@ public class TransferAuditServiceImpl implements TransferAuditService {
 
     /**
      * Добавить аудит
+     *
      * @param transferAuditDTO объект, содержащий данные для аудита
      * @return объект TransferAuditDTO
      */
@@ -44,6 +47,7 @@ public class TransferAuditServiceImpl implements TransferAuditService {
 
     /**
      * Получить все аудиты
+     *
      * @return список аудитов (объектов TransferAuditDTO)
      */
 
@@ -55,6 +59,7 @@ public class TransferAuditServiceImpl implements TransferAuditService {
 
     /**
      * Обновить данные для аудита
+     *
      * @param transferAuditDTO объект, содержащий данные для аудита
      * @return объект TransferAuditDTO
      */
@@ -62,14 +67,13 @@ public class TransferAuditServiceImpl implements TransferAuditService {
     @Override
     public TransferAuditDTO update(TransferAuditDTO transferAuditDTO) {
         TransferAudit transferAudit = transferAuditMapper.toEntity(transferAuditDTO);
-        transferAuditRepository.findById(transferAudit.getId())
-                .orElseThrow(() -> new RuntimeException("TransferAudit not found with id: " + transferAudit.getId()));
         transferAuditRepository.save(transferAudit);
         return transferAuditMapper.toDto(transferAudit);
     }
 
     /**
      * Удалить аудит по идентификатору
+     *
      * @param id идентификатор аудита
      */
 
@@ -80,14 +84,14 @@ public class TransferAuditServiceImpl implements TransferAuditService {
 
     /**
      * Получить аудит по идентификатору
+     *
      * @param id идентификатор аудита
      * @return объект TransferAuditDTO
      */
 
     @Override
     public TransferAuditDTO showById(Long id) {
-        TransferAudit transferAudit = transferAuditRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("TransferAudit not found with id: " + id));
+        TransferAudit transferAudit = transferAuditRepository.findById(id).orElseThrow(() -> new RuntimeException("TransferAudit not found with id: " + id));
         return transferAuditMapper.toDto(transferAudit);
     }
 }

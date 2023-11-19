@@ -5,6 +5,7 @@ import com.bank.transfer.entity.AccountTransfer;
 import com.bank.transfer.mapper.AccountTransferMapper;
 import com.bank.transfer.repository.AccountTransferRepository;
 import com.bank.transfer.service.AccountTransferService;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import java.util.List;
  */
 
 @Service
+@NoArgsConstructor(force = true)
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class AccountTransferServiceImpl implements AccountTransferService {
 
@@ -33,6 +35,7 @@ public class AccountTransferServiceImpl implements AccountTransferService {
 
     /**
      * Добавить перевод между счетами
+     *
      * @param accountTransferDTO объект, содержащий данные для перевода
      * @return объект AccountTransferDTO
      */
@@ -44,6 +47,7 @@ public class AccountTransferServiceImpl implements AccountTransferService {
 
     /**
      * Получить все переводы
+     *
      * @return коллекция объектов AccountTransferDTO
      */
 
@@ -55,6 +59,7 @@ public class AccountTransferServiceImpl implements AccountTransferService {
 
     /**
      * Обновить данные для перевода
+     *
      * @param accountTransferDTO объект, содержащий данные для перевода
      * @return объект AccountTransferDTO
      */
@@ -62,14 +67,13 @@ public class AccountTransferServiceImpl implements AccountTransferService {
     @Override
     public AccountTransferDTO update(AccountTransferDTO accountTransferDTO) {
         AccountTransfer accountTransfer = accountTransferMapper.toEntity(accountTransferDTO);
-        accountTransferRepository.findById(accountTransfer.getId())
-                .orElseThrow(() -> new RuntimeException("AccountTransfer not found with id: " + accountTransfer.getId()));
         accountTransferRepository.save(accountTransfer);
         return accountTransferMapper.toDto(accountTransfer);
     }
 
     /**
      * Удалить перевод по идентификатору
+     *
      * @param id идентификатор перевода
      */
 
@@ -80,14 +84,14 @@ public class AccountTransferServiceImpl implements AccountTransferService {
 
     /**
      * Получить перевод по идентификатору
+     *
      * @param id идентификатор перевода
      * @return объект AccountTransferDTO
      */
 
     @Override
     public AccountTransferDTO showById(Long id) {
-        AccountTransfer accountTransfer = accountTransferRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("AccountTransfer not found with id: " + id));
+        AccountTransfer accountTransfer = accountTransferRepository.findById(id).orElseThrow(() -> new RuntimeException("AccountTransfer not found with id: " + id));
         return accountTransferMapper.toDto(accountTransfer);
     }
 }

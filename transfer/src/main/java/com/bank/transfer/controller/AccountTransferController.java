@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -73,7 +74,7 @@ public class AccountTransferController {
 
     @PostMapping
     @ApiOperation(value = "Добавить сущность")
-    public ResponseEntity<AccountTransferDTO> newTransfer(@Valid @RequestBody AccountTransferDTO accountTransferDTO) {
+    public ResponseEntity<AccountTransferDTO> newTransfer(@Valid @RequestBody(required = false) AccountTransferDTO accountTransferDTO) {
         accountTransferService.add(accountTransferDTO);
         return new ResponseEntity<>(accountTransferDTO, HttpStatus.OK);
     }
@@ -87,7 +88,7 @@ public class AccountTransferController {
 
     @PatchMapping("/{id}")
     @ApiOperation(value = "Обновить данные")
-    public ResponseEntity<AccountTransferDTO> update(@Valid @RequestBody AccountTransferDTO accountTransferDTO) {
+    public ResponseEntity<AccountTransferDTO> update(@Valid @RequestBody(required = false) AccountTransferDTO accountTransferDTO) {
         accountTransferService.update(accountTransferDTO);
         return new ResponseEntity<>(accountTransferDTO, HttpStatus.OK);
     }
@@ -102,8 +103,8 @@ public class AccountTransferController {
 
     @DeleteMapping("/{id}")
     @ApiOperation(value = "Удалить перевод")
-    public ResponseEntity<String> delete(@Valid @RequestBody Long id, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
+    public ResponseEntity<String> delete(@Valid @RequestBody(required = false) Long id, @Nullable BindingResult bindingResult) {
+        if (bindingResult == null || bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body("Invalid input data");
         }
         accountTransferService.delete(id);

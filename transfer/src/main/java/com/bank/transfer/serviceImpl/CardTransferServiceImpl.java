@@ -5,6 +5,7 @@ import com.bank.transfer.entity.CardTransfer;
 import com.bank.transfer.mapper.CardTransferMapper;
 import com.bank.transfer.repository.CardTransferRepository;
 import com.bank.transfer.service.CardTransferService;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import java.util.List;
  */
 
 @Service
+@NoArgsConstructor(force = true)
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class CardTransferServiceImpl implements CardTransferService {
 
@@ -33,6 +35,7 @@ public class CardTransferServiceImpl implements CardTransferService {
 
     /**
      * Добавить перевод
+     *
      * @param cardTransferDTO объект, содержащий данные для перевода
      * @return объект CardTransferDTO
      */
@@ -44,6 +47,7 @@ public class CardTransferServiceImpl implements CardTransferService {
 
     /**
      * Получить все переводы
+     *
      * @return коллекция объектов CardTransferDTO
      */
 
@@ -55,6 +59,7 @@ public class CardTransferServiceImpl implements CardTransferService {
 
     /**
      * Обновить данные для перевода
+     *
      * @param cardTransferDTO объект, содержащий данные для перевода
      * @return объект CardTransferDTO
      */
@@ -62,14 +67,13 @@ public class CardTransferServiceImpl implements CardTransferService {
     @Override
     public CardTransferDTO update(CardTransferDTO cardTransferDTO) {
         CardTransfer cardTransfer = cardTransferMapper.toEntity(cardTransferDTO);
-        cardTransferRepository.findById(cardTransfer.getId())
-                .orElseThrow(() -> new RuntimeException("CardTransfer not found with id: " + cardTransfer.getId()));
         cardTransferRepository.save(cardTransfer);
         return cardTransferMapper.toDto(cardTransfer);
     }
 
     /**
      * Удалить перевод по идентификатору
+     *
      * @param id идентификатор перевода
      */
 
@@ -80,14 +84,14 @@ public class CardTransferServiceImpl implements CardTransferService {
 
     /**
      * Получить перевод по идентификатору
+     *
      * @param id идентификатор перевода
      * @return объект CardTransferDTO
      */
 
     @Override
     public CardTransferDTO showById(Long id) {
-        CardTransfer cardTransfer = cardTransferRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("CardTransfer not found with id: " + id));
+        CardTransfer cardTransfer = cardTransferRepository.findById(id).orElseThrow(() -> new RuntimeException("CardTransfer not found with id: " + id));
         return cardTransferMapper.toDto(cardTransfer);
     }
 }

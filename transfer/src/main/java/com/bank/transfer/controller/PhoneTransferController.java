@@ -101,7 +101,7 @@ public class PhoneTransferController {
     @DeleteMapping("/{id}")
     @ApiOperation(value = "Удалить перевод")
     public ResponseEntity<String> delete(@Valid @RequestBody Long id, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
+        if (bindingResult == null || bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body("Invalid input data");
         }
         phoneTransferService.delete(id);

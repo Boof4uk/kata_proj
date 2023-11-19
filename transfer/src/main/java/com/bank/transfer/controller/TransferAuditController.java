@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -71,7 +72,7 @@ public class TransferAuditController {
 
     @PostMapping
     @ApiOperation(value = "Добавить аудит")
-    public ResponseEntity<TransferAuditDTO> newTransfer(@Valid @RequestBody TransferAuditDTO transferAuditDTO) {
+    public ResponseEntity<TransferAuditDTO> newTransfer(@Valid @RequestBody(required = false) TransferAuditDTO transferAuditDTO) {
         transferAuditService.add(transferAuditDTO);
         return new ResponseEntity<>(transferAuditDTO, HttpStatus.OK);
     }
@@ -85,7 +86,7 @@ public class TransferAuditController {
 
     @PatchMapping("/{id}")
     @ApiOperation(value = "Обновить данные")
-    public ResponseEntity<TransferAuditDTO> update(@Valid @RequestBody TransferAuditDTO transferAuditDTO) {
+    public ResponseEntity<TransferAuditDTO> update(@Valid @RequestBody(required = false) TransferAuditDTO transferAuditDTO) {
         transferAuditService.update(transferAuditDTO);
         return new ResponseEntity<>(transferAuditDTO, HttpStatus.OK);
     }
@@ -100,8 +101,8 @@ public class TransferAuditController {
 
     @DeleteMapping("/{id}")
     @ApiOperation(value = "Удалить аудит")
-    public ResponseEntity<String> delete(@Valid @RequestBody Long id, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
+    public ResponseEntity<String> delete(@Valid @RequestBody(required = false) Long id, @Nullable BindingResult bindingResult) {
+        if (bindingResult == null || bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body("Invalid input data");
         }
         transferAuditService.delete(id);

@@ -5,6 +5,7 @@ import com.bank.transfer.entity.PhoneTransfer;
 import com.bank.transfer.mapper.PhoneTransferMapper;
 import com.bank.transfer.repository.PhoneTransferRepository;
 import com.bank.transfer.service.PhoneTransferService;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import java.util.List;
  */
 
 @Service
+@NoArgsConstructor(force = true)
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class PhoneTransferServiceImpl implements PhoneTransferService {
 
@@ -33,6 +35,7 @@ public class PhoneTransferServiceImpl implements PhoneTransferService {
 
     /**
      * Добавить перевод
+     *
      * @param phoneTransferDTO объект, содержащий данные для перевода
      * @return объект PhoneTransferDTO
      */
@@ -44,6 +47,7 @@ public class PhoneTransferServiceImpl implements PhoneTransferService {
 
     /**
      * Получить все переводы
+     *
      * @return список телефонных переводов (объектов PhoneTransferDTO)
      */
 
@@ -55,6 +59,7 @@ public class PhoneTransferServiceImpl implements PhoneTransferService {
 
     /**
      * Обновить данные для перевода
+     *
      * @param phoneTransferDTO объект, содержащий данные для перевода
      * @return объект PhoneTransferDTO
      */
@@ -62,14 +67,13 @@ public class PhoneTransferServiceImpl implements PhoneTransferService {
     @Override
     public PhoneTransferDTO update(PhoneTransferDTO phoneTransferDTO) {
         PhoneTransfer phoneTransfer = phoneTransferMapper.toEntity(phoneTransferDTO);
-        phoneTransferRepository.findById(phoneTransfer.getId())
-                .orElseThrow(() -> new RuntimeException("PhoneTransfer not found with id: " + phoneTransfer.getId()));
         phoneTransferRepository.save(phoneTransfer);
         return phoneTransferMapper.toDto(phoneTransfer);
     }
 
     /**
      * Удалить перевод по идентификатору
+     *
      * @param id идентификатор перевода
      */
 
@@ -80,14 +84,14 @@ public class PhoneTransferServiceImpl implements PhoneTransferService {
 
     /**
      * Получить перевод по идентификатору
+     *
      * @param id идентификатор перевода
      * @return объект PhoneTransferDTO
      */
 
     @Override
     public PhoneTransferDTO showById(Long id) {
-        PhoneTransfer phoneTransfer = phoneTransferRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("PhoneTransfer not found with id: " + id));
+        PhoneTransfer phoneTransfer = phoneTransferRepository.findById(id).orElseThrow(() -> new RuntimeException("PhoneTransfer not found with id: " + id));
         return phoneTransferMapper.toDto(phoneTransfer);
     }
 }
