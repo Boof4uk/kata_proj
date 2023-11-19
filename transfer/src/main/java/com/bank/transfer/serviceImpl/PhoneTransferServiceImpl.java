@@ -91,7 +91,7 @@ public class PhoneTransferServiceImpl implements PhoneTransferService {
 
     @Override
     public PhoneTransferDTO showById(Long id) {
-        PhoneTransfer phoneTransfer = phoneTransferRepository.findById(id).orElseThrow(() -> new RuntimeException("PhoneTransfer not found with id: " + id));
+        PhoneTransfer phoneTransfer = phoneTransferRepository.findById(id).get();
         return phoneTransferMapper.toDto(phoneTransfer);
     }
 }

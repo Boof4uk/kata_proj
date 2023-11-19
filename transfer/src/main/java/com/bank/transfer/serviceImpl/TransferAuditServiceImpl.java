@@ -91,7 +91,7 @@ public class TransferAuditServiceImpl implements TransferAuditService {
 
     @Override
     public TransferAuditDTO showById(Long id) {
-        TransferAudit transferAudit = transferAuditRepository.findById(id).orElseThrow(() -> new RuntimeException("TransferAudit not found with id: " + id));
+        TransferAudit transferAudit = transferAuditRepository.findById(id).get();
         return transferAuditMapper.toDto(transferAudit);
     }
 }

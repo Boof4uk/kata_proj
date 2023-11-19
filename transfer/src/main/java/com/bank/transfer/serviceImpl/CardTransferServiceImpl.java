@@ -91,7 +91,7 @@ public class CardTransferServiceImpl implements CardTransferService {
 
     @Override
     public CardTransferDTO showById(Long id) {
-        CardTransfer cardTransfer = cardTransferRepository.findById(id).orElseThrow(() -> new RuntimeException("CardTransfer not found with id: " + id));
+        CardTransfer cardTransfer = cardTransferRepository.findById(id).get();
         return cardTransferMapper.toDto(cardTransfer);
     }
 }
