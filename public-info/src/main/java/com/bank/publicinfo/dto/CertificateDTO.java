@@ -10,8 +10,8 @@ public class CertificateDTO {
     private Long id;
 
     @Schema(description = "Фотография лицензии в виде массива байт")
-    private Byte[] photo;
+    private byte[] photo;
 
     @Schema(description = "Реквизиты банка, связанные с сертификатом")
-    private BankDetails bankDetails;
+    private BankDetailsDTO bankDetails;
 }

@@ -27,7 +27,7 @@ public class Certificate {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Byte[] photo;
+    private byte[] photo;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "bank_details_id", nullable = true)

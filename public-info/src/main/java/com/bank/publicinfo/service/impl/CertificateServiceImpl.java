@@ -11,7 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.imageio.ImageIO;
 import javax.persistence.EntityNotFoundException;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 @Slf4j
@@ -34,6 +40,7 @@ public class CertificateServiceImpl implements CertificateService {
 
     @Transactional(readOnly = true)
     public CertificateDTO find(Long id) {
+
         try {
             Certificate certificate = certificateRepository.findById(id)
                     .orElseThrow(() -> new EntityNotFoundException("Certificate not found"));

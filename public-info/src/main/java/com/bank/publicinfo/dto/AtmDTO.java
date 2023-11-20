@@ -26,5 +26,5 @@ public class AtmDTO {
     @NotNull
     private Boolean all_hours;
 
-    private Branch branch;
+    private BranchDTO branch;
 }
