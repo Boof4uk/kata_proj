@@ -6,8 +6,11 @@ import com.bank.authorization.exception.EntityNotFoundException;
 import com.bank.authorization.mapper.UserMapper;
 import com.bank.authorization.repository.UserRepository;
 import com.bank.authorization.service.UserService;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,7 +18,6 @@ import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
-@RequiredArgsConstructor
 @Slf4j
 public class UserServiceImpl implements UserService {
 
@@ -23,13 +25,26 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
+    @Lazy
+    private final PasswordEncoder passwordEncoder;
+
     private final UserMapper userMapper;
+
+
+    public UserServiceImpl(UserRepository userRepository,
+                           @Lazy PasswordEncoder passwordEncoder,
+                           UserMapper userMapper) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.userMapper = userMapper;
+    }
 
     @Override
     @Transactional
     public UserDto add(UserDto userDto) {
         log.info("Creating user {}", userDto);
         try {
+            userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
             return userMapper.toDto(userRepository.save(userMapper.toEntity(userDto)));
         } catch (RuntimeException e) {
             log.error("Error creating user: {}", e.getMessage());
@@ -89,5 +104,17 @@ public class UserServiceImpl implements UserService {
             log.error("Error getting user with id: {}. Error: {}", id, e.getMessage());
             throw e;
         }
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        final User user = userRepository.findByRole(username);
+        if (user == null) {
+            throw new UsernameNotFoundException(String.format("User '%s' not found", username));
+        }
+        return new org.springframework.security.core.userdetails.User(user.getUsername(),
+                user.getPassword(),
+                user.getAuthorities());
+
     }
 }

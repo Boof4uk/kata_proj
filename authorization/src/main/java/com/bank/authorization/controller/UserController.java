@@ -2,7 +2,10 @@ package com.bank.authorization.controller;
 
 import com.bank.authorization.dto.UserDto;
 import com.bank.authorization.service.UserService;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,40 +27,53 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping
-    @ApiOperation(value = "Показать всех пользователей")
+    @GetMapping("")
+    @Operation(summary = "Получить список пользователей", description = "Получить список пользователей")
+    @ApiResponse(responseCode = "200",
+            description = "Успешная операция",
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = UserDto.class)))
     public ResponseEntity<List<UserDto>> getAll() {
         final List<UserDto> userDtoList = userService.getAll();
         return ResponseEntity.status(HttpStatus.OK).body(userDtoList);
     }
 
     @PostMapping
-    @ApiOperation(value = "Создать пользователя")
+    @Operation(summary = "Создать пользователя", description = "Создать пользователя")
+    @ApiResponse(responseCode = "200", description = "Успешная операция")
+    @ApiResponse(responseCode = "400", description = "Неверный запрос", content = @Content)
+    @ApiResponse(responseCode = "403", description = "Нет прав")
     public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
         userService.add(userDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(userDto);
     }
 
     @PutMapping
-    @ApiOperation(value = "Обновить пользователя")
+    @Operation(summary = "Редактировать пользователя", description = "Редактировать пользователя")
+    @ApiResponse(responseCode = "200", description = "Успешная операция")
+    @ApiResponse(responseCode = "404", description = "Пользователь не найден", content = @Content)
+    @ApiResponse(responseCode = "403", description = "Нет прав")
     public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto) {
         userService.update(userDto);
         return ResponseEntity.status(HttpStatus.OK).body(userDto);
     }
 
     @GetMapping("/{id}")
-    @ApiOperation(value = "Получить пользователя по ID")
+    @Operation(summary = "Получить пользователя по ID", description = "Получить пользователя по ID")
+    @ApiResponse(responseCode = "200", description = "Успешная операция")
+    @ApiResponse(responseCode = "404", description = "Пользователь не найден", content = @Content)
     public ResponseEntity<UserDto> getUserById(@PathVariable Long id) {
         final UserDto userDto = userService.getById(id);
         return ResponseEntity.status(HttpStatus.OK).body(userDto);
     }
 
     @DeleteMapping("/{id}")
-    @ApiOperation(value = "удалить пользователя по ID")
+    @Operation(summary = "удалить пользователя по ID", description = "удалить пользователя по ID")
+    @ApiResponse(responseCode = "204", description = "Пользователь удален")
+    @ApiResponse(responseCode = "404", description = "Пользователь не найден", content = @Content)
+    @ApiResponse(responseCode = "403", description = "Нет прав")
     public ResponseEntity<UserDto> deleteUserById(@PathVariable Long id) {
         userService.deleteById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
-
-
 }

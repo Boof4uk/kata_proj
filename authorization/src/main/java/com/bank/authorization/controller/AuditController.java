@@ -3,7 +3,10 @@ package com.bank.authorization.controller;
 
 import com.bank.authorization.dto.AuditDto;
 import com.bank.authorization.service.AuditService;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,28 +29,40 @@ public class AuditController {
     private final AuditService auditService;
 
     @GetMapping
-    @ApiOperation(value = "Получить список аудитов")
+    @Operation(summary = "Получить список аудитов", description = "Получить список всех аудитов")
+    @ApiResponse(responseCode = "200",
+            description = "Успешная операция",
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = AuditDto.class)))
     public ResponseEntity<List<AuditDto>> showAll() {
         final List<AuditDto> auditDtoList = auditService.getAll();
         return ResponseEntity.status(HttpStatus.OK).body(auditDtoList);
     }
 
     @PostMapping
-    @ApiOperation(value = "Создать новый аудит")
+    @Operation(summary = "Создать новый аудит", description = "Создать новый аудит")
+    @ApiResponse(responseCode = "200", description = "Успешная операция")
+    @ApiResponse(responseCode = "400", description = "Неверный запрос", content = @Content)
+    @ApiResponse(responseCode = "403", description = "Нет прав")
     public ResponseEntity<AuditDto> create(@RequestBody AuditDto auditDto) {
         auditService.add(auditDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(auditDto);
     }
 
     @GetMapping("/{id}")
-    @ApiOperation(value = "Получить аудит по ID")
+    @Operation(summary = "Получить аудит по ID", description = "Получить аудит по ID")
+    @ApiResponse(responseCode = "200", description = "Успешная операция")
+    @ApiResponse(responseCode = "404", description = "Аудит не найден", content = @Content)
     public ResponseEntity<AuditDto> getById(@PathVariable Long id) {
         final AuditDto auditDto = auditService.getById(id);
         return ResponseEntity.status(HttpStatus.OK).body(auditDto);
     }
 
     @PutMapping
-    @ApiOperation(value = "Обновить аудит")
+    @Operation(summary = "Редактировать аудит", description = "Редактировать аудит")
+    @ApiResponse(responseCode = "200", description = "Успешная операция")
+    @ApiResponse(responseCode = "404", description = "Аудит не найден", content = @Content)
+    @ApiResponse(responseCode = "403", description = "Нет прав")
     public ResponseEntity<AuditDto> update(@RequestBody AuditDto auditDto) {
         auditService.update(auditDto);
         return ResponseEntity.status(HttpStatus.OK).body(auditDto);
@@ -55,11 +70,12 @@ public class AuditController {
 
 
     @DeleteMapping("/{id}")
-    @ApiOperation(value = "Удалить аудит по ID")
+    @Operation(summary = "Удалить аудит по ID", description = "Удалить аудит по ID")
+    @ApiResponse(responseCode = "204", description = "Аудит удален")
+    @ApiResponse(responseCode = "404", description = "Аудит не найден", content = @Content)
+    @ApiResponse(responseCode = "403", description = "Нет прав")
     public ResponseEntity<AuditDto> delete(@PathVariable Long id) {
         auditService.deleteById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
-
-
 }
