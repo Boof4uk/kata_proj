@@ -32,17 +32,21 @@ public class ProfileController {
     private final ProfileService profileService;
 
     @PostMapping()
-    @Operation(summary = "Create Profile", description = "Creating Profile and unique identifier assigning. Follows model's " +
-            "constraints to avoid unhandled errors")
+    @Operation(summary = "Create Profile",
+            description = "Creating Profile and unique identifier assigning. Follows model's " +
+                    "constraints to avoid unhandled errors")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Profile created and will be returned with id", content = {
-                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ProfileResponseDto.class))}),
+                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ProfileResponseDto.class))}),
             @ApiResponse(responseCode = "400", description = "Invalid json", content = {
-                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ApiErrorResponse.class))
+                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ApiErrorResponse.class))
             })
     })
-    public ResponseEntity<ProfileResponseDto> create(@RequestBody ProfileRequestDto profileRequestDto) {
-        ProfileResponseDto profileResponseDto = profileService.create(profileRequestDto);
+    public ResponseEntity<ProfileResponseDto> create(
+            @RequestBody ProfileRequestDto profileRequestDto) {
+        final ProfileResponseDto profileResponseDto = profileService.create(profileRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(profileResponseDto);
 
     }
@@ -51,14 +55,16 @@ public class ProfileController {
     @Operation(summary = "Get Profile by id", description = "Get Profile by id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Profile returned", content = {
-                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ProfileResponseDto.class))
+                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ProfileResponseDto.class))
             }),
             @ApiResponse(responseCode = "409", description = "Invalid id", content = {
-                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ApiErrorResponse.class))
+                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ApiErrorResponse.class))
             })
     })
     public ResponseEntity<ProfileResponseDto> byId(@PathVariable Long id) {
-        ProfileResponseDto profileResponseDto = profileService.getById(id);
+        final ProfileResponseDto profileResponseDto = profileService.getById(id);
 
         return ResponseEntity.status(HttpStatus.OK).body(profileResponseDto);
     }
@@ -67,17 +73,21 @@ public class ProfileController {
     @Operation(summary = "Update Profile", description = "Update Profile by id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Profile updated", content = {
-                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ProfileResponseDto.class))
+                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ProfileResponseDto.class))
             }),
             @ApiResponse(responseCode = "409", description = "Invalid request body", content = {
-                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ApiErrorResponse.class))
+                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ApiErrorResponse.class))
             }),
             @ApiResponse(responseCode = "409", description = "Invalid id", content = {
-                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ApiErrorResponse.class))
+                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ApiErrorResponse.class))
             })
     })
-    public ResponseEntity<ProfileResponseDto> update(@PathVariable Long id, @RequestBody ProfileRequestDto profileRequestDto) {
-        ProfileResponseDto profileResponseDto = profileService.update(id, profileRequestDto);
+    public ResponseEntity<ProfileResponseDto> update(
+            @PathVariable Long id, @RequestBody ProfileRequestDto profileRequestDto) {
+        final ProfileResponseDto profileResponseDto = profileService.update(id, profileRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body(profileResponseDto);
     }
 
@@ -88,7 +98,8 @@ public class ProfileController {
                     @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)
             }),
             @ApiResponse(responseCode = "409", description = "Invalid id", content = {
-                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ApiErrorResponse.class))
+                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ApiErrorResponse.class))
             })
     })
     public ResponseEntity<Void> delete(@PathVariable Long id) {
@@ -100,11 +111,12 @@ public class ProfileController {
     @Operation(summary = "Get all Profile", description = "Get all Profile")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Profile list returned", content = {
-                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ProfileResponseDto.class)),
+                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ProfileResponseDto.class)),
             })
     })
     public ResponseEntity<List<ProfileResponseDto>> getAll() {
-        List<ProfileResponseDto> profileResponseDto = profileService.getAll();
+        final List<ProfileResponseDto> profileResponseDto = profileService.getAll();
         return ResponseEntity.status(HttpStatus.OK).body(profileResponseDto);
     }
 }

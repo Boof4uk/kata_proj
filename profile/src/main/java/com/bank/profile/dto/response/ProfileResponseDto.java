@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 @Schema(description = "Profile response")
 public record ProfileResponseDto(
-@Schema(example = "1")
+        @Schema(example = "1")
         Long id,
         @Schema(example = "1234567890")
         Long phoneNumber,

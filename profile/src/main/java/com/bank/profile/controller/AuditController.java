@@ -35,44 +35,54 @@ public class AuditController {
     @Operation(summary = "Create audit ", description = "Create a new audit ")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Audit record created", content = {
-                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = AuditResponseDto.class))}),
+                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = AuditResponseDto.class))}),
             @ApiResponse(responseCode = "400", description = "Invalid request body", content = {
-                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ApiErrorResponse.class))
+                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ApiErrorResponse.class))
             })
     })
     public ResponseEntity<AuditResponseDto> create(@RequestBody AuditRequestDto auditRequestDto) {
-        AuditResponseDto audResponseDto = auditService.create(auditRequestDto);
+        final AuditResponseDto audResponseDto = auditService.create(auditRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(audResponseDto);
     }
+
     @PutMapping("/{id}")
     @Operation(summary = "Update Audit Record", description = "Update an existing audit record by id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Audit record updated", content = {
-                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = AuditResponseDto.class))
+                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = AuditResponseDto.class))
             }),
             @ApiResponse(responseCode = "400", description = "Invalid request body", content = {
-                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ApiErrorResponse.class))
+                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ApiErrorResponse.class))
             }),
             @ApiResponse(responseCode = "409", description = "Invalid id", content = {
-                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ApiErrorResponse.class))
+                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ApiErrorResponse.class))
             })
     })
-    public ResponseEntity<AuditResponseDto> update(@PathVariable Long id,@RequestBody AuditRequestDto auditRequestDto) {
-        AuditResponseDto audResponseDto = auditService.update(id,auditRequestDto);
+    public ResponseEntity<AuditResponseDto> update(@PathVariable Long id,
+                                                   @RequestBody AuditRequestDto auditRequestDto) {
+        final AuditResponseDto audResponseDto = auditService.update(id, auditRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body(audResponseDto);
     }
-   @GetMapping("/{id}")
-   @Operation(summary = "Get Audit Record by id", description = "Retrieve an audit record by its id")
-   @ApiResponses(value = {
-           @ApiResponse(responseCode = "200", description = "Audit record returned", content = {
-                   @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = AuditResponseDto.class))
-           }),
-           @ApiResponse(responseCode = "409", description = "Invalid id", content = {
-                   @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ApiErrorResponse.class))
-           })
-   })
+
+    @GetMapping("/{id}")
+    @Operation(summary = "Get Audit Record by id", description = "Retrieve an audit record by its id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Audit record returned", content = {
+                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = AuditResponseDto.class))
+            }),
+            @ApiResponse(responseCode = "409", description = "Invalid id", content = {
+                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ApiErrorResponse.class))
+            })
+    })
     public ResponseEntity<AuditResponseDto> getById(@PathVariable Long id) {
-        AuditResponseDto audResponseDto = auditService.getById(id);
+        final AuditResponseDto audResponseDto = auditService.getById(id);
         return ResponseEntity.status(HttpStatus.OK).body(audResponseDto);
     }
 
@@ -80,19 +90,22 @@ public class AuditController {
     @Operation(summary = "Get all Audit Records", description = "Retrieve a list of all audit records")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "List of audit records returned", content = {
-                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = AuditResponseDto.class))
+                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = AuditResponseDto.class))
             })
     })
     public ResponseEntity<List<AuditResponseDto>> getAll() {
-       List<AuditResponseDto> audResponseDto = auditService.getAll();
+        final List<AuditResponseDto> audResponseDto = auditService.getAll();
         return ResponseEntity.status(HttpStatus.OK).body(audResponseDto);
     }
+
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete audit", description = "Delete a audit by its id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Audit deleted"),
             @ApiResponse(responseCode = "409", description = "Invalid id", content = {
-                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ApiErrorResponse.class))
+                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ApiErrorResponse.class))
             })
     })
     public ResponseEntity<Void> delete(@PathVariable Long id) {

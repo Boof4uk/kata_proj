@@ -40,7 +40,7 @@ public class ActualRegistrationServiceImpl implements ActualRegistrationService 
 
         log.info("Getting actualRegistration by id: {}", id);
         try {
-            ActualRegistration registration = actualRegistrationRepository.findById(id)
+            final ActualRegistration registration = actualRegistrationRepository.findById(id)
                     .orElseThrow(()
                             -> new ResourceNotFoundException("ActualRegistration getById", "ActualRegistrationId", id));
 
@@ -55,10 +55,11 @@ public class ActualRegistrationServiceImpl implements ActualRegistrationService 
     public ActualRegistrationResponseDto update(Long id, ActualRegistrationRequestDto actualRegistrationRequestDto) {
         log.info("Updating actualRegistration with id: {} and request: {}", id, actualRegistrationRequestDto);
         try {
-            ActualRegistration registration = actualRegistrationRepository.findById(id)
+            final ActualRegistration registration = actualRegistrationRepository.findById(id)
                     .orElseThrow(()
                             -> new ResourceNotFoundException("ActualRegistration update", "ActualRegistrationId", id));
-            ActualRegistration registrationUpdate = actualRegistrationMapper.toEntity(actualRegistrationRequestDto);
+            final ActualRegistration registrationUpdate =
+                    actualRegistrationMapper.toEntity(actualRegistrationRequestDto);
             registrationUpdate.setId(registration.getId());
             return actualRegistrationMapper.toDto(actualRegistrationRepository.save(registrationUpdate));
         } catch (ResourceNotFoundException e) {

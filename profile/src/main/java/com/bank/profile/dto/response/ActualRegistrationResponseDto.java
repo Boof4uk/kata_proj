@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 @Schema(description = "Actual registration response")
 public record ActualRegistrationResponseDto(
-@Schema(example = "1")
+        @Schema(example = "1")
         Long id,
         @Schema(example = "Russia")
         String country,

@@ -27,5 +27,5 @@ public record RegistrationResponseDto(
         String flatNumber,
         @Schema(example = "123456")
         Long index
-       ) {
+) {
 }

@@ -50,7 +50,7 @@ public class AuditServiceImpl implements AuditService {
         try {
             auditRepository.findById(id).orElseThrow(() ->
                     new ResourceNotFoundException("Audit update", "AuditId", id));
-            Audit auditUpdate = auditMapper.toEntity(auditRequestDto);
+            final Audit auditUpdate = auditMapper.toEntity(auditRequestDto);
             auditUpdate.setId(id);
             return auditMapper.toDto(auditRepository.save(auditUpdate));
         } catch (ResourceNotFoundException e) {
@@ -63,7 +63,7 @@ public class AuditServiceImpl implements AuditService {
     public void delete(Long id) {
         log.info("Deleting audit with id: {}", id);
         try {
-            Audit audit = auditRepository.findById(id).orElseThrow(() ->
+            final Audit audit = auditRepository.findById(id).orElseThrow(() ->
                     new ResourceNotFoundException("Audit delete", "AuditId", id));
             auditRepository.delete(audit);
         } catch (ResourceNotFoundException e) {
@@ -75,11 +75,8 @@ public class AuditServiceImpl implements AuditService {
     @Override
     public List<AuditResponseDto> getAll() {
         log.info("Getting all audits");
-        try {
-            return auditMapper.toDTOList(auditRepository.findAll());
-        } catch (EntityNameExistsException e) {
-            log.error("Error getting all audits: {}", e.getMessage());
-            throw e;
-        }
+
+        return auditMapper.toDTOList(auditRepository.findAll());
+
     }
 }

@@ -10,8 +10,10 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface ActualRegistrationMapper {
-   ActualRegistrationResponseDto toDto(ActualRegistration actualRegistration);
+    ActualRegistrationResponseDto toDto(ActualRegistration actualRegistration);
+
     @Mapping(target = "id", ignore = true)
     ActualRegistration toEntity(ActualRegistrationRequestDto actualRegistrationRequestDto);
+
     List<ActualRegistrationResponseDto> toDTOList(List<ActualRegistration> list);
 }

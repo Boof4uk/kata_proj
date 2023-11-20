@@ -28,9 +28,11 @@ public class AccountDetailsServiceImpl implements AccountDetailsService {
         log.info("Creating accountDetails with request: {}", accountDetailsRequestDto);
         try {
             profileRepository.findById(accountDetailsRequestDto.profileId())
-                    .orElseThrow(() -> new ResourceNotFoundException("Profile create AccountDetails", "ProfileId", accountDetailsRequestDto.profileId()));
-            AccountDetails accountDetails = accountDetailsMapper.toEntity(accountDetailsRequestDto, profileRepository);
-            AccountDetails save = accountDetailsRepository.save(accountDetails);
+                    .orElseThrow(() -> new ResourceNotFoundException(
+                            "Profile create AccountDetails", "ProfileId", accountDetailsRequestDto.profileId()));
+            final AccountDetails accountDetails =
+                    accountDetailsMapper.toEntity(accountDetailsRequestDto, profileRepository);
+            final AccountDetails save = accountDetailsRepository.save(accountDetails);
 
             return accountDetailsMapper.toDto(save);
         } catch (ResourceNotFoundException e) {
@@ -43,12 +45,13 @@ public class AccountDetailsServiceImpl implements AccountDetailsService {
     public AccountDetailsResponseDto update(Long id, AccountDetailsRequestDto accountDetailsRequestDto) {
         log.info("Updating accountDetails with id: {} and request: {}", id, accountDetailsRequestDto);
         try {
-
-
-            accountDetailsRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("AccountDetails update", "AccountDetailsId", id));
+            accountDetailsRepository.findById(id).orElseThrow(() ->
+                    new ResourceNotFoundException("AccountDetails update", "AccountDetailsId", id));
             profileRepository.findById(accountDetailsRequestDto.profileId())
-                    .orElseThrow(() -> new ResourceNotFoundException("Profile update AccountDetails", "ProfileId", accountDetailsRequestDto.profileId()));
-            AccountDetails accountDetailsUpdate = accountDetailsMapper.toEntity(accountDetailsRequestDto, profileRepository);
+                    .orElseThrow(() -> new ResourceNotFoundException(
+                            "Profile update AccountDetails", "ProfileId", accountDetailsRequestDto.profileId()));
+            final AccountDetails accountDetailsUpdate =
+                    accountDetailsMapper.toEntity(accountDetailsRequestDto, profileRepository);
             accountDetailsUpdate.setId(id);
 
             return accountDetailsMapper.toDto(accountDetailsRepository.save(accountDetailsUpdate));
@@ -62,7 +65,7 @@ public class AccountDetailsServiceImpl implements AccountDetailsService {
     public AccountDetailsResponseDto getById(Long id) {
         log.info("Getting accountDetails by id: {}", id);
         try {
-            AccountDetails accountDetails = accountDetailsRepository.findById(id).orElseThrow(() ->
+            final AccountDetails accountDetails = accountDetailsRepository.findById(id).orElseThrow(() ->
                     new ResourceNotFoundException("AccountDetails getById", "AccountDetailsId", id));
             return accountDetailsMapper.toDto(accountDetails);
         } catch (ResourceNotFoundException e) {
@@ -75,7 +78,7 @@ public class AccountDetailsServiceImpl implements AccountDetailsService {
     public void delete(Long id) {
         log.info("Deleting accountDetails with id: {}", id);
         try {
-            AccountDetails accountDetails = accountDetailsRepository.findById(id).orElseThrow(() ->
+            final AccountDetails accountDetails = accountDetailsRepository.findById(id).orElseThrow(() ->
                     new ResourceNotFoundException("AccountDetails delete", "AccountDetailsId", id));
             accountDetailsRepository.delete(accountDetails);
         } catch (ResourceNotFoundException e) {
@@ -88,12 +91,9 @@ public class AccountDetailsServiceImpl implements AccountDetailsService {
     public List<AccountDetailsResponseDto> getByProfileId(Long profileId) {
         log.info("Getting accountDetails by profileId: {}", profileId);
         try {
-
-
-            List<AccountDetails> accountDetails = accountDetailsRepository.findByProfileId(profileId).stream().toList();
-
+            final List<AccountDetails> accountDetails =
+                    accountDetailsRepository.findByProfileId(profileId).stream().toList();
             return accountDetailsMapper.toDTOList(accountDetails);
-
         } catch (ResourceNotFoundException e) {
             log.error("Error getting accountDetails by profileId: {}. Error: {}", profileId, e.getMessage());
             throw e;

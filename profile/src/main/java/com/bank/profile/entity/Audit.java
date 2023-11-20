@@ -50,11 +50,12 @@ public class Audit {
 
     @Column(name = "entity_json", nullable = false, columnDefinition = "TEXT")
     private String entityJson;
+
     @PrePersist
     @PreUpdate
     public void roundDateTime() {
         if (createdAt != null) {
-           this.createdAt = this.createdAt.truncatedTo(ChronoUnit.SECONDS);
+            this.createdAt = this.createdAt.truncatedTo(ChronoUnit.SECONDS);
         }
         if (modifiedAt != null) {
             this.modifiedAt = this.modifiedAt.truncatedTo(ChronoUnit.SECONDS);

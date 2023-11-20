@@ -40,9 +40,9 @@ public class ExceptionHandlerAdvice {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiErrorResponse> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        List<String> errors = new ArrayList<>();
+        final List<String> errors = new ArrayList<>();
         ex.getBindingResult().getAllErrors().forEach((error) -> {
-            String errorMessage = error.getDefaultMessage();
+            final String errorMessage = error.getDefaultMessage();
             errors.add(errorMessage);
         });
         return ApiResponse.buildErrorResponse(HttpStatus.BAD_REQUEST, errors.toString().replaceAll("^\\[|\\]$", ""));

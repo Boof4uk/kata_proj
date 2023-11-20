@@ -36,16 +36,21 @@ public class AccountDetailsController {
     @Operation(summary = "Create account details", description = "Create a new account details ")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Account details created", content = {
-                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = AccountDetailsResponseDto.class))}),
+                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = AccountDetailsResponseDto.class))}),
             @ApiResponse(responseCode = "400", description = "Invalid request body", content = {
-                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ApiErrorResponse.class))
+                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ApiErrorResponse.class))
             }),
             @ApiResponse(responseCode = "409", description = "Invalid id", content = {
-                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ApiErrorResponse.class))
+                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ApiErrorResponse.class))
             })
     })
-    public ResponseEntity<AccountDetailsResponseDto> create(@RequestBody AccountDetailsRequestDto accountDetailsRequestDto) {
-        AccountDetailsResponseDto accountDetailsResponseDto = accountDetailsService.create(accountDetailsRequestDto);
+    public ResponseEntity<AccountDetailsResponseDto> create(
+            @RequestBody AccountDetailsRequestDto accountDetailsRequestDto) {
+        final AccountDetailsResponseDto accountDetailsResponseDto = accountDetailsService.create(
+                accountDetailsRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(accountDetailsResponseDto);
     }
 
@@ -53,17 +58,22 @@ public class AccountDetailsController {
     @Operation(summary = "Update account details ", description = "Update an existing account details by id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Account details updated", content = {
-                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = AccountDetailsResponseDto.class))
+                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = AccountDetailsResponseDto.class))
             }),
             @ApiResponse(responseCode = "400", description = "Invalid request body", content = {
-                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ApiErrorResponse.class))
+                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ApiErrorResponse.class))
             }),
             @ApiResponse(responseCode = "409", description = "Invalid id", content = {
-                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ApiErrorResponse.class))
+                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ApiErrorResponse.class))
             })
     })
-    public ResponseEntity<AccountDetailsResponseDto> update(@PathVariable Long id, @RequestBody AccountDetailsRequestDto accountDetailsRequestDto) {
-        AccountDetailsResponseDto accountDetailsResponseDto = accountDetailsService.update(id, accountDetailsRequestDto);
+    public ResponseEntity<AccountDetailsResponseDto> update(
+            @PathVariable Long id, @RequestBody AccountDetailsRequestDto accountDetailsRequestDto) {
+        final AccountDetailsResponseDto accountDetailsResponseDto = accountDetailsService.update(
+                id, accountDetailsRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body(accountDetailsResponseDto);
     }
 
@@ -71,29 +81,35 @@ public class AccountDetailsController {
     @Operation(summary = "Get account details  by id", description = "Retrieve an account details  by its id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Account details  returned", content = {
-                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ActualRegistrationResponseDto.class))
+                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ActualRegistrationResponseDto.class))
             }),
             @ApiResponse(responseCode = "409", description = "Invalid id", content = {
-                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ApiErrorResponse.class))
+                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ApiErrorResponse.class))
             })
     })
     public ResponseEntity<AccountDetailsResponseDto> getById(@PathVariable Long id) {
-        AccountDetailsResponseDto accountDetailsResponseDto = accountDetailsService.getById(id);
+        final AccountDetailsResponseDto accountDetailsResponseDto = accountDetailsService.getById(id);
         return ResponseEntity.status(HttpStatus.OK).body(accountDetailsResponseDto);
     }
 
     @GetMapping("/all/{profileId}")
-    @Operation(summary = "Get account details", description = "Get all account details where profile id is equal to profileId")
+    @Operation(summary = "Get account details", description =
+            "Get all account details where profile id is equal to profileId")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Account details list returned", content = {
-                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ProfileResponseDto.class)),
+                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ProfileResponseDto.class)),
             }),
             @ApiResponse(responseCode = "409", description = "Invalid id", content = {
-                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ApiErrorResponse.class))
+                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ApiErrorResponse.class))
             })
     })
     public ResponseEntity<List<AccountDetailsResponseDto>> getByProfileId(@PathVariable Long profileId) {
-        List<AccountDetailsResponseDto> accountDetailsResponseDto = accountDetailsService.getByProfileId(profileId);
+        final List<AccountDetailsResponseDto> accountDetailsResponseDto =
+                accountDetailsService.getByProfileId(profileId);
         return ResponseEntity.status(HttpStatus.OK).body(accountDetailsResponseDto);
     }
 
@@ -102,7 +118,8 @@ public class AccountDetailsController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Account details deleted"),
             @ApiResponse(responseCode = "409", description = "Invalid id", content = {
-                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ApiErrorResponse.class))
+                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ApiErrorResponse.class))
             })
     })
     public ResponseEntity<Void> delete(@PathVariable Long id) {
