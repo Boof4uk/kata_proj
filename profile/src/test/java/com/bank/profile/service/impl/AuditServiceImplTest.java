@@ -5,7 +5,7 @@ import com.bank.profile.dto.response.ActualRegistrationResponseDto;
 import com.bank.profile.dto.response.AuditResponseDto;
 import com.bank.profile.entity.Audit;
 import com.bank.profile.entity.Passport;
-import com.bank.profile.exeption.ResourceNotFoundException;
+import com.bank.profile.exception.ResourceNotFoundException;
 import com.bank.profile.mapper.AuditMapper;
 import com.bank.profile.repository.AuditRepository;
 import org.junit.jupiter.api.BeforeEach;

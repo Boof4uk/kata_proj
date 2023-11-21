@@ -5,7 +5,7 @@ import com.bank.profile.dto.response.AccountDetailsResponseDto;
 import com.bank.profile.dto.response.ProfileResponseDto;
 import com.bank.profile.entity.AccountDetails;
 import com.bank.profile.entity.Profile;
-import com.bank.profile.exeption.ResourceNotFoundException;
+import com.bank.profile.exception.ResourceNotFoundException;
 import com.bank.profile.mapper.AccountDetailsMapper;
 import com.bank.profile.repository.AccountDetailsRepository;
 import com.bank.profile.repository.ProfileRepository;

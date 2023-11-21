@@ -8,7 +8,7 @@ import com.bank.profile.entity.AccountDetails;
 import com.bank.profile.entity.ActualRegistration;
 import com.bank.profile.entity.Passport;
 import com.bank.profile.entity.Profile;
-import com.bank.profile.exeption.ResourceNotFoundException;
+import com.bank.profile.exception.ResourceNotFoundException;
 import com.bank.profile.service.ProfileService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;

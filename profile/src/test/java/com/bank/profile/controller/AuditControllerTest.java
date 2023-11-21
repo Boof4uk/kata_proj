@@ -3,7 +3,7 @@ package com.bank.profile.controller;
 import com.bank.profile.dto.request.AuditRequestDto;
 import com.bank.profile.dto.response.AuditResponseDto;
 import com.bank.profile.entity.Audit;
-import com.bank.profile.exeption.ResourceNotFoundException;
+import com.bank.profile.exception.ResourceNotFoundException;
 import com.bank.profile.service.AuditService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

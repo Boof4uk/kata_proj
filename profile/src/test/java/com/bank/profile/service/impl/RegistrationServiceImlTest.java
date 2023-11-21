@@ -3,7 +3,7 @@ package com.bank.profile.service.impl;
 import com.bank.profile.dto.request.RegistrationRequestDto;
 import com.bank.profile.dto.response.RegistrationResponseDto;
 import com.bank.profile.entity.Registration;
-import com.bank.profile.exeption.ResourceNotFoundException;
+import com.bank.profile.exception.ResourceNotFoundException;
 import com.bank.profile.mapper.RegistrationMapper;
 import com.bank.profile.repository.RegistrationRepository;
 import org.junit.jupiter.api.BeforeEach;

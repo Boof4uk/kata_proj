@@ -8,7 +8,7 @@ import com.bank.profile.entity.AccountDetails;
 import com.bank.profile.entity.ActualRegistration;
 import com.bank.profile.entity.Passport;
 import com.bank.profile.entity.Profile;
-import com.bank.profile.exeption.ResourceNotFoundException;
+import com.bank.profile.exception.ResourceNotFoundException;
 import com.bank.profile.mapper.ProfileMapper;
 import com.bank.profile.repository.ActualRegistrationRepository;
 import com.bank.profile.repository.PassportRepository;

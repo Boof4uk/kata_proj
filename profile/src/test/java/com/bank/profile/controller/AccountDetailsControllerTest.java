@@ -4,7 +4,7 @@ import com.bank.profile.dto.request.AccountDetailsRequestDto;
 import com.bank.profile.dto.response.AccountDetailsResponseDto;
 import com.bank.profile.dto.response.ProfileResponseDto;
 import com.bank.profile.entity.Profile;
-import com.bank.profile.exeption.ResourceNotFoundException;
+import com.bank.profile.exception.ResourceNotFoundException;
 import com.bank.profile.service.AccountDetailsService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
