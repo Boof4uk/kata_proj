@@ -40,7 +40,7 @@ public class PassportController {
                     @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ApiErrorResponse.class))
             })
     })
-    public ResponseEntity<PassportResponseDto> create(@RequestBody PassportRequestDto passportRequestDto) {
+    public ResponseEntity<PassportResponseDto> create(@Valid @RequestBody PassportRequestDto passportRequestDto) {
         PassportResponseDto passportResponseDto = passportService.create(passportRequestDto);
         return ResponseEntity.ok(passportResponseDto);
     }

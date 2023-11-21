@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -41,7 +42,7 @@ public class ProfileController {
                     @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ApiErrorResponse.class))
             })
     })
-    public ResponseEntity<ProfileResponseDto> create(@RequestBody ProfileRequestDto profileRequestDto) {
+    public ResponseEntity<ProfileResponseDto> create(@Valid @RequestBody ProfileRequestDto profileRequestDto) {
         ProfileResponseDto profileResponseDto = profileService.create(profileRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(profileResponseDto);
 
@@ -76,7 +77,7 @@ public class ProfileController {
                     @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ApiErrorResponse.class))
             })
     })
-    public ResponseEntity<ProfileResponseDto> update(@PathVariable Long id, @RequestBody ProfileRequestDto profileRequestDto) {
+    public ResponseEntity<ProfileResponseDto> update(@PathVariable Long id,@Valid @RequestBody ProfileRequestDto profileRequestDto) {
         ProfileResponseDto profileResponseDto = profileService.update(id, profileRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body(profileResponseDto);
     }

@@ -41,7 +41,7 @@ public class ActualRegistrationController {
                     @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ApiErrorResponse.class))
             })
     })
-    public ResponseEntity<ActualRegistrationResponseDto> create(@RequestBody ActualRegistrationRequestDto actualRegistrationRequestDto) {
+    public ResponseEntity<ActualRegistrationResponseDto> create(@Valid @RequestBody ActualRegistrationRequestDto actualRegistrationRequestDto) {
         ActualRegistrationResponseDto registrationResponseDto = actualRegistrationService.create(actualRegistrationRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(registrationResponseDto);
     }
@@ -59,7 +59,7 @@ public class ActualRegistrationController {
                     @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ApiErrorResponse.class))
             })
     })
-    public ResponseEntity<ActualRegistrationResponseDto> update(@Valid @PathVariable Long id, @RequestBody ActualRegistrationRequestDto actualRegistrationRequestDto) {
+    public ResponseEntity<ActualRegistrationResponseDto> update( @PathVariable Long id,@Valid  @RequestBody ActualRegistrationRequestDto actualRegistrationRequestDto) {
         ActualRegistrationResponseDto registrationResponseDto = actualRegistrationService.update(id, actualRegistrationRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body(registrationResponseDto);
     }

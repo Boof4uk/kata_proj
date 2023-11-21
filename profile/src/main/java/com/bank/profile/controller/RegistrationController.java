@@ -73,7 +73,7 @@ public class RegistrationController {
                     @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ApiErrorResponse.class))
             })
     })
-    public ResponseEntity<RegistrationResponseDto> update(@Valid @PathVariable Long id, @RequestBody RegistrationRequestDto registrationRequestDto) {
+    public ResponseEntity<RegistrationResponseDto> update(@PathVariable Long id,@Valid  @RequestBody RegistrationRequestDto registrationRequestDto) {
         RegistrationResponseDto registrationResponseDto = registrationService.update(id, registrationRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body(registrationResponseDto);
     }

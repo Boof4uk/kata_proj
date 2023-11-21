@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -40,7 +41,7 @@ public class AuditController {
                     @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ApiErrorResponse.class))
             })
     })
-    public ResponseEntity<AuditResponseDto> create(@RequestBody AuditRequestDto auditRequestDto) {
+    public ResponseEntity<AuditResponseDto> create(@Valid @RequestBody AuditRequestDto auditRequestDto) {
         AuditResponseDto audResponseDto = auditService.create(auditRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(audResponseDto);
     }
@@ -57,7 +58,7 @@ public class AuditController {
                     @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ApiErrorResponse.class))
             })
     })
-    public ResponseEntity<AuditResponseDto> update(@PathVariable Long id,@RequestBody AuditRequestDto auditRequestDto) {
+    public ResponseEntity<AuditResponseDto> update(@PathVariable Long id,@Valid @RequestBody AuditRequestDto auditRequestDto) {
         AuditResponseDto audResponseDto = auditService.update(id,auditRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body(audResponseDto);
     }
