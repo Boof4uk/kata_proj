@@ -2,7 +2,7 @@ package com.bank.profile.handler;
 
 import com.bank.profile.component.ApiErrorResponse;
 import com.bank.profile.component.ApiResponse;
-import com.bank.profile.exeption.BlogApiException;
+import com.bank.profile.exception.BlogApiException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

@@ -3,8 +3,8 @@ package com.bank.profile.handler;
 
 import com.bank.profile.component.ApiErrorResponse;
 import com.bank.profile.component.ApiResponse;
-import com.bank.profile.exeption.EntityNameExistsException;
-import com.bank.profile.exeption.ResourceNotFoundException;
+import com.bank.profile.exception.EntityNameExistsException;
+import com.bank.profile.exception.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
