@@ -42,8 +42,6 @@ public class AccountTransferControllerTest {
     @MockBean
     private AccountTransferServiceImpl service;
 
-    //    @MockBean()
-//    @InjectMocks()
     @Autowired
     private AccountTransferController controller;
 

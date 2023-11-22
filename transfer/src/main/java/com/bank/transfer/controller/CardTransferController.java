@@ -57,7 +57,7 @@ public class CardTransferController {
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Получить перевод по идентификатору")
-    public ResponseEntity<CardTransferDTO> showById(@Valid @PathVariable Long id) {
+    public ResponseEntity<CardTransferDTO> showById(@PathVariable Long id) {
         CardTransferDTO cardTransferDTO = cardTransferService.showById(id);
         return new ResponseEntity<>(cardTransferDTO, HttpStatus.OK);
     }

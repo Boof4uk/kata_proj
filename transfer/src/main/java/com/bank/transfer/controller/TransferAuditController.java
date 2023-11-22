@@ -58,7 +58,7 @@ public class TransferAuditController {
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Получить аудит по идентификатору")
-    public ResponseEntity<TransferAuditDTO> showById(@Valid @PathVariable Long id) {
+    public ResponseEntity<TransferAuditDTO> showById(@PathVariable Long id) {
         TransferAuditDTO transferAuditDTO = transferAuditService.showById(id);
         return new ResponseEntity<>(transferAuditDTO, HttpStatus.OK);
     }

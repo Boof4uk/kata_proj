@@ -57,7 +57,7 @@ public class PhoneTransferController {
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Получить перевод по идентификатору")
-    public ResponseEntity<PhoneTransferDTO> showById(@Valid @PathVariable Long id) {
+    public ResponseEntity<PhoneTransferDTO> showById(@PathVariable Long id) {
         PhoneTransferDTO phoneTransferDTO = phoneTransferService.showById(id);
         return new ResponseEntity<>(phoneTransferDTO, HttpStatus.OK);
     }

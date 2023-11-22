@@ -60,7 +60,7 @@ public class AccountTransferController {
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Получить перевод по идентификатору")
-    public ResponseEntity<AccountTransferDTO> showById(@Valid @PathVariable Long id) {
+    public ResponseEntity<AccountTransferDTO> showById(@PathVariable Long id) {
         AccountTransferDTO accountTransferDTO = accountTransferService.showById(id);
         return new ResponseEntity<>(accountTransferDTO, HttpStatus.OK);
     }

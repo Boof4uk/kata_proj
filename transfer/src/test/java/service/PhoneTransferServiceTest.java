@@ -34,7 +34,6 @@ public class PhoneTransferServiceTest {
 
     private PhoneTransferDTO phoneTransferDTO = new PhoneTransferDTO(1L, 2L, new BigDecimal(3), "hello", 4L);
     private PhoneTransferDTO phoneTransferDTO2 = new PhoneTransferDTO(0L, 3L, new BigDecimal(3), "hello", 4L);
-
     private PhoneTransferDTO phoneTransferDTO3 = new PhoneTransferDTO(1L, 3L, new BigDecimal(3), "hello", 4L);
     private PhoneTransferDTO phoneTransferDTO4 = new PhoneTransferDTO(2L, 3L, new BigDecimal(3), "hello", 4L);
     private PhoneTransfer phoneTransfer = new PhoneTransfer(1L, 2L, new BigDecimal(3), "hello", 4L);
