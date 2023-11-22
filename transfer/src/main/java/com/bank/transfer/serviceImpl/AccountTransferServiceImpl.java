@@ -66,9 +66,13 @@ public class AccountTransferServiceImpl implements AccountTransferService {
 
     @Override
     public AccountTransferDTO update(AccountTransferDTO accountTransferDTO) {
-        AccountTransfer accountTransfer = accountTransferMapper.toEntity(accountTransferDTO);
-        accountTransferRepository.save(accountTransfer);
-        return accountTransferMapper.toDto(accountTransfer);
+        if (accountTransferRepository.existsById(accountTransferDTO.getId())) {
+            AccountTransfer accountTransfer = accountTransferMapper.toEntity(accountTransferDTO);
+            accountTransferRepository.save(accountTransfer);
+            return accountTransferMapper.toDto(accountTransfer);
+        } else {
+            return null;
+        }
     }
 
     /**

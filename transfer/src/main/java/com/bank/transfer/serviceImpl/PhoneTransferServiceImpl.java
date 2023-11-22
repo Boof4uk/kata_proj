@@ -66,9 +66,13 @@ public class PhoneTransferServiceImpl implements PhoneTransferService {
 
     @Override
     public PhoneTransferDTO update(PhoneTransferDTO phoneTransferDTO) {
-        PhoneTransfer phoneTransfer = phoneTransferMapper.toEntity(phoneTransferDTO);
-        phoneTransferRepository.save(phoneTransfer);
-        return phoneTransferMapper.toDto(phoneTransfer);
+        if (phoneTransferRepository.existsById(phoneTransferDTO.getId())) {
+            PhoneTransfer phoneTransfer = phoneTransferMapper.toEntity(phoneTransferDTO);
+            phoneTransferRepository.save(phoneTransfer);
+            return phoneTransferMapper.toDto(phoneTransfer);
+        } else {
+            return null;
+        }
     }
 
     /**

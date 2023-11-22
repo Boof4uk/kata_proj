@@ -12,9 +12,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -86,11 +86,15 @@ public class AccountTransferController {
      * @return объект ResponseEntity с объектом AccountTransferDTO и статусом ответа
      */
 
-    @PatchMapping("/{id}")
+    @PutMapping("/{id}")
     @ApiOperation(value = "Обновить данные")
     public ResponseEntity<AccountTransferDTO> update(@Valid @RequestBody(required = false) AccountTransferDTO accountTransferDTO) {
-        accountTransferService.update(accountTransferDTO);
-        return new ResponseEntity<>(accountTransferDTO, HttpStatus.OK);
+        AccountTransferDTO dto = accountTransferService.update(accountTransferDTO);
+        if (dto != null) {
+            return new ResponseEntity<>(accountTransferDTO, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     /**

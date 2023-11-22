@@ -11,9 +11,9 @@ import org.springframework.lang.Nullable;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -83,11 +83,15 @@ public class CardTransferController {
      * @return объект ResponseEntity с объектом CardTransferDTO и статусом ответа
      */
 
-    @PatchMapping("/{id}")
+    @PutMapping("/{id}")
     @ApiOperation(value = "Обновить данные")
     public ResponseEntity<CardTransferDTO> update(@Valid @RequestBody(required = false) CardTransferDTO cardTransferDTO) {
-        cardTransferService.update(cardTransferDTO);
-        return new ResponseEntity<>(cardTransferDTO, HttpStatus.OK);
+        CardTransferDTO dto = cardTransferService.update(cardTransferDTO);
+        if (dto != null) {
+            return new ResponseEntity<>(cardTransferDTO, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     /**

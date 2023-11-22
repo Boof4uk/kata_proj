@@ -10,9 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -71,7 +71,7 @@ public class PhoneTransferController {
 
     @PostMapping
     @ApiOperation(value = "Добавить перевод")
-    public ResponseEntity<PhoneTransferDTO> newTransfer(@Valid @RequestBody PhoneTransferDTO phoneTransferDTO) {
+    public ResponseEntity<PhoneTransferDTO> newTransfer(@Valid @RequestBody(required = false) PhoneTransferDTO phoneTransferDTO) {
         phoneTransferService.add(phoneTransferDTO);
         return new ResponseEntity<>(phoneTransferDTO, HttpStatus.OK);
     }
@@ -83,11 +83,15 @@ public class PhoneTransferController {
      * @return объект ResponseEntity с объектом PhoneTransferDTO и статусом ответа
      */
 
-    @PatchMapping("/{id}")
+    @PutMapping("/{id}")
     @ApiOperation(value = "Обновить данные")
-    public ResponseEntity<PhoneTransferDTO> update(@Valid @RequestBody PhoneTransferDTO phoneTransferDTO) {
-        phoneTransferService.update(phoneTransferDTO);
-        return new ResponseEntity<>(phoneTransferDTO, HttpStatus.OK);
+    public ResponseEntity<PhoneTransferDTO> update(@Valid @RequestBody(required = false) PhoneTransferDTO phoneTransferDTO) {
+        PhoneTransferDTO dto = phoneTransferService.update(phoneTransferDTO);
+        if (dto != null) {
+            return new ResponseEntity<>(phoneTransferDTO, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     /**
@@ -100,7 +104,7 @@ public class PhoneTransferController {
 
     @DeleteMapping("/{id}")
     @ApiOperation(value = "Удалить перевод")
-    public ResponseEntity<String> delete(@Valid @RequestBody Long id, BindingResult bindingResult) {
+    public ResponseEntity<String> delete(@Valid @RequestBody(required = false) Long id, BindingResult bindingResult) {
         if (bindingResult == null || bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body("Invalid input data");
         }
