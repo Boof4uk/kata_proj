@@ -11,9 +11,9 @@ import org.springframework.lang.Nullable;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -58,7 +58,7 @@ public class TransferAuditController {
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Получить аудит по идентификатору")
-    public ResponseEntity<TransferAuditDTO> showById(@Valid @PathVariable Long id) {
+    public ResponseEntity<TransferAuditDTO> showById(@PathVariable Long id) {
         TransferAuditDTO transferAuditDTO = transferAuditService.showById(id);
         return new ResponseEntity<>(transferAuditDTO, HttpStatus.OK);
     }
@@ -84,11 +84,15 @@ public class TransferAuditController {
      * @return объект ResponseEntity с объектом TransferAuditDTO и статусом ответа
      */
 
-    @PatchMapping("/{id}")
+    @PutMapping("/{id}")
     @ApiOperation(value = "Обновить данные")
     public ResponseEntity<TransferAuditDTO> update(@Valid @RequestBody(required = false) TransferAuditDTO transferAuditDTO) {
-        transferAuditService.update(transferAuditDTO);
-        return new ResponseEntity<>(transferAuditDTO, HttpStatus.OK);
+        TransferAuditDTO dto = transferAuditService.update(transferAuditDTO);
+        if (dto != null) {
+            return new ResponseEntity<>(transferAuditDTO, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     /**

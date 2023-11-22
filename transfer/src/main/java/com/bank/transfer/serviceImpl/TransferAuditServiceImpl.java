@@ -66,9 +66,13 @@ public class TransferAuditServiceImpl implements TransferAuditService {
 
     @Override
     public TransferAuditDTO update(TransferAuditDTO transferAuditDTO) {
-        TransferAudit transferAudit = transferAuditMapper.toEntity(transferAuditDTO);
-        transferAuditRepository.save(transferAudit);
-        return transferAuditMapper.toDto(transferAudit);
+        if (transferAuditRepository.existsById(transferAuditDTO.getId())) {
+            TransferAudit transferAudit = transferAuditMapper.toEntity(transferAuditDTO);
+            transferAuditRepository.save(transferAudit);
+            return transferAuditMapper.toDto(transferAudit);
+        } else {
+            return null;
+        }
     }
 
     /**

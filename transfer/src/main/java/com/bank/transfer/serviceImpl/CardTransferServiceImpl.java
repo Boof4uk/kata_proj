@@ -66,9 +66,13 @@ public class CardTransferServiceImpl implements CardTransferService {
 
     @Override
     public CardTransferDTO update(CardTransferDTO cardTransferDTO) {
-        CardTransfer cardTransfer = cardTransferMapper.toEntity(cardTransferDTO);
-        cardTransferRepository.save(cardTransfer);
-        return cardTransferMapper.toDto(cardTransfer);
+        if (cardTransferRepository.existsById(cardTransferDTO.getId())) {
+            CardTransfer cardTransfer = cardTransferMapper.toEntity(cardTransferDTO);
+            cardTransferRepository.save(cardTransfer);
+            return cardTransferMapper.toDto(cardTransfer);
+        } else {
+            return null;
+        }
     }
 
     /**
