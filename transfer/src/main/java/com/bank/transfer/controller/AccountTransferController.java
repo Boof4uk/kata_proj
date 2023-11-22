@@ -2,6 +2,7 @@ package com.bank.transfer.controller;
 
 import com.bank.transfer.dto.AccountTransferDTO;
 import com.bank.transfer.service.AccountTransferService;
+import io.micrometer.core.annotation.Timed;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,7 @@ public class AccountTransferController {
      */
 
     @GetMapping
+    @Timed("getAll")
     @ApiOperation(value = "Получить все")
     public ResponseEntity<List<AccountTransferDTO>> all() {
         List<AccountTransferDTO> list = accountTransferService.all();
