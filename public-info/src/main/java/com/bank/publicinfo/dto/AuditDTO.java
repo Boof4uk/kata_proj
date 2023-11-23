@@ -1,47 +1,55 @@
 package com.bank.publicinfo.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 @Schema(description = "Сущность Аудит")
 public class AuditDTO {
 
     private Long id;
 
     @Schema(description = "тип сущности")
-    @NotNull
     @Size(max = 40)
-    private String entity_type;
+    @NotNull
+    private String entityType;
 
     @Schema(description = "тип операции")
     @NotNull
     @Size(max = 255)
-    private String operation_type;
+    private String operationType;
 
     @Schema(description = "кто создал")
     @NotNull
     @Size(max = 255)
-    private String created_by;
+    private String createdBy;
 
     @Schema(description = "кто изменил")
     @Size(max = 255)
-    private String modified_by;
+    private String modifiedBy;
 
-    @Schema(description = "когда создан",example = "2023-11-14 20:36:36")
+    @Schema(description = "когда создан",example = "2023-11-14T20:36:36")
     @NotNull
-    private String created_at;
+    private String createdAt;
 
-    @Schema(description = "когда изменен", example = "2023-11-14 20:36:36")
-    private String modified_at;
+    @Schema(description = "когда изменен", example = "2023-11-14T20:36:36")
+    private String modifiedAt;
 
     @Schema(description = "json, заполняется при изменении")
-    private String new_entity_json;
+    private String newEntityJson;
 
     @Schema(description = "json, заполняется при изменении и сохранении")
     @NotNull
-    private String entity_json;
+    private String entityJson;
 }

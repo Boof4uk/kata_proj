@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -72,7 +73,7 @@ public class BankDetailsController {
     @Operation(summary = "Редактировать существующую запись банковских реквизитов", description = "Редактировать существующую запись банковских реквизитов")
     @ApiResponse(responseCode = "200", description = "Успешная операция")
     @ApiResponse(responseCode = "404", description = "Запись банковских реквизитов не найдена", content = @Content)
-    @PatchMapping
+    @PutMapping
     public ResponseEntity<HttpStatus> editBankDetails(@Valid @RequestBody BankDetailsDTO bankDetailsDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(HttpStatus.BAD_REQUEST);

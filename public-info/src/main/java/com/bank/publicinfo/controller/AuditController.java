@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -62,18 +63,18 @@ public class AuditController {
     @ApiResponse(responseCode = "200", description = "Успешная операция")
     @ApiResponse(responseCode = "400", description = "Неверный запрос", content = @Content)
     @PostMapping
-    public ResponseEntity<HttpStatus> createAudit(@Valid @RequestBody AuditDTO auditDTO, BindingResult bindingResult) {
+    public ResponseEntity<HttpStatus> createAudit(@RequestBody @Valid AuditDTO auditDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(HttpStatus.BAD_REQUEST);
         }
         auditService.save(auditDTO);
-        return ResponseEntity.ok(HttpStatus.OK);
+        return ResponseEntity.ok(HttpStatus.CREATED);
     }
 
     @Operation(summary = "Редактировать существующую запись аудита", description = "Редактировать существующую запись аудита")
     @ApiResponse(responseCode = "200", description = "Успешная операция")
     @ApiResponse(responseCode = "404", description = "Запись аудита не найдена", content = @Content)
-    @PatchMapping
+    @PutMapping
     public ResponseEntity<HttpStatus> editAudit(@Valid @RequestBody AuditDTO auditDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(HttpStatus.BAD_REQUEST);
