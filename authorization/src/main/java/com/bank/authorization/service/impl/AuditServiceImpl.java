@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -53,12 +54,16 @@ public class AuditServiceImpl implements AuditService {
     public AuditDto update(AuditDto auditDto) {
         log.info("Updating audit with id: {} and body: {}", auditDto.getId(), auditDto);
         try {
+            if (auditDto.getId() == null) {
+                throw new IllegalArgumentException("The given id must not be null!");
+            }
             final Audit auditEntity = auditMapper.toEntity(auditDto);
-            auditRepository.findById(auditEntity.getId())
+            final Optional<Audit> optionalAudit = auditRepository.findById(auditEntity.getId());
+            optionalAudit
                     .orElseThrow(() -> new EntityNotFoundException(ENTITY_NAME, auditEntity.getId()));
             auditRepository.save(auditEntity);
             return auditMapper.toDto(auditEntity);
-        } catch (EntityNotFoundException e) {
+        } catch (EntityNotFoundException | IllegalArgumentException e) {
             log.error("Error updating audit with id: {}. Error: {}", auditDto.getId(), e.getMessage());
             throw e;
         }
@@ -69,9 +74,9 @@ public class AuditServiceImpl implements AuditService {
     public void deleteById(Long id) {
         log.info("Deleting audit with id: {}", id);
         try {
-            final Audit audit = auditRepository.findById(id)
+            auditRepository.findById(id)
                     .orElseThrow(() -> new EntityNotFoundException(ENTITY_NAME, id));
-            auditRepository.deleteById(audit.getId());
+            auditRepository.deleteById(id);
         } catch (EntityNotFoundException e) {
             log.error("Error deleting audit with id: {}. Error: {}", id, e.getMessage());
             throw e;
@@ -82,7 +87,8 @@ public class AuditServiceImpl implements AuditService {
     public AuditDto getById(Long id) {
         log.info("Getting audit with id: {}", id);
         try {
-            final Audit audit = auditRepository.findById(id)
+            final Optional<Audit> auditOptional = auditRepository.findById(id);
+            final Audit audit = auditOptional
                     .orElseThrow(() -> new EntityNotFoundException(ENTITY_NAME, id));
             return auditMapper.toDto(audit);
         } catch (EntityNotFoundException e) {

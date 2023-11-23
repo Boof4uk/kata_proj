@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -41,10 +42,10 @@ public class AuditController {
 
     @PostMapping
     @Operation(summary = "Создать новый аудит", description = "Создать новый аудит")
-    @ApiResponse(responseCode = "200", description = "Успешная операция")
+    @ApiResponse(responseCode = "201", description = "Успешная операция")
     @ApiResponse(responseCode = "400", description = "Неверный запрос", content = @Content)
-    @ApiResponse(responseCode = "403", description = "Нет прав")
-    public ResponseEntity<AuditDto> create(@RequestBody AuditDto auditDto) {
+    @ApiResponse(responseCode = "403", description = "Нет прав", content = @Content)
+    public ResponseEntity<AuditDto> create(@Valid @RequestBody AuditDto auditDto) {
         auditService.add(auditDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(auditDto);
     }
@@ -62,8 +63,9 @@ public class AuditController {
     @Operation(summary = "Редактировать аудит", description = "Редактировать аудит")
     @ApiResponse(responseCode = "200", description = "Успешная операция")
     @ApiResponse(responseCode = "404", description = "Аудит не найден", content = @Content)
-    @ApiResponse(responseCode = "403", description = "Нет прав")
-    public ResponseEntity<AuditDto> update(@RequestBody AuditDto auditDto) {
+    @ApiResponse(responseCode = "400", description = "Неверный запрос", content = @Content)
+    @ApiResponse(responseCode = "403", description = "Нет прав", content = @Content)
+    public ResponseEntity<AuditDto> update(@Valid @RequestBody AuditDto auditDto) {
         auditService.update(auditDto);
         return ResponseEntity.status(HttpStatus.OK).body(auditDto);
     }
@@ -73,7 +75,7 @@ public class AuditController {
     @Operation(summary = "Удалить аудит по ID", description = "Удалить аудит по ID")
     @ApiResponse(responseCode = "204", description = "Аудит удален")
     @ApiResponse(responseCode = "404", description = "Аудит не найден", content = @Content)
-    @ApiResponse(responseCode = "403", description = "Нет прав")
+    @ApiResponse(responseCode = "403", description = "Нет прав", content = @Content)
     public ResponseEntity<AuditDto> delete(@PathVariable Long id) {
         auditService.deleteById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
