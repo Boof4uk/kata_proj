@@ -43,7 +43,8 @@ public class PassportController {
                             schema = @Schema(implementation = ApiErrorResponse.class))
             })
     })
-    public ResponseEntity<PassportResponseDto> create(@RequestBody PassportRequestDto passportRequestDto) {
+    public ResponseEntity<PassportResponseDto> create(@Valid
+            @RequestBody PassportRequestDto passportRequestDto) {
         final PassportResponseDto passportResponseDto = passportService.create(passportRequestDto);
         return ResponseEntity.ok(passportResponseDto);
     }

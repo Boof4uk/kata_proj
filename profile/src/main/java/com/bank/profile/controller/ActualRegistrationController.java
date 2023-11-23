@@ -44,7 +44,7 @@ public class ActualRegistrationController {
                             schema = @Schema(implementation = ApiErrorResponse.class))
             })
     })
-    public ResponseEntity<ActualRegistrationResponseDto> create(
+    public ResponseEntity<ActualRegistrationResponseDto> create(@Valid
             @RequestBody ActualRegistrationRequestDto actualRegistrationRequestDto) {
         final ActualRegistrationResponseDto registrationResponseDto =
                 actualRegistrationService.create(actualRegistrationRequestDto);
@@ -67,8 +67,8 @@ public class ActualRegistrationController {
                             schema = @Schema(implementation = ApiErrorResponse.class))
             })
     })
-    public ResponseEntity<ActualRegistrationResponseDto> update(
-            @Valid @PathVariable Long id, @RequestBody ActualRegistrationRequestDto actualRegistrationRequestDto) {
+    public ResponseEntity<ActualRegistrationResponseDto> update(@Valid
+             @PathVariable Long id, @RequestBody ActualRegistrationRequestDto actualRegistrationRequestDto) {
         final ActualRegistrationResponseDto registrationResponseDto =
                 actualRegistrationService.update(id, actualRegistrationRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body(registrationResponseDto);

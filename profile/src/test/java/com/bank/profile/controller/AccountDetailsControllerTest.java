@@ -40,7 +40,7 @@ class AccountDetailsControllerTest {
 
     @MockBean
     private AccountDetailsService accountDetailsService;
-    private Profile profile;
+
     private ProfileResponseDto profileResponseDto;
     private AccountDetailsRequestDto accountDetailsRequestDto;
     private AccountDetailsResponseDto accountDetailsResponseDto;
@@ -48,7 +48,7 @@ class AccountDetailsControllerTest {
 
     @BeforeEach
     void setUp() {
-        profile = mock(Profile.class);
+
         profileResponseDto = mock(ProfileResponseDto.class);
         accountDetailsRequestDto = new AccountDetailsRequestDto(1L, 1L);
         accountDetailsResponseDto = new AccountDetailsResponseDto(1l, 1L, profileResponseDto);
@@ -61,7 +61,7 @@ class AccountDetailsControllerTest {
 
 
     @Test
-    void createAccountDetails() throws Exception {
+    public void createAccountDetailsTest() throws Exception {
 
         mockMvc.perform(post("/api/account-details")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -73,9 +73,26 @@ class AccountDetailsControllerTest {
     }
 
     @Test
-    void update() throws Exception {
+    public void invalidJsonCreateTest() throws Exception {
+     String invalidJson= "invalid Json";
+        mockMvc.perform(post("/api/account-details")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(invalidJson))
+                .andExpect(status().isBadRequest())
+
+                .andExpect(jsonPath("$.httpStatus").value("BAD_REQUEST"))
+                .andExpect(jsonPath("$.message").value("JSON parse error: Unrecognized token 'invalid':" +
+                        " was expecting (JSON String, Number, Array, Object or token 'null'," +
+                        " 'true' or 'false'); nested exception is com.fasterxml.jackson.core.JsonParseException:" +
+                        " Unrecognized token 'invalid': was expecting (JSON String, Number, Array, Object or token 'null', 'true' or 'false')\n" +
+                        " at [Source: (org.springframework.util.StreamUtils$NonClosingInputStream); line: 1, column: 9]"));
+
+    }
+
+    @Test
+    public void updateTest() throws Exception {
         Long id = 1L;
-        AccountDetailsRequestDto requestDto = new AccountDetailsRequestDto(2L,1L);
+        AccountDetailsRequestDto requestDto = new AccountDetailsRequestDto(2L, 1L);
 
         mockMvc.perform(put("/api/account-details/" + id)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -87,15 +104,16 @@ class AccountDetailsControllerTest {
     }
 
     @Test
-    void getById() throws Exception {
+    public void getByIdTest() throws Exception {
         mockMvc.perform(get("/api/account-details/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(accountDetailsResponseDto.id()));
         verify(accountDetailsService).getById(any());
     }
+
     @Test
-    void shouldHandleResourceNotFoundException() throws Exception {
+    public void shouldHandleResourceNotFoundExceptionTest() throws Exception {
         Long nonExistentId = 999L;
         when(accountDetailsService.getById(nonExistentId))
                 .thenThrow(new ResourceNotFoundException("AccountDetails", "id", nonExistentId));
@@ -107,7 +125,7 @@ class AccountDetailsControllerTest {
     }
 
     @Test
-    void getByProfileId() throws Exception {
+    public void getByProfileIdTest() throws Exception {
         mockMvc.perform(get("/api/account-details/all/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -117,7 +135,7 @@ class AccountDetailsControllerTest {
     }
 
     @Test
-    void deleteAccountDetails() throws Exception {
+    public void deleteAccountDetailsTest() throws Exception {
         Long idToDelete = 1L;
 
         mockMvc.perform(delete("/api/account-details/" + idToDelete)
@@ -126,6 +144,7 @@ class AccountDetailsControllerTest {
 
         verify(accountDetailsService).delete(idToDelete);
     }
+
     private static String asJsonString(final Object obj) {
         try {
             return new ObjectMapper().writeValueAsString(obj);

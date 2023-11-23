@@ -1,5 +1,6 @@
 package com.bank.profile.controller;
 
+import com.bank.profile.dto.request.ProfileRequestDto;
 import com.bank.profile.dto.request.RegistrationRequestDto;
 import com.bank.profile.dto.response.RegistrationResponseDto;
 import com.bank.profile.entity.Registration;
@@ -20,6 +21,7 @@ import java.util.List;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -39,18 +41,19 @@ class RegistrationControllerTest {
     private RegistrationRequestDto registrationRequestDto;
     private List<Registration> registrationList = new ArrayList<>();
     private List<RegistrationResponseDto> registrationResponseDtoList = new ArrayList<>();
-
+    private  Long id ;
 
     @BeforeEach
     void setUp() {
+        id = 1L;
 
-        registration =new Registration(
-                1L,"Russia","Moscow Region","Moscow","Central","Moscow","Tverskaya","10","A","101",123456L);
+        registration = new Registration(
+                1L, "Russia", "Moscow Region", "Moscow", "Central", "Moscow", "Tverskaya", "10", "A", "101", 123456L);
 
         registrationRequestDto = new RegistrationRequestDto(
-                "Russia","Moscow Region","Moscow","Central","Moscow","Tverskaya","10","A","101",123456L);
+                "Russia", "Moscow Region", "Moscow", "Central", "Moscow", "Tverskaya", "10", "A", "101", 123456L);
         registrationResponseDto = new RegistrationResponseDto(
-                1L,"Russia","Moscow Region","Moscow","Central","Moscow","Tverskaya","10","A","101",123456L);
+                1L, "Russia", "Moscow Region", "Moscow", "Central", "Moscow", "Tverskaya", "10", "A", "101", 123456L);
         registrationList.add(registration);
         registrationResponseDtoList.add(registrationResponseDto);
         when(registrationService.create(any())).thenReturn(registrationResponseDto);
@@ -60,7 +63,7 @@ class RegistrationControllerTest {
     }
 
     @Test
-    void create() throws Exception {
+    public void createTest() throws Exception {
         mockMvc.perform(post("/api/registration")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(registrationRequestDto)))
@@ -71,7 +74,7 @@ class RegistrationControllerTest {
     }
 
     @Test
-    void getById() throws Exception {
+    public void getByIdTest() throws Exception {
         mockMvc.perform(get("/api/registration/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -80,9 +83,9 @@ class RegistrationControllerTest {
     }
 
     @Test
-    void update() throws Exception {
-        Long id = 1L;
-        RegistrationRequestDto requestDto = new RegistrationRequestDto("Russia_New","Moscow Region new","Moscow New","Central new","Moscow","Tverskaya","10","A","101",123456L);
+    public void updateTest() throws Exception {
+
+        RegistrationRequestDto requestDto = new RegistrationRequestDto("Russia_New", "Moscow Region new", "Moscow New", "Central new", "Moscow", "Tverskaya", "10", "A", "101", 123456L);
         mockMvc.perform(put("/api/registration/" + id)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(requestDto)))
@@ -92,7 +95,40 @@ class RegistrationControllerTest {
         verify(registrationService).update(eq(id), any(RegistrationRequestDto.class));
     }
     @Test
-    void shouldHandleResourceNotFoundException() throws Exception {
+    public void invalidJsonCreateTest() throws Exception {
+        String invalidJson= "invalid Json";
+        mockMvc.perform(post("/api/registration")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(invalidJson))
+                .andExpect(status().isBadRequest())
+
+                .andExpect(jsonPath("$.httpStatus").value("BAD_REQUEST"))
+                .andExpect(jsonPath("$.message").value("JSON parse error: Unrecognized token 'invalid':" +
+                        " was expecting (JSON String, Number, Array, Object or token 'null'," +
+                        " 'true' or 'false'); nested exception is com.fasterxml.jackson.core.JsonParseException:" +
+                        " Unrecognized token 'invalid': was expecting (JSON String, Number, Array, Object or token 'null', 'true' or 'false')\n" +
+                        " at [Source: (org.springframework.util.StreamUtils$NonClosingInputStream); line: 1, column: 9]"));
+        verify(registrationService,times(0)).create(any(RegistrationRequestDto.class));
+
+    }
+    @Test
+    public void invalidJsonUpdateTest() throws Exception {
+        String invalidJson= "";
+
+        mockMvc.perform(put("/api/registration/"+id)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(invalidJson))
+                .andExpect(status().isBadRequest())
+
+                .andExpect(jsonPath("$.httpStatus").value("BAD_REQUEST"))
+                .andExpect(jsonPath("$.message").value("Required request body is missing:" +
+                        " public org.springframework.http.ResponseEntity<com.bank.profile.dto.response.RegistrationResponseDto> " +
+                        "com.bank.profile.controller.RegistrationController.update(java.lang.Long,com.bank.profile.dto.request.RegistrationRequestDto)"));
+        verify(registrationService,times(0)).update(eq(id), any(RegistrationRequestDto.class));
+    }
+
+    @Test
+    public void shouldHandleResourceNotFoundExceptionTest() throws Exception {
         Long nonExistentId = 999L;
         when(registrationService.getById(nonExistentId))
                 .thenThrow(new ResourceNotFoundException("Registration", "id", nonExistentId));
@@ -104,7 +140,7 @@ class RegistrationControllerTest {
     }
 
     @Test
-    void getAll() throws Exception {
+    public void getAllTest() throws Exception {
         mockMvc.perform(get("/api/registration/all")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -112,6 +148,7 @@ class RegistrationControllerTest {
 
         verify(registrationService).getAll();
     }
+
     private static String asJsonString(final Object obj) {
         try {
             return new ObjectMapper().writeValueAsString(obj);

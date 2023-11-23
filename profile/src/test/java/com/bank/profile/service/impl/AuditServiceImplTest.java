@@ -43,33 +43,32 @@ class AuditServiceImplTest {
     private Audit audit;
     private List<Audit> auditList;
     private List<AuditResponseDto> auditResponseDtoList;
-    private Passport passport;
-    private ActualRegistrationResponseDto actualRegistrationResponseDto;
+
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         auditRequestDto = new AuditRequestDto("test",
-                "test","test","test",
-                LocalDateTime.of(2022,2,22,22,22,22),
-                LocalDateTime.of(2023,3,23,23,23,23),
-                "test","test");
+                "test", "test", "test",
+                LocalDateTime.of(2022, 2, 22, 22, 22, 22),
+                LocalDateTime.of(2023, 3, 23, 23, 23, 23),
+                "test", "test");
 
-        auditResponseDto = new AuditResponseDto(1L,"test",
-                "test","test","test",
-                 "2022-2-22 22:22:22","2023-3-23:23:23",
-                "test","test");
+        auditResponseDto = new AuditResponseDto(1L, "test",
+                "test", "test", "test",
+                "2022-2-22 22:22:22", "2023-3-23:23:23",
+                "test", "test");
 
-        audit = new Audit(1L,"test",
-                "test","test","test",
-                LocalDateTime.of(2022,2,22,22,22,22),
-                LocalDateTime.of(2023,3,23,23,23,23),
-                "test","test");
+        audit = new Audit(1L, "test",
+                "test", "test", "test",
+                LocalDateTime.of(2022, 2, 22, 22, 22, 22),
+                LocalDateTime.of(2023, 3, 23, 23, 23, 23),
+                "test", "test");
         auditResponseDtoList = List.of(auditResponseDto);
         auditList = List.of(audit);
     }
 
     @Test
-    void createShouldReturnAuditResponseDto() {
+    public void createShouldReturnAuditResponseDtoTest() {
         when(auditMapper.toEntity(auditRequestDto)).thenReturn(audit);
         when(auditRepository.save(audit)).thenReturn(audit);
         when(auditMapper.toDto(audit)).thenReturn(auditResponseDto);
@@ -80,8 +79,9 @@ class AuditServiceImplTest {
         verify(auditMapper).toDto(audit);
 
     }
+
     @Test
-    void getByIdShouldReturnAuditResponseDtoWhenFound() {
+    public void getByIdShouldReturnAuditResponseDtoWhenFoundTest() {
         when(auditRepository.findById(1L)).thenReturn(Optional.of(audit));
         when(auditMapper.toDto(audit)).thenReturn(auditResponseDto);
 
@@ -94,7 +94,7 @@ class AuditServiceImplTest {
     }
 
     @Test
-    void getByIdShouldThrowResourceNotFoundExceptionWhenNotFound() {
+    public void getByIdShouldThrowResourceNotFoundExceptionWhenNotFoundTest() {
         when(auditRepository.findById(1L)).thenReturn(Optional.empty());
 
         assertThrows(ResourceNotFoundException.class, () -> auditService.getById(1L));
@@ -103,7 +103,7 @@ class AuditServiceImplTest {
     }
 
     @Test
-    void getByIdShouldReturnAuditListResponseDtoWhenFound(){
+    public void getByIdShouldReturnAuditListResponseDtoWhenFoundTest() {
         when(auditRepository.findAll()).thenReturn(auditList);
         when(auditMapper.toDTOList(auditList)).thenReturn(auditResponseDtoList);
 
@@ -117,7 +117,7 @@ class AuditServiceImplTest {
     }
 
     @Test
-    void updateShouldThrowResourceNotFoundExceptionWhenNotFound() {
+    public void updateShouldThrowResourceNotFoundExceptionWhenNotFoundTest() {
         when(auditRepository.findById(1L)).thenReturn(Optional.empty());
         assertThrows(ResourceNotFoundException.class, () -> auditService.update(1L, auditRequestDto));
 
@@ -126,8 +126,9 @@ class AuditServiceImplTest {
         verify(auditMapper, never()).toEntity(any(AuditRequestDto.class));
         verify(auditMapper, never()).toDto(any(Audit.class));
     }
+
     @Test
-    void updateShouldReturnAuditResponseDto(){
+    public void updateShouldReturnAuditResponseDtoTest() {
         when(auditRepository.findById(1L)).thenReturn(Optional.of(audit));
         when(auditMapper.toEntity(auditRequestDto)).thenReturn(audit);
         when(auditRepository.save(audit)).thenReturn(audit);
@@ -140,7 +141,7 @@ class AuditServiceImplTest {
     }
 
     @Test
-    void deleteShouldThrowResourceNotFoundExceptionWhenNotFound() {
+    public void deleteShouldThrowResourceNotFoundExceptionWhenNotFoundTest() {
         when(auditRepository.findById(1L)).thenReturn(Optional.empty());
         assertThrows(ResourceNotFoundException.class, () -> auditService.delete(1L));
         verify(auditRepository).findById(1L);
@@ -148,13 +149,12 @@ class AuditServiceImplTest {
         verify(auditMapper, never()).toEntity(any(AuditRequestDto.class));
         verify(auditMapper, never()).toDto(any(Audit.class));
     }
+
     @Test
-    void deleteShouldDeleteAuditWhenFound(){
+    public void deleteShouldDeleteAuditWhenFoundTest() {
         when(auditRepository.findById(1L)).thenReturn(Optional.of(audit));
         auditService.delete(1L);
         verify(auditRepository).delete(audit);
     }
-
-
 
 }

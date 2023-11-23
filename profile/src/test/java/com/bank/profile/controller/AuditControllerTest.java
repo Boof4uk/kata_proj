@@ -42,11 +42,13 @@ class AuditControllerTest {
     private Audit audit;
     private AuditResponseDto auditResponseDto;
     private AuditRequestDto auditRequestDto;
-    List<Audit> auditList = new ArrayList<>();
-    List<AuditResponseDto> auditResponseDtoList = new ArrayList<>();
+    private List<Audit> auditList = new ArrayList<>();
+    private List<AuditResponseDto> auditResponseDtoList = new ArrayList<>();
+    private Long id;
 
     @BeforeEach
     void setUp() {
+        id = 1L;
         auditRequestDto = new AuditRequestDto("test",
                 "test", "test", "test",
                 LocalDateTime.of(2022, 2, 22, 22, 22, 22),
@@ -72,7 +74,7 @@ class AuditControllerTest {
     }
 
     @Test
-    void create() throws Exception {
+    public void createTest() throws Exception {
 
         mockMvc.perform(post("/api/audit")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -84,8 +86,43 @@ class AuditControllerTest {
     }
 
     @Test
-    void update() throws Exception {
-        Long id = 1L;
+    public void invalidJsonCreateTest() throws Exception {
+        String invalidJson = "invalid Json";
+        mockMvc.perform(post("/api/audit")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(invalidJson))
+                .andExpect(status().isBadRequest())
+
+                .andExpect(jsonPath("$.httpStatus").value("BAD_REQUEST"))
+                .andExpect(jsonPath("$.message").value("JSON parse error: Unrecognized token 'invalid':" +
+                        " was expecting (JSON String, Number, Array, Object or token 'null'," +
+                        " 'true' or 'false'); nested exception is com.fasterxml.jackson.core.JsonParseException:" +
+                        " Unrecognized token 'invalid': was expecting (JSON String, Number, Array, Object or token 'null', 'true' or 'false')\n" +
+                        " at [Source: (org.springframework.util.StreamUtils$NonClosingInputStream); line: 1, column: 9]"));
+
+    }
+
+    @Test
+    public void invalidJsonUpdateTest() throws Exception {
+        String invalidJson = "invalid Json";
+
+        mockMvc.perform(put("/api/audit/" + id)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(invalidJson))
+                .andExpect(status().isBadRequest())
+
+                .andExpect(jsonPath("$.httpStatus").value("BAD_REQUEST"))
+                .andExpect(jsonPath("$.message").value("JSON parse error: Unrecognized token 'invalid':" +
+                        " was expecting (JSON String, Number, Array, Object or token 'null'," +
+                        " 'true' or 'false'); nested exception is com.fasterxml.jackson.core.JsonParseException:" +
+                        " Unrecognized token 'invalid': was expecting (JSON String, Number, Array, Object or token 'null', 'true' or 'false')\n" +
+                        " at [Source: (org.springframework.util.StreamUtils$NonClosingInputStream); line: 1, column: 9]"));
+
+    }
+
+    @Test
+    public void updateTest() throws Exception {
+
         AuditRequestDto requestDto = new AuditRequestDto("test",
                 "newtest", "newtest", "newtest",
                 LocalDateTime.of(2022, 2, 22, 22, 22, 22),
@@ -102,15 +139,16 @@ class AuditControllerTest {
     }
 
     @Test
-    void getById() throws Exception {
+    public void getByIdTest() throws Exception {
         mockMvc.perform(get("/api/audit/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(auditResponseDto.id()));
         verify(auditService).getById(any());
     }
+
     @Test
-    void shouldHandleResourceNotFoundException() throws Exception {
+    public void shouldHandleResourceNotFoundExceptionTest() throws Exception {
         Long nonExistentId = 999L;
         when(auditService.getById(nonExistentId))
                 .thenThrow(new ResourceNotFoundException("Audit", "id", nonExistentId));
@@ -122,7 +160,7 @@ class AuditControllerTest {
     }
 
     @Test
-    void getAll() throws Exception {
+    public void getAllTest() throws Exception {
         mockMvc.perform(get("/api/audit/all")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -132,7 +170,7 @@ class AuditControllerTest {
     }
 
     @Test
-    void deleteAudit() throws Exception {
+    public void deleteAuditTest() throws Exception {
         Long idToDelete = 1L;
 
         mockMvc.perform(delete("/api/audit/" + idToDelete)

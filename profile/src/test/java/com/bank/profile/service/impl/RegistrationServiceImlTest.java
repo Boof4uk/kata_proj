@@ -54,14 +54,14 @@ void setUp() {
             1L,"Russia","Moscow Region","Moscow","Central","Moscow","Tverskaya","10","A","101",123456L);
     registrationList.add(registration);
     registrationResponseDtoList.add(registrationResponseDto);
-    lenient().when(registrationMapper.toEntity(Mockito.any())).thenReturn(registration);
-    lenient().when(registrationMapper.toDto(Mockito.any())).thenReturn(registrationResponseDto);
-    lenient().when(registrationRepository.save(Mockito.any())).thenReturn(registration);
+    lenient().when(registrationMapper.toEntity(any())).thenReturn(registration);
+    lenient().when(registrationMapper.toDto(any())).thenReturn(registrationResponseDto);
+    lenient().when(registrationRepository.save(any())).thenReturn(registration);
     lenient().when(registrationRepository.findAll()).thenReturn(registrationList);
     lenient().when(registrationRepository.findById(1L)).thenReturn(java.util.Optional.ofNullable(registration));
 }
     @Test
-    void createShouldReturnAuditResponseDto() {
+   public void createShouldReturnAuditResponseDtoTest() {
         RegistrationResponseDto result = registrationService.create(registrationRequestDto);
         assertNotNull(result);
         verify(registrationMapper).toEntity(registrationRequestDto);
@@ -70,7 +70,7 @@ void setUp() {
     }
 
     @Test
-    void getByIdShouldReturnAuditListResponseDtoWhenFound(){
+   public void getByIdShouldReturnAuditListResponseDtoWhenFoundTest(){
         when(registrationRepository.findAll()).thenReturn(registrationList);
         when(registrationMapper.toDTOList(registrationList)).thenReturn(registrationResponseDtoList);
 
@@ -83,7 +83,7 @@ void setUp() {
         verify(registrationMapper).toDTOList(registrationList);
     }
     @Test
-    void getByIdShouldThrowResourceNotFoundExceptionWhenNotFound() {
+   public void getByIdShouldThrowResourceNotFoundExceptionWhenNotFoundTest() {
         when(registrationRepository.findById(1L)).thenReturn(Optional.empty());
 
         assertThrows(ResourceNotFoundException.class, () -> registrationService.getById(1L));
@@ -92,7 +92,7 @@ void setUp() {
     }
 
     @Test
-    void getByIdShouldReturnAuditResponseDtoWhenFound() {
+  public   void getByIdShouldReturnAuditResponseDtoWhenFoundTest() {
 
         RegistrationResponseDto result = registrationService.getById(1L);
 
@@ -103,7 +103,7 @@ void setUp() {
     }
 
     @Test
-    void updateShouldThrowResourceNotFoundExceptionWhenNotFound() {
+  public   void updateShouldThrowResourceNotFoundExceptionWhenNotFoundTest() {
         when(registrationRepository.findById(1L)).thenReturn(Optional.empty());
         assertThrows(ResourceNotFoundException.class, () ->registrationService.update(1L, registrationRequestDto));
 
@@ -113,7 +113,7 @@ void setUp() {
         verify(registrationMapper, never()).toDto(any(Registration.class));
     }
     @Test
-    void updateShouldReturnAuditResponseDto(){
+   public void updateShouldReturnAuditResponseDtoTest(){
 
         RegistrationResponseDto result = registrationService.update(1L, registrationRequestDto);
 

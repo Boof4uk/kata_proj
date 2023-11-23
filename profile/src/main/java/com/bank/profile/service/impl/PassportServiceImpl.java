@@ -56,7 +56,6 @@ public class PassportServiceImpl implements PassportService {
         log.info("Updating passport with id: {} and request: {}", id, passportRequestDto);
         try {
 
-
             registrationRepository.findById(passportRequestDto.registrationId())
                     .orElseThrow(() -> new ResourceNotFoundException(
                             "Registration update passport", "registrationId", passportRequestDto.registrationId()));

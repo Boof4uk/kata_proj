@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -47,7 +48,7 @@ public class AccountDetailsController {
                             schema = @Schema(implementation = ApiErrorResponse.class))
             })
     })
-    public ResponseEntity<AccountDetailsResponseDto> create(
+    public ResponseEntity<AccountDetailsResponseDto> create(@Valid
             @RequestBody AccountDetailsRequestDto accountDetailsRequestDto) {
         final AccountDetailsResponseDto accountDetailsResponseDto = accountDetailsService.create(
                 accountDetailsRequestDto);
@@ -71,7 +72,7 @@ public class AccountDetailsController {
             })
     })
     public ResponseEntity<AccountDetailsResponseDto> update(
-            @PathVariable Long id, @RequestBody AccountDetailsRequestDto accountDetailsRequestDto) {
+            @PathVariable Long id,@Valid @RequestBody AccountDetailsRequestDto accountDetailsRequestDto) {
         final AccountDetailsResponseDto accountDetailsResponseDto = accountDetailsService.update(
                 id, accountDetailsRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body(accountDetailsResponseDto);

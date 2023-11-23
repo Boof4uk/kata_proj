@@ -31,6 +31,7 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -79,15 +80,15 @@ class ProfileServiceImplTest {
         profileList.add(profile);
         profileResponseDtoList.add(profileResponseDto);
 
-        lenient().when(profileMapper.toEntity(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(profile);
-        lenient().when(profileMapper.toDto(Mockito.any())).thenReturn(profileResponseDto);
-        lenient().when(profileRepository.save(Mockito.any())).thenReturn(profile);
-        lenient().when(passportRepository.findById(Mockito.any())).thenReturn(Optional.of(passport));
-        lenient().when(actualRegistrationRepository.findById(Mockito.any())).thenReturn(Optional.of(actualRegistration));
+        lenient().when(profileMapper.toEntity(any(), any(), any())).thenReturn(profile);
+        lenient().when(profileMapper.toDto(any())).thenReturn(profileResponseDto);
+        lenient().when(profileRepository.save(any())).thenReturn(profile);
+        lenient().when(passportRepository.findById(any())).thenReturn(Optional.of(passport));
+        lenient().when(actualRegistrationRepository.findById(any())).thenReturn(Optional.of(actualRegistration));
         lenient().when(profileRepository.findById(1L)).thenReturn(Optional.of(profile));
     }
     @Test
-    void createShouldSuccessfullyCreateProfile() {
+   public void createShouldSuccessfullyCreateProfileTest() {
 
         ProfileResponseDto createdProfileResponseDto = profileService.create(profileRequestDto);
 
@@ -110,7 +111,7 @@ class ProfileServiceImplTest {
     }
 
     @Test
-    void getById() {
+   public void getByIdTest() {
 
         ProfileResponseDto getProfileResponseDto = profileService.getById(1L);
         assertEquals(profileResponseDto, getProfileResponseDto);
@@ -118,7 +119,7 @@ class ProfileServiceImplTest {
 
     }
     @Test
-    void getByIdShouldThrowResourceNotFoundExceptionWhenNotFound() {
+    public void getByIdShouldThrowResourceNotFoundExceptionWhenNotFoundTest() {
         when(profileRepository.findById(1L)).thenReturn(Optional.empty());
 
         assertThrows(ResourceNotFoundException.class, () -> profileService.getById(1L));
@@ -127,7 +128,7 @@ class ProfileServiceImplTest {
     }
 
     @Test
-    void update() {
+   public void updateTest() {
         ProfileResponseDto updateProfileResponseDto = profileService.update(1L, profileRequestDto);
 
         assertEquals(profileResponseDto, updateProfileResponseDto);
@@ -148,9 +149,8 @@ class ProfileServiceImplTest {
 
     }
     @Test
-    void updateShouldThrowExceptionWhenProfileNotFound() {
+    public void updateShouldThrowExceptionWhenProfileNotFoundTest() {
         Long nonExistentId = 999L;
-
 
         when(profileRepository.findById(nonExistentId)).thenReturn(Optional.empty());
 
@@ -160,13 +160,13 @@ class ProfileServiceImplTest {
     }
 
     @Test
-    void delete() {
+    public void deleteTest() {
         when(profileRepository.findById(1L)).thenReturn(Optional.of(profile));
         profileService.delete(1L);
         verify(profileRepository).delete(profile);
     }
     @Test
-    void deleteShouldThrowResourceNotFoundExceptionWhenNotFound() {
+  public   void deleteShouldThrowResourceNotFoundExceptionWhenNotFoundTest() {
         when(profileRepository.findById(1L)).thenReturn(Optional.empty());
         assertThrows(ResourceNotFoundException.class, () -> profileService.delete(1L));
         verify(profileRepository).findById(1L);
@@ -174,7 +174,7 @@ class ProfileServiceImplTest {
     }
 
     @Test
-    void getAll() {
+    public void getAllTest() {
         when(profileRepository.findAll()).thenReturn(profileList);
         when(profileMapper.toDTOList(profileList)).thenReturn(profileResponseDtoList);
 

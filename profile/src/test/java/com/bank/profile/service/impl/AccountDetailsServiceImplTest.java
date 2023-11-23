@@ -52,7 +52,7 @@ class AccountDetailsServiceImplTest {
     private ProfileResponseDto profileResponseDto;
 
     @BeforeEach
-    void setUp() {
+  public   void setUp() {
         profile = mock(Profile.class);
         profileResponseDto = mock(ProfileResponseDto.class);
         accountDetails = new AccountDetails(1L, 1L, profile);
@@ -70,7 +70,7 @@ class AccountDetailsServiceImplTest {
     }
 
     @Test
-    void create() {
+   public void createTest() {
         AccountDetailsResponseDto result = accountDetailsService.create(accountDetailsRequestDto);
         assertNotNull(result);
         assertEquals(accountDetailsResponseDto, result);
@@ -86,7 +86,7 @@ class AccountDetailsServiceImplTest {
     }
 
     @Test
-    void getByIdSuccess() {
+    public void getByIdSuccessTest() {
 
         AccountDetailsResponseDto result = accountDetailsService.getById(1L);
 
@@ -96,14 +96,14 @@ class AccountDetailsServiceImplTest {
     }
 
     @Test
-    void getByIdNotFound() {
+   public void getByIdNotFoundTest() {
         when(accountDetailsRepository.findById(1L)).thenReturn(Optional.empty());
 
         assertThrows(ResourceNotFoundException.class, () -> accountDetailsService.getById(1L));
     }
 
     @Test
-    void update() {
+    public void updateTest() {
         when(accountDetailsRepository.findById(1L)).thenReturn(Optional.of(accountDetails));
         when(profileRepository.findById(1L)).thenReturn(Optional.of(profile));
         when(accountDetailsMapper.toEntity(any(AccountDetailsRequestDto.class), any(ProfileRepository.class))).thenReturn(accountDetails);
@@ -118,14 +118,14 @@ class AccountDetailsServiceImplTest {
     }
 
     @Test
-    void updateNotFound() {
+    public void updateNotFoundTest() {
         when(accountDetailsRepository.findById(1L)).thenReturn(Optional.empty());
 
         assertThrows(ResourceNotFoundException.class, () -> accountDetailsService.update(1L, accountDetailsRequestDto));
     }
 
     @Test
-    void deleteSuccess() {
+    public void deleteSuccessTest() {
         when(accountDetailsRepository.findById(1L)).thenReturn(Optional.of(accountDetails));
 
         accountDetailsService.delete(1L);
@@ -134,7 +134,7 @@ class AccountDetailsServiceImplTest {
     }
 
     @Test
-    void getAllProfileId() {
+    public void getAllProfileIdTest() {
         when(accountDetailsRepository.findByProfileId(1L)).thenReturn(new HashSet<>(accountDetailsList));
         when(accountDetailsMapper.toDTOList(accountDetailsList)).thenReturn(accountDetailsResponseDtoList);
 
@@ -146,7 +146,7 @@ class AccountDetailsServiceImplTest {
     }
 
     @Test
-    void getAllProfileIdNotFound() {
+   public void getAllProfileIdNotFoundTest() {
         Long nonExistentId = 999L;
         when(accountDetailsService.getByProfileId(nonExistentId))
                 .thenThrow(new ResourceNotFoundException("Profile", "id", nonExistentId));
