@@ -67,10 +67,8 @@ public class ActualRegistrationController {
                             schema = @Schema(implementation = ApiErrorResponse.class))
             })
     })
-    public ResponseEntity<ActualRegistrationResponseDto> update(@Valid
-             @PathVariable Long id, @RequestBody ActualRegistrationRequestDto actualRegistrationRequestDto) {
-        final ActualRegistrationResponseDto registrationResponseDto =
-                actualRegistrationService.update(id, actualRegistrationRequestDto);
+    public ResponseEntity<ActualRegistrationResponseDto> update( @PathVariable Long id,@Valid  @RequestBody ActualRegistrationRequestDto actualRegistrationRequestDto) {
+        ActualRegistrationResponseDto registrationResponseDto = actualRegistrationService.update(id, actualRegistrationRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body(registrationResponseDto);
     }
 
