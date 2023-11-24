@@ -10,6 +10,8 @@ import com.bank.profile.repository.RegistrationRepository;
 import com.bank.profile.service.RegistrationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.PropertyValueException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,7 +32,9 @@ public class RegistrationServiceIml implements RegistrationService {
         } catch (EntityNameExistsException e) {
             log.error("Error creating registration: {}", e.getMessage());
             throw e;
-
+        }catch (DataIntegrityViolationException e) {
+            log.error("Error creating registration: {}", e.getMessage());
+            throw new EntityNameExistsException("bad json RegistrationRequestDto");
         }
     }
 
