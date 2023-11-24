@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class OpenApiConfig {
-    public OpenAPI customizeOpenApi(){
+    public OpenAPI customizeOpenApi() {
         return new OpenAPI().info(apiInfo());
     }
     private Info apiInfo() {

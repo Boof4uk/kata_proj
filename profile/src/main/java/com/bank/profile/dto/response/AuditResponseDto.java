@@ -7,7 +7,7 @@ public record AuditResponseDto(
         @Schema(example = "1")
 
         Long id,
-       @Schema(example = "User")
+        @Schema(example = "User")
         String entityType,
         @Schema(example = "Create")
         String operationType,

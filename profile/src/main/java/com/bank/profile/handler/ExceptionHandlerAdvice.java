@@ -3,8 +3,8 @@ package com.bank.profile.handler;
 
 import com.bank.profile.component.ApiErrorResponse;
 import com.bank.profile.component.ApiResponse;
-import com.bank.profile.exeption.EntityNameExistsException;
-import com.bank.profile.exeption.ResourceNotFoundException;
+import com.bank.profile.exception.EntityNameExistsException;
+import com.bank.profile.exception.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -40,9 +40,9 @@ public class ExceptionHandlerAdvice {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiErrorResponse> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        List<String> errors = new ArrayList<>();
+        final List<String> errors = new ArrayList<>();
         ex.getBindingResult().getAllErrors().forEach((error) -> {
-            String errorMessage = error.getDefaultMessage();
+            final String errorMessage = error.getDefaultMessage();
             errors.add(errorMessage);
         });
         return ApiResponse.buildErrorResponse(HttpStatus.BAD_REQUEST, errors.toString().replaceAll("^\\[|\\]$", ""));

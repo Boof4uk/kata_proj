@@ -2,6 +2,8 @@ package com.bank.profile.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
+import javax.validation.constraints.NotBlank;
+
 @Schema(description = "Registration request data")
 public record RegistrationRequestDto(
         @Schema(
@@ -9,7 +11,7 @@ public record RegistrationRequestDto(
                 example = "Russia",
                 required = true,
                 maxLength = 166
-        )
+        )@NotBlank(message = "Country is mandatory")
         String country,
 
         @Schema(

@@ -3,8 +3,8 @@ package com.bank.profile.service.impl;
 import com.bank.profile.dto.request.ProfileRequestDto;
 import com.bank.profile.dto.response.ProfileResponseDto;
 import com.bank.profile.entity.Profile;
-import com.bank.profile.exeption.EntityNameExistsException;
-import com.bank.profile.exeption.ResourceNotFoundException;
+import com.bank.profile.exception.EntityNameExistsException;
+import com.bank.profile.exception.ResourceNotFoundException;
 import com.bank.profile.mapper.ProfileMapper;
 import com.bank.profile.repository.ActualRegistrationRepository;
 import com.bank.profile.repository.PassportRepository;
@@ -30,9 +30,12 @@ public class ProfileServiceImpl implements ProfileService {
         log.info("Creating profile with request: {}", profileRequestDto);
         try {
             passportRepository.findById(profileRequestDto.passportId())
-                    .orElseThrow(() -> new ResourceNotFoundException("Passport create Profile", "PassportId", profileRequestDto.passportId()));
+                    .orElseThrow(() -> new ResourceNotFoundException(
+                            "Passport create Profile", "PassportId", profileRequestDto.passportId()));
             actualRegistrationRepository.findById(profileRequestDto.actualRegistrationId())
-                    .orElseThrow(() -> new ResourceNotFoundException("ActualRegistration create Profile", "ActualRegistrationId", profileRequestDto.actualRegistrationId()));
+                    .orElseThrow(() -> new ResourceNotFoundException(
+                            "ActualRegistration create Profile", "ActualRegistrationId",
+                            profileRequestDto.actualRegistrationId()));
             return profileMapper.toDto(profileRepository
                     .save(profileMapper.toEntity(profileRequestDto, passportRepository, actualRegistrationRepository)));
         } catch (ResourceNotFoundException e) {
@@ -58,13 +61,17 @@ public class ProfileServiceImpl implements ProfileService {
     public ProfileResponseDto update(Long id, ProfileRequestDto profileRequestDto) {
         log.info("Updating profile with id: {} and request: {}", id, profileRequestDto);
         try {
-            Profile profile = profileRepository.findById(id).orElseThrow((
+            final Profile profile = profileRepository.findById(id).orElseThrow((
             ) -> new ResourceNotFoundException("Profile update", "ProfileId", id));
             passportRepository.findById(profileRequestDto.passportId())
-                    .orElseThrow(() -> new ResourceNotFoundException("Passport update Profile", "PassportId", profileRequestDto.passportId()));
+                    .orElseThrow(() -> new ResourceNotFoundException(
+                            "Passport update Profile", "PassportId", profileRequestDto.passportId()));
             actualRegistrationRepository.findById(profileRequestDto.actualRegistrationId())
-                    .orElseThrow(() -> new ResourceNotFoundException("ActualRegistration update Profile", "ActualRegistrationId", profileRequestDto.actualRegistrationId()));
-            Profile profileUpdate = profileMapper.toEntity(profileRequestDto, passportRepository, actualRegistrationRepository);
+                    .orElseThrow(() -> new ResourceNotFoundException(
+                            "ActualRegistration update Profile",
+                            "ActualRegistrationId", profileRequestDto.actualRegistrationId()));
+            final Profile profileUpdate = profileMapper.toEntity(
+                    profileRequestDto, passportRepository, actualRegistrationRepository);
             profileUpdate.setId(profile.getId());
             return profileMapper.toDto(profileRepository.save(profileUpdate));
         } catch (ResourceNotFoundException e) {
@@ -77,7 +84,7 @@ public class ProfileServiceImpl implements ProfileService {
     public void delete(Long id) {
         log.info("Deleting profile with id: {}", id);
         try {
-            Profile profile = profileRepository.findById(id).orElseThrow((
+            final Profile profile = profileRepository.findById(id).orElseThrow((
             ) -> new ResourceNotFoundException("Profile delete", "ProfileId", id));
             profileRepository.delete(profile);
         } catch (ResourceNotFoundException e) {

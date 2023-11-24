@@ -2,6 +2,7 @@ package com.bank.profile.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 @Schema(description = "Audit request data")
@@ -12,6 +13,7 @@ public record AuditRequestDto(
                 required = true,
                 maxLength = 40
         )
+        @NotBlank(message = "Entity type is mandatory")
         String entityType,
 
         @Schema(
@@ -20,6 +22,7 @@ public record AuditRequestDto(
                 required = true,
                 maxLength = 255
         )
+                @NotBlank(message = "Operation type is mandatory")
         String operationType,
 
         @Schema(
@@ -27,7 +30,7 @@ public record AuditRequestDto(
                 example = "admin",
                 required = true,
                 maxLength = 255
-        )
+        )@NotBlank(message = "Created by is mandatory")
         String createdBy,
 
         @Schema(
@@ -41,7 +44,7 @@ public record AuditRequestDto(
                 description = "Timestamp of entity creation",
                 example = "2023-10-31T12:00:00",
                 required = true
-        )
+        )@NotBlank(message = "Created at is mandatory")
         LocalDateTime createdAt,
 
         @Schema(
@@ -53,7 +56,7 @@ public record AuditRequestDto(
         @Schema(
                 description = "JSON representation of the new entity state",
                 example = "{\"name\":\"New User\",\"role\":\"admin\"}"
-        )
+        )@NotBlank(message = "New entity JSON is mandatory")
         String newEntityJson,
 
         @Schema(

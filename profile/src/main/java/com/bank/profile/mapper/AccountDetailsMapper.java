@@ -18,7 +18,8 @@ public interface AccountDetailsMapper {
     AccountDetailsResponseDto toDto(AccountDetails accountDetails);
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "profile", source = "profileId", qualifiedByName = "idToProfile")
-    AccountDetails toEntity(AccountDetailsRequestDto accountDetailsRequestDto, @Context ProfileRepository profileRepository);
+    AccountDetails toEntity(AccountDetailsRequestDto accountDetailsRequestDto,
+                            @Context ProfileRepository profileRepository);
 
     List<AccountDetailsResponseDto> toDTOList(List<AccountDetails> list);
     @Named("idToProfile")

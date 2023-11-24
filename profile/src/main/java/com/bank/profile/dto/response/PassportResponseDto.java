@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 @Schema(description = "Passport response")
 public record PassportResponseDto(
-@Schema(example = "1")
+        @Schema(example = "1")
         Long id,
         @Schema(description = "Series of the passport",
                 example = "1234")
@@ -22,9 +22,9 @@ public record PassportResponseDto(
         String gender,
         @Schema(example = "1990-01-01")
         String birthDate,
-        @Schema ( example = "City, Country")
+        @Schema(example = "City, Country")
         String birthPlace,
-        @Schema( example = "Department of State")
+        @Schema(example = "Department of State")
         String issuedBy,
         @Schema(example = "2010-01-01")
         String dateOfIssue,

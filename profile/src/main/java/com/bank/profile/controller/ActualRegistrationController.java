@@ -32,17 +32,22 @@ public class ActualRegistrationController {
     private final ActualRegistrationService actualRegistrationService;
 
     @PostMapping()
-    @Operation(summary = "Create actual registration ", description = "Creating actual registration and unique identifier assigning. Follows model's " +
-            "constraints to avoid unhandled errors")
+    @Operation(summary = "Create actual registration ",
+            description = "Creating actual registration and unique identifier assigning. Follows model's " +
+                    "constraints to avoid unhandled errors")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "ActualRegistration record created", content = {
-                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ActualRegistrationResponseDto.class))}),
+                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ActualRegistrationResponseDto.class))}),
             @ApiResponse(responseCode = "400", description = "Invalid request body", content = {
-                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ApiErrorResponse.class))
+                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ApiErrorResponse.class))
             })
     })
-    public ResponseEntity<ActualRegistrationResponseDto> create(@Valid @RequestBody ActualRegistrationRequestDto actualRegistrationRequestDto) {
-        ActualRegistrationResponseDto registrationResponseDto = actualRegistrationService.create(actualRegistrationRequestDto);
+    public ResponseEntity<ActualRegistrationResponseDto> create(@Valid
+            @RequestBody ActualRegistrationRequestDto actualRegistrationRequestDto) {
+        final ActualRegistrationResponseDto registrationResponseDto =
+                actualRegistrationService.create(actualRegistrationRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(registrationResponseDto);
     }
 
@@ -50,13 +55,16 @@ public class ActualRegistrationController {
     @Operation(summary = "Update actual registration ", description = "Update an existing actual registration  by id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Actual registration updated", content = {
-                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ActualRegistrationResponseDto.class))
+                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ActualRegistrationResponseDto.class))
             }),
             @ApiResponse(responseCode = "400", description = "Invalid request body", content = {
-                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ApiErrorResponse.class))
+                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ApiErrorResponse.class))
             }),
             @ApiResponse(responseCode = "409", description = "Invalid id", content = {
-                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ApiErrorResponse.class))
+                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ApiErrorResponse.class))
             })
     })
     public ResponseEntity<ActualRegistrationResponseDto> update( @PathVariable Long id,@Valid  @RequestBody ActualRegistrationRequestDto actualRegistrationRequestDto) {
@@ -68,14 +76,16 @@ public class ActualRegistrationController {
     @Operation(summary = "Get actual registration  by id", description = "Retrieve an actual registration  by its id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Actual registration  returned", content = {
-                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ActualRegistrationResponseDto.class))
+                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ActualRegistrationResponseDto.class))
             }),
             @ApiResponse(responseCode = "409", description = "Invalid id", content = {
-                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ApiErrorResponse.class))
+                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ApiErrorResponse.class))
             })
     })
     public ResponseEntity<ActualRegistrationResponseDto> getById(@PathVariable Long id) {
-        ActualRegistrationResponseDto registrationResponseDto = actualRegistrationService.getById(id);
+        final ActualRegistrationResponseDto registrationResponseDto = actualRegistrationService.getById(id);
         return ResponseEntity.status(HttpStatus.OK).body(registrationResponseDto);
     }
 
@@ -83,12 +93,13 @@ public class ActualRegistrationController {
     @Operation(summary = "Get all actual registration ", description = "Retrieve a list of all actual registration ")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "List of actual registration  returned", content = {
-                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = AuditResponseDto.class))
+                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = AuditResponseDto.class))
             })
     })
 
     public ResponseEntity<List<ActualRegistrationResponseDto>> getAll() {
-        List<ActualRegistrationResponseDto> registrationResponseDto = actualRegistrationService.getAll();
+        final List<ActualRegistrationResponseDto> registrationResponseDto = actualRegistrationService.getAll();
         return ResponseEntity.status(HttpStatus.OK).body(registrationResponseDto);
     }
 

@@ -20,6 +20,30 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>2.13.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>3.6.0</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>3.6.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-inline</artifactId>
+            <version>3.6.0</version>
+            <scope>test</scope>
+        </dependency>
 
         <dependency>
             <groupId>io.springfox</groupId>
@@ -59,6 +83,84 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.10</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>jcc-report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+
+                    <execution>
+                        <id>jacoco-check</id>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <phase>test</phase>
+                        <configuration>
+                            <rules>
+                                <rule>
+                                    <!--                                    <element>BUNDLE</element>-->
+                                    <!--                                    <element>PACKAGE</element>-->
+                                    <!--                                    <element>SOURCEFILE</element>-->
+                                    <!--                                    <element>METHOD</element>-->
+                                    <element>CLASS</element>
+                                    <limits>
+                                        <limit>
+                                            <counter>INSTRUCTION</counter>
+                                            <!--                                            <counter>LINE</counter>-->
+                                            <!--                                            <counter>BRANCH</counter>-->
+                                            <!--                                            <counter>COMPLEXITY</counter>-->
+                                            <!--                                            <counter>METHOD</counter>-->
+                                            <!--                                            <counter>CLASS</counter>-->
+
+                                            <value>MISSEDRATIO</value>
+                                            <maximum>20%</maximum>
+                                            <!--                                            <value>MISSEDCOUNT</value>-->
+                                            <!--                                            <maximum>2</maximum>-->
+                                            <!--                                            <value>COVEREDRATIO</value>-->
+                                            <!--                                            <minimum>90%</minimum>-->
+                                            <!--                                            <value>COVEREDCOUNT</value>-->
+                                            <!--                                            <minimum>90</minimum>-->
+                                            <!--                                            <value>TOTALCOUNT</value>-->
+                                            <!--                                            <minimum>90</minimum>-->
+                                        </limit>
+                                    </limits>
+                                </rule>
+                            </rules>
+                        </configuration>
+                    </execution>
+
+                </executions>
+                <configuration>
+                    <excludes>
+                        <exclude>com/bank/profile/dto/**</exclude>
+                        <exclude>com/bank/profile/component/**</exclude>
+                        <exclude>com/bank/profile/config/**</exclude>
+                        <exclude>com/bank/profile/entity/**</exclude>
+                        <exclude>com/bank/profile/repository/**</exclude>
+                        <exclude>com/bank/profile/mapper/**</exclude>
+                        <exclude>com/bank/profile/handler/*</exclude>
+                        <exclude>com/bank/profile/exception/*</exclude>
+                        <exclude>com/bank/profile/service/**/PassportServiceImpl.class</exclude>
+                        <exclude>com/bank/profile/service/**/ActualRegistrationServiceImpl.class</exclude>
+                        <exclude>com/bank/profile/controller/**/PassportController.class</exclude>
+                        <exclude>com/bank/profile/controller/**/ActualRegistrationController.class</exclude>
+                        <exclude>com/bank/profile/ProfileApplication.class</exclude>
+
+                    </excludes>
+                </configuration>
             </plugin>
         </plugins>
     </build>

@@ -3,8 +3,8 @@ package com.bank.profile.service.impl;
 import com.bank.profile.dto.request.RegistrationRequestDto;
 import com.bank.profile.dto.response.RegistrationResponseDto;
 import com.bank.profile.entity.Registration;
-import com.bank.profile.exeption.EntityNameExistsException;
-import com.bank.profile.exeption.ResourceNotFoundException;
+import com.bank.profile.exception.EntityNameExistsException;
+import com.bank.profile.exception.ResourceNotFoundException;
 import com.bank.profile.mapper.RegistrationMapper;
 import com.bank.profile.repository.RegistrationRepository;
 import com.bank.profile.service.RegistrationService;
@@ -38,8 +38,6 @@ public class RegistrationServiceIml implements RegistrationService {
     public List<RegistrationResponseDto> getAll() {
         log.info("Getting all registrations");
         try {
-
-
             return registrationMapper.toDTOList(registrationRepository.findAll());
         } catch (EntityNameExistsException e) {
             log.error("Error getting all registrations: {}", e.getMessage());
@@ -53,7 +51,7 @@ public class RegistrationServiceIml implements RegistrationService {
         try {
 
 
-            Registration registration = registrationRepository.findById(id)
+            final Registration registration = registrationRepository.findById(id)
                     .orElseThrow(()
                             -> new ResourceNotFoundException("Registration getById", "RegistrationId", id));
             return registrationMapper.toDto(registration);
@@ -67,10 +65,10 @@ public class RegistrationServiceIml implements RegistrationService {
     public RegistrationResponseDto update(Long id, RegistrationRequestDto registrationRequestDto) {
         log.info("Updating registration with id: {} and request: {}", id, registrationRequestDto);
         try {
-            Registration registration = registrationRepository.findById(id)
+            final Registration registration = registrationRepository.findById(id)
                     .orElseThrow(()
                             -> new ResourceNotFoundException("Registration update", "RegistrationId", id));
-            Registration registrationUpdate = registrationMapper.toEntity(registrationRequestDto);
+            final Registration registrationUpdate = registrationMapper.toEntity(registrationRequestDto);
             registrationUpdate.setId(registration.getId());
             return registrationMapper.toDto(registrationRepository.save(registrationUpdate));
         } catch (ResourceNotFoundException e) {
