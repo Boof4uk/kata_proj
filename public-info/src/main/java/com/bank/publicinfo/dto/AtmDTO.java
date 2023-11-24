@@ -2,11 +2,18 @@ package com.bank.publicinfo.dto;
 
 import com.bank.publicinfo.entity.Branch;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalTime;
-@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @Schema(description = "Сущность банкомат")
 public class AtmDTO {
 

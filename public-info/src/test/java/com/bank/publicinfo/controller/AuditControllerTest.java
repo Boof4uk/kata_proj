@@ -56,11 +56,6 @@ class AuditControllerTest {
                 "json, заполняется при изменении и сохранении");;
         return List.of(auditDTO1,auditDTO2);
     }
-
-    @BeforeEach
-    public void setUp() {
-    }
-
     @Test
     public void getAllTest() throws Exception {
         Mockito.when(auditService.getAll()).thenReturn(getAudits());
@@ -131,7 +126,6 @@ class AuditControllerTest {
                         .content(auditJson))
                 .andExpect(status().isBadRequest());
     }
-
     @Test
     public void deleteAuditTest() throws Exception {
         Long id = 1L;
