@@ -2,6 +2,9 @@ server:
   port: 8092
   servlet:
     context-path: /api/transfer
+logging:
+  level:
+      org.springframework.boot.autoconfigure.jdbc: DEBUG
 management:
   server:
     port: 8191
@@ -14,8 +17,8 @@ management:
         include: '*'
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
-    username: user
+    url: jdbc:postgresql://localhost:5433/postgres
+    username: postgres
     password: password
   liquibase:
     default-schema: transfer
