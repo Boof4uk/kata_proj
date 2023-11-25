@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @AllArgsConstructor
@@ -24,10 +25,11 @@ public class License {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    
+
+    @NotNull
     private byte[] photo;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "bank_details_id", nullable = true)
+    @JoinColumn(name = "bank_details_id", nullable = false)
     private BankDetails bankDetails;
 }

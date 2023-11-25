@@ -35,17 +35,21 @@ class AuditControllerTest {
 
     @Autowired
     ObjectMapper objectMapper;
-    private List<AuditDTO> getAudits(){
-        AuditDTO auditDTO1 = new AuditDTO(1L,
+    
+    private AuditDTO auditDTO1;
+    private AuditDTO auditDTO2;
+    @BeforeEach
+    public void setUp(){
+        auditDTO1 = new AuditDTO(1L,
                 "тип сущности",
                 "тип операции",
                 "кто создал",
                 "кто изменил",
-                "2023-11-14 20:36:36",
-                "2023-11-14 20:36:36",
+                "2023-11-14T20:36:36",
+                "2023-11-14T20:36:36",
                 "json, заполняется при изменении",
                 "json, заполняется при изменении и сохранении");
-        AuditDTO auditDTO2 = new AuditDTO(2L,
+        auditDTO2 = new AuditDTO(2L,
                 "тип сущности",
                 "тип операции",
                 "кто создал",
@@ -54,11 +58,10 @@ class AuditControllerTest {
                 "2023-11-14T20:36:36",
                 "json, заполняется при изменении",
                 "json, заполняется при изменении и сохранении");;
-        return List.of(auditDTO1,auditDTO2);
     }
     @Test
     public void getAllTest() throws Exception {
-        Mockito.when(auditService.getAll()).thenReturn(getAudits());
+        Mockito.when(auditService.getAll()).thenReturn(List.of(auditDTO1,auditDTO2));
 
         mockMvc.perform(get("/audit"))
                 .andExpect(status().isOk())
@@ -67,7 +70,7 @@ class AuditControllerTest {
 
     @Test
     public void getAuditTest() throws Exception {
-        Mockito.when(auditService.find(1L)).thenReturn(getAudits().get(0));
+        Mockito.when(auditService.find(1L)).thenReturn(auditDTO1);
 
         mockMvc.perform(get("/audit/1"))
                 .andExpect(status().isOk())
@@ -85,7 +88,7 @@ class AuditControllerTest {
 
     @Test
     public void createAuditTest() throws Exception {
-        String auditJson = objectMapper.writeValueAsString(getAudits().get(1));
+        String auditJson = objectMapper.writeValueAsString(auditDTO1);
         mockMvc.perform(post("/audit")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(auditJson))
@@ -95,7 +98,7 @@ class AuditControllerTest {
 
     @Test
     public void notValidCreateAuditTest() throws Exception {
-        AuditDTO badAuditDto = getAudits().get(1);
+        AuditDTO badAuditDto = auditDTO1;
         badAuditDto.setCreatedAt(null);
         String auditJson = objectMapper.writeValueAsString(badAuditDto);
 
@@ -107,7 +110,7 @@ class AuditControllerTest {
 
     @Test
     public void editAuditTest() throws Exception {
-        String auditJson = objectMapper.writeValueAsString(getAudits().get(1));
+        String auditJson = objectMapper.writeValueAsString(auditDTO1);
         mockMvc.perform(put("/audit")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(auditJson))
@@ -117,7 +120,7 @@ class AuditControllerTest {
 
     @Test
     public void notValidEditAuditTest() throws Exception {
-        AuditDTO badAuditDto = getAudits().get(1);
+        AuditDTO badAuditDto = auditDTO1;
         badAuditDto.setCreatedAt(null);
         String auditJson = objectMapper.writeValueAsString(badAuditDto);
 

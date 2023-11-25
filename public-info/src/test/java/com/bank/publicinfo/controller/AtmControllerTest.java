@@ -3,6 +3,7 @@ package com.bank.publicinfo.controller;
 import com.bank.publicinfo.dto.AtmDTO;
 import com.bank.publicinfo.service.AtmService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,25 +37,27 @@ class AtmControllerTest {
     @Autowired
     ObjectMapper objectMapper;
 
-    private List<AtmDTO> getAtms(){
-        AtmDTO atmDTO1 = new AtmDTO(1L,
+    private AtmDTO atmDTO1;
+    private AtmDTO atmDTO2;
+    @BeforeEach
+    public void setUp(){
+        atmDTO1 = new AtmDTO(1L,
                 "адрес",
                 LocalTime.of(10,0),
                 LocalTime.of(20,0),
                 true,
                 null);
-        AtmDTO atmDTO2 = new AtmDTO(2L,
+        atmDTO2 = new AtmDTO(2L,
                 "адрес2",
                 LocalTime.of(11,0),
                 LocalTime.of(21,0),
                 true,
                 null);
-        return List.of(atmDTO1,atmDTO2);
     }
 
     @Test
-    void getAllTest() throws Exception {
-        Mockito.when(atmService.getAll()).thenReturn(getAtms());
+    public void getAllTest() throws Exception {
+        Mockito.when(atmService.getAll()).thenReturn(List.of(atmDTO1,atmDTO2));
 
         mockMvc.perform(get("/atm"))
                 .andExpect(status().isOk())
@@ -62,8 +65,8 @@ class AtmControllerTest {
     }
 
     @Test
-    void getAtmTest() throws Exception {
-        Mockito.when(atmService.find(1L)).thenReturn(getAtms().get(0));
+    public void getAtmTest() throws Exception {
+        Mockito.when(atmService.find(1L)).thenReturn(atmDTO1);
 
         mockMvc.perform(get("/atm/1"))
                 .andExpect(status().isOk())
@@ -81,7 +84,7 @@ class AtmControllerTest {
     }
     @Test
     void createAtmTest() throws Exception {
-        String atmJson = objectMapper.writeValueAsString(getAtms().get(1));
+        String atmJson = objectMapper.writeValueAsString(atmDTO1);
         mockMvc.perform(post("/atm")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(atmJson))
@@ -91,7 +94,7 @@ class AtmControllerTest {
 
     @Test
     public void notValidCreateAtmTest() throws Exception {
-        AtmDTO badAtmDto = getAtms().get(1);
+        AtmDTO badAtmDto = atmDTO2;
         badAtmDto.setAddress(null);
         String atmJson = objectMapper.writeValueAsString(badAtmDto);
 
@@ -102,7 +105,7 @@ class AtmControllerTest {
     }
     @Test
     void editAtmTest() throws Exception {
-        String atmJson = objectMapper.writeValueAsString(getAtms().get(1));
+        String atmJson = objectMapper.writeValueAsString(atmDTO2);
         mockMvc.perform(put("/atm")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(atmJson))
@@ -112,7 +115,7 @@ class AtmControllerTest {
 
     @Test
     public void notValidEditAtmTest() throws Exception {
-        AtmDTO badAtmDto = getAtms().get(1);
+        AtmDTO badAtmDto = atmDTO2;
         badAtmDto.setAddress(null);
         String atmJson = objectMapper.writeValueAsString(badAtmDto);
 
