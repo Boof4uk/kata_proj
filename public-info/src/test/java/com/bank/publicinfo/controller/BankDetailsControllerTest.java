@@ -60,7 +60,7 @@ class BankDetailsControllerTest {
     }
 
     @Test
-    void getAllTest() throws Exception {
+    public void getAllTest() throws Exception {
         Mockito.when(bankDetailsService.getAll()).thenReturn(List.of(bankDetailsDTO1,bankDetailsDTO2));
 
         mockMvc.perform(get("/bankdetails"))
@@ -70,7 +70,7 @@ class BankDetailsControllerTest {
     }
 
     @Test
-    void getBankDetailsTest() throws Exception {
+    public void getBankDetailsTest() throws Exception {
         Mockito.when(bankDetailsService.find(1L)).thenReturn(bankDetailsDTO1);
 
         mockMvc.perform(get("/bankdetails/1"))
@@ -89,7 +89,7 @@ class BankDetailsControllerTest {
     }
 
     @Test
-    void createBankDetailsTest() throws Exception {
+    public void createBankDetailsTest() throws Exception {
         String auditJson = objectMapper.writeValueAsString(bankDetailsDTO1);
         mockMvc.perform(post("/bankdetails")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -111,7 +111,7 @@ class BankDetailsControllerTest {
     }
 
     @Test
-    void editBankDetailsTest() throws Exception {
+    public void editBankDetailsTest() throws Exception {
         String bankDetailsJson = objectMapper.writeValueAsString(bankDetailsDTO1);
         mockMvc.perform(put("/bankdetails")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -133,7 +133,7 @@ class BankDetailsControllerTest {
     }
 
     @Test
-    void deleteBankDetailsTest() throws Exception {
+    public void deleteBankDetailsTest() throws Exception {
         Long id = 1L;
         mockMvc.perform(delete("/bankdetails/"+ id))
                 .andExpect(status().isOk());

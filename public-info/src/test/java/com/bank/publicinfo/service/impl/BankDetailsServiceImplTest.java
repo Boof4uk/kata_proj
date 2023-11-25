@@ -65,7 +65,7 @@ class BankDetailsServiceImplTest {
     проверяем что bankDetails маппер вызвался для всех объектов
      */
     @Test
-    void getAllTest() {
+    public void getAllTest() {
         List<BankDetails> bankDetailsList = List.of(bankDetails);
         when(bankDetailsRepository.findAll()).thenReturn(bankDetailsList);
 
@@ -85,7 +85,7 @@ class BankDetailsServiceImplTest {
         один раз вызвался bankDetailsMapper на объект bankDetailsDto
      */
     @Test
-    void saveTest() {
+    public void saveTest() {
         doReturn(bankDetails).when(bankDetailsMapper).dtoToEntity(bankDetailsDTO);
 
         bankDetailsService.save(bankDetailsDTO);
@@ -95,7 +95,7 @@ class BankDetailsServiceImplTest {
     }
 
     @Test
-    void findTest() {
+    public void findTest() {
         Long id = 1L;
         when(bankDetailsRepository.findById(id)).thenReturn(Optional.of(bankDetails));
         when(bankDetailsMapper.entityToDto(bankDetails)).thenReturn(bankDetailsDTO);
@@ -109,7 +109,7 @@ class BankDetailsServiceImplTest {
     }
 
     @Test
-    void findIsNotValidTest() {
+    public void findIsNotValidTest() {
         Long id = 111L;
         when(bankDetailsRepository.findById(id)).thenReturn(Optional.empty());
 
@@ -117,7 +117,7 @@ class BankDetailsServiceImplTest {
     }
 
     @Test
-    void updateTest() {
+    public void updateTest() {
         doReturn(bankDetails).when(bankDetailsMapper).dtoToEntity(bankDetailsDTO);
         when(bankDetailsRepository.findById(1L)).thenReturn(Optional.of(bankDetails));
 
@@ -128,7 +128,7 @@ class BankDetailsServiceImplTest {
     }
 
     @Test
-    void updateNotValidTest() {
+    public void updateNotValidTest() {
         when(bankDetailsRepository.findById(bankDetailsDTO.getId())).thenReturn(Optional.empty());
 
         assertThrows(EntityNotFoundException.class, () -> bankDetailsService.update(bankDetailsDTO));
@@ -136,7 +136,7 @@ class BankDetailsServiceImplTest {
 
 
     @Test
-    void deleteTest() {
+    public void deleteTest() {
         Long validId = 1L;
         when(bankDetailsRepository.findById(validId)).thenReturn(Optional.of(bankDetails));
 
@@ -146,7 +146,7 @@ class BankDetailsServiceImplTest {
     }
 
     @Test
-    void deleteNotValidTest() {
+    public void deleteNotValidTest() {
         Long notValid = 10L;
         when(bankDetailsRepository.findById(notValid)).thenReturn(Optional.empty());
 

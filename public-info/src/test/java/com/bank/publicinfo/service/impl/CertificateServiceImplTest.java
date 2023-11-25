@@ -53,7 +53,7 @@ class CertificateServiceImplTest {
     проверяем что certificate маппер вызвался для всех объектов
      */
     @Test
-    void getAllTest() {
+    public void getAllTest() {
         List<Certificate> certificateList = List.of(certificate);
         when(certificateRepository.findAll()).thenReturn(certificateList);
 
@@ -73,7 +73,7 @@ class CertificateServiceImplTest {
         один раз вызвался certificateMapper на объект certificateDto
      */
     @Test
-    void saveTest() {
+    public void saveTest() {
         doReturn(certificate).when(certificateMapper).dtoToEntity(certificateDTO);
 
         certificateService.save(certificateDTO);
@@ -83,7 +83,7 @@ class CertificateServiceImplTest {
     }
 
     @Test
-    void findTest() {
+    public void findTest() {
         Long id = 1L;
         when(certificateRepository.findById(id)).thenReturn(Optional.of(certificate));
         when(certificateMapper.entityToDto(certificate)).thenReturn(certificateDTO);
@@ -97,7 +97,7 @@ class CertificateServiceImplTest {
     }
 
     @Test
-    void findIsNotValidTest() {
+    public void findIsNotValidTest() {
         Long id = 111L;
         when(certificateRepository.findById(id)).thenReturn(Optional.empty());
 
@@ -105,7 +105,7 @@ class CertificateServiceImplTest {
     }
 
     @Test
-    void updateTest() {
+    public void updateTest() {
         doReturn(certificate).when(certificateMapper).dtoToEntity(certificateDTO);
         when(certificateRepository.findById(1L)).thenReturn(Optional.of(certificate));
 
@@ -116,7 +116,7 @@ class CertificateServiceImplTest {
     }
 
     @Test
-    void updateNotValidTest() {
+    public void updateNotValidTest() {
         when(certificateRepository.findById(certificateDTO.getId())).thenReturn(Optional.empty());
 
         assertThrows(EntityNotFoundException.class, () -> certificateService.update(certificateDTO));
@@ -124,7 +124,7 @@ class CertificateServiceImplTest {
 
 
     @Test
-    void deleteTest() {
+    public void deleteTest() {
         Long validId = 1L;
         when(certificateRepository.findById(validId)).thenReturn(Optional.of(certificate));
 
@@ -134,7 +134,7 @@ class CertificateServiceImplTest {
     }
 
     @Test
-    void deleteNotValidTest() {
+    public void deleteNotValidTest() {
         Long notValid = 10L;
         when(certificateRepository.findById(notValid)).thenReturn(Optional.empty());
 

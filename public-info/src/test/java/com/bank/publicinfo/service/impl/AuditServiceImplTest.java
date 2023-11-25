@@ -69,7 +69,7 @@ class AuditServiceImplTest {
     проверяем что audit маппер вызвался для всех объектов
      */
     @Test
-    void getAllTest() {
+    public void getAllTest() {
         List<Audit> auditList = List.of(audit);
         when(auditRepository.findAll()).thenReturn(auditList);
 
@@ -89,7 +89,7 @@ class AuditServiceImplTest {
         один раз вызвался auditMapper на объект auditDto
      */
     @Test
-    void saveTest() {
+    public void saveTest() {
         doReturn(audit).when(auditMapper).dtoToEntity(auditDTO);
 
         auditService.save(auditDTO);
@@ -99,7 +99,7 @@ class AuditServiceImplTest {
     }
 
     @Test
-    void findTest() {
+    public void findTest() {
         Long id = 1L;
         when(auditRepository.findById(id)).thenReturn(Optional.of(audit));
         when(auditMapper.entityToDto(audit)).thenReturn(auditDTO);
@@ -113,7 +113,7 @@ class AuditServiceImplTest {
     }
 
     @Test
-    void findIsNotValidTest() {
+    public void findIsNotValidTest() {
         Long id = 111L;
         when(auditRepository.findById(id)).thenReturn(Optional.empty());
 
@@ -121,7 +121,7 @@ class AuditServiceImplTest {
     }
 
     @Test
-    void updateTest() {
+    public void updateTest() {
         doReturn(audit).when(auditMapper).dtoToEntity(auditDTO);
         when(auditRepository.findById(1L)).thenReturn(Optional.of(audit));
 
@@ -132,7 +132,7 @@ class AuditServiceImplTest {
     }
 
     @Test
-    void updateNotValidTest() {
+    public void updateNotValidTest() {
         when(auditRepository.findById(auditDTO.getId())).thenReturn(Optional.empty());
 
         assertThrows(EntityNotFoundException.class, () -> auditService.update(auditDTO));
@@ -140,7 +140,7 @@ class AuditServiceImplTest {
 
 
     @Test
-    void deleteTest() {
+    public void deleteTest() {
         Long validId = 1L;
         when(auditRepository.findById(validId)).thenReturn(Optional.of(audit));
 
@@ -150,7 +150,7 @@ class AuditServiceImplTest {
     }
 
     @Test
-    void deleteNotValidTest() {
+    public void deleteNotValidTest() {
         Long notValid = 10L;
         when(auditRepository.findById(notValid)).thenReturn(Optional.empty());
 

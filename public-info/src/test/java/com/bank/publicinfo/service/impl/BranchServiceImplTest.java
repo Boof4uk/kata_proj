@@ -63,7 +63,7 @@ class BranchServiceImplTest {
     проверяем что branch маппер вызвался для всех объектов
      */
     @Test
-    void getAllTest() {
+    public void getAllTest() {
         List<Branch> branchList = List.of(branch);
         when(branchRepository.findAll()).thenReturn(branchList);
 
@@ -83,7 +83,7 @@ class BranchServiceImplTest {
         один раз вызвался branchMapper на объект branchDto
      */
     @Test
-    void saveTest() {
+    public void saveTest() {
         doReturn(branch).when(branchMapper).dtoToEntity(branchDTO);
 
         branchService.save(branchDTO);
@@ -93,7 +93,7 @@ class BranchServiceImplTest {
     }
 
     @Test
-    void findTest() {
+    public void findTest() {
         Long id = 1L;
         when(branchRepository.findById(id)).thenReturn(Optional.of(branch));
         when(branchMapper.entityToDto(branch)).thenReturn(branchDTO);
@@ -107,7 +107,7 @@ class BranchServiceImplTest {
     }
 
     @Test
-    void findIsNotValidTest() {
+    public void findIsNotValidTest() {
         Long id = 111L;
         when(branchRepository.findById(id)).thenReturn(Optional.empty());
 
@@ -115,7 +115,7 @@ class BranchServiceImplTest {
     }
 
     @Test
-    void updateTest() {
+    public void updateTest() {
         doReturn(branch).when(branchMapper).dtoToEntity(branchDTO);
         when(branchRepository.findById(1L)).thenReturn(Optional.of(branch));
 
@@ -126,7 +126,7 @@ class BranchServiceImplTest {
     }
 
     @Test
-    void updateNotValidTest() {
+    public void updateNotValidTest() {
         when(branchRepository.findById(branchDTO.getId())).thenReturn(Optional.empty());
 
         assertThrows(EntityNotFoundException.class, () -> branchService.update(branchDTO));
@@ -134,7 +134,7 @@ class BranchServiceImplTest {
 
 
     @Test
-    void deleteTest() {
+    public void deleteTest() {
         Long validId = 1L;
         when(branchRepository.findById(validId)).thenReturn(Optional.of(branch));
 
@@ -144,7 +144,7 @@ class BranchServiceImplTest {
     }
 
     @Test
-    void deleteNotValidTest() {
+    public void deleteNotValidTest() {
         Long notValid = 10L;
         when(branchRepository.findById(notValid)).thenReturn(Optional.empty());
 

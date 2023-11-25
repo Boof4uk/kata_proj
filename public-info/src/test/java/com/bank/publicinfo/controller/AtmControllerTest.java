@@ -83,7 +83,7 @@ class AtmControllerTest {
                 .andExpect(jsonPath("$.message").value("Atm not found"));
     }
     @Test
-    void createAtmTest() throws Exception {
+    public void createAtmTest() throws Exception {
         String atmJson = objectMapper.writeValueAsString(atmDTO1);
         mockMvc.perform(post("/atm")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -104,7 +104,7 @@ class AtmControllerTest {
                 .andExpect(status().isBadRequest());
     }
     @Test
-    void editAtmTest() throws Exception {
+    public void editAtmTest() throws Exception {
         String atmJson = objectMapper.writeValueAsString(atmDTO2);
         mockMvc.perform(put("/atm")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -126,7 +126,7 @@ class AtmControllerTest {
     }
     
     @Test
-    void deleteAtmTest() throws Exception {
+    public void deleteAtmTest() throws Exception {
         Long id = 1L;
         mockMvc.perform(delete("/atm/"+ id))
                 .andExpect(status().isOk());

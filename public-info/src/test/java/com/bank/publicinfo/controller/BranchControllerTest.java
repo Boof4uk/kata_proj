@@ -57,7 +57,7 @@ class BranchControllerTest {
     }
 
     @Test
-    void getAllTest() throws Exception {
+    public void getAllTest() throws Exception {
         Mockito.when(branchService.getAll()).thenReturn(List.of(branchDTO1,branchDTO2));
 
         mockMvc.perform(get("/branch"))

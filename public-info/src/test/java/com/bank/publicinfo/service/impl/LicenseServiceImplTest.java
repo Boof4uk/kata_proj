@@ -56,7 +56,7 @@ class LicenseServiceImplTest {
     проверяем что license маппер вызвался для всех объектов
      */
     @Test
-    void getAllTest() {
+    public void getAllTest() {
         List<License> licenseList = List.of(license);
         when(licenseRepository.findAll()).thenReturn(licenseList);
 
@@ -76,7 +76,7 @@ class LicenseServiceImplTest {
         один раз вызвался licenseMapper на объект licenseDto
      */
     @Test
-    void saveTest() {
+    public void saveTest() {
         doReturn(license).when(licenseMapper).dtoToEntity(licenseDTO);
 
         licenseService.save(licenseDTO);
@@ -86,7 +86,7 @@ class LicenseServiceImplTest {
     }
 
     @Test
-    void findTest() {
+    public void findTest() {
         Long id = 1L;
         when(licenseRepository.findById(id)).thenReturn(Optional.of(license));
         when(licenseMapper.entityToDto(license)).thenReturn(licenseDTO);
@@ -100,7 +100,7 @@ class LicenseServiceImplTest {
     }
 
     @Test
-    void findIsNotValidTest() {
+    public void findIsNotValidTest() {
         Long id = 111L;
         when(licenseRepository.findById(id)).thenReturn(Optional.empty());
 
@@ -108,7 +108,7 @@ class LicenseServiceImplTest {
     }
 
     @Test
-    void updateTest() {
+    public void updateTest() {
         doReturn(license).when(licenseMapper).dtoToEntity(licenseDTO);
         when(licenseRepository.findById(1L)).thenReturn(Optional.of(license));
 
@@ -119,7 +119,7 @@ class LicenseServiceImplTest {
     }
 
     @Test
-    void updateNotValidTest() {
+    public void updateNotValidTest() {
         when(licenseRepository.findById(licenseDTO.getId())).thenReturn(Optional.empty());
 
         assertThrows(EntityNotFoundException.class, () -> licenseService.update(licenseDTO));
@@ -127,7 +127,7 @@ class LicenseServiceImplTest {
 
 
     @Test
-    void deleteTest() {
+    public void deleteTest() {
         Long validId = 1L;
         when(licenseRepository.findById(validId)).thenReturn(Optional.of(license));
 
@@ -137,7 +137,7 @@ class LicenseServiceImplTest {
     }
 
     @Test
-    void deleteNotValidTest() {
+    public void deleteNotValidTest() {
         Long notValid = 10L;
         when(licenseRepository.findById(notValid)).thenReturn(Optional.empty());
 

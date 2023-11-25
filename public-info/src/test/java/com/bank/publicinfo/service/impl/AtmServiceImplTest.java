@@ -62,7 +62,7 @@ class AtmServiceImplTest {
     проверяем что atm маппер вызвался для всех объектов
      */
     @Test
-    void getAllTest() {
+    public void getAllTest() {
         List<Atm> atmList = List.of(atm);
         when(atmRepository.findAll()).thenReturn(atmList);
 
@@ -82,7 +82,7 @@ class AtmServiceImplTest {
         один раз вызвался atmMapper на объект atmDto
      */
     @Test
-    void saveTest() {
+    public void saveTest() {
         doReturn(atm).when(atmMapper).dtoToEntity(atmDTO);
 
         atmService.save(atmDTO);
@@ -92,7 +92,7 @@ class AtmServiceImplTest {
     }
 
     @Test
-    void findTest() {
+    public void findTest() {
         Long id = 1L;
         when(atmRepository.findById(id)).thenReturn(Optional.of(atm));
         when(atmMapper.entityToDto(atm)).thenReturn(atmDTO);
@@ -106,7 +106,7 @@ class AtmServiceImplTest {
     }
 
     @Test
-    void findIsNotValidTest() {
+    public void findIsNotValidTest() {
         Long id = 111L;
         when(atmRepository.findById(id)).thenReturn(Optional.empty());
 
@@ -114,7 +114,7 @@ class AtmServiceImplTest {
     }
 
     @Test
-    void updateTest() {
+    public void updateTest() {
         doReturn(atm).when(atmMapper).dtoToEntity(atmDTO);
         when(atmRepository.findById(1L)).thenReturn(Optional.of(atm));
 
@@ -125,7 +125,7 @@ class AtmServiceImplTest {
     }
 
     @Test
-    void updateNotValidTest() {
+    public void updateNotValidTest() {
         when(atmRepository.findById(atmDTO.getId())).thenReturn(Optional.empty());
 
         assertThrows(EntityNotFoundException.class, () -> atmService.update(atmDTO));
@@ -133,7 +133,7 @@ class AtmServiceImplTest {
 
 
     @Test
-    void deleteTest() {
+    public void deleteTest() {
         Long validId = 1L;
         when(atmRepository.findById(validId)).thenReturn(Optional.of(atm));
 
@@ -143,7 +143,7 @@ class AtmServiceImplTest {
     }
 
     @Test
-    void deleteNotValidTest() {
+    public void deleteNotValidTest() {
         Long notValid = 10L;
         when(atmRepository.findById(notValid)).thenReturn(Optional.empty());
 
