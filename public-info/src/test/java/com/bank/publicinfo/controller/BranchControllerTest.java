@@ -1,7 +1,7 @@
 package com.bank.publicinfo.controller;
 
-import com.bank.publicinfo.dto.AtmDTO;
-import com.bank.publicinfo.service.AtmService;
+import com.bank.publicinfo.dto.BranchDTO;
+import com.bank.publicinfo.service.BranchService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,11 +25,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(AtmController.class)
-class AtmControllerTest {
+@WebMvcTest(BranchController.class)
+class BranchControllerTest {
 
     @MockBean
-    AtmService atmService;
+    BranchService branchService;
 
     @Autowired
     MockMvc mockMvc;
@@ -37,38 +37,39 @@ class AtmControllerTest {
     @Autowired
     ObjectMapper objectMapper;
 
-    private AtmDTO atmDTO1;
-    private AtmDTO atmDTO2;
+    private BranchDTO branchDTO1;
+    private BranchDTO branchDTO2;
+
     @BeforeEach
     public void setUp(){
-        atmDTO1 = new AtmDTO(1L,
-                "адрес",
+        branchDTO1 = new BranchDTO(1L,
+                "address",
+                9999999L,
+                "city",
                 LocalTime.of(10,0),
-                LocalTime.of(20,0),
-                true,
-                null);
-        atmDTO2 = new AtmDTO(2L,
-                "адрес2",
+                LocalTime.of(20,0));
+        branchDTO2 = new BranchDTO(1L,
+                "address",
+                8888888888L,
+                "city",
                 LocalTime.of(11,0),
-                LocalTime.of(21,0),
-                true,
-                null);
+                LocalTime.of(21,0));
     }
 
     @Test
-    public void getAllTest() throws Exception {
-        Mockito.when(atmService.getAll()).thenReturn(List.of(atmDTO1,atmDTO2));
+    void getAllTest() throws Exception {
+        Mockito.when(branchService.getAll()).thenReturn(List.of(branchDTO1,branchDTO2));
 
-        mockMvc.perform(get("/atm"))
+        mockMvc.perform(get("/branch"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(2));
     }
 
     @Test
-    public void getAtmTest() throws Exception {
-        Mockito.when(atmService.find(1L)).thenReturn(atmDTO1);
+    public void getCBranchTest() throws Exception {
+        Mockito.when(branchService.find(1L)).thenReturn(branchDTO1);
 
-        mockMvc.perform(get("/atm/1"))
+        mockMvc.perform(get("/branch/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1));
     }
@@ -76,60 +77,61 @@ class AtmControllerTest {
     @Test
     public void shouldHandleResourceNotFoundExceptionTest() throws Exception {
         Long nonExistentId = 5L;
-        Mockito.when(atmService.find(nonExistentId)).thenThrow(new EntityNotFoundException("Atm not found"));
+        Mockito.when(branchService.find(nonExistentId)).thenThrow(new EntityNotFoundException("Branch not found"));
 
-        mockMvc.perform(get("/atm/" + nonExistentId))
+        mockMvc.perform(get("/branch/" + nonExistentId))
                 .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.message").value("Atm not found"));
+                .andExpect(jsonPath("$.message").value("Branch not found"));
     }
+
     @Test
-    void createAtmTest() throws Exception {
-        String atmJson = objectMapper.writeValueAsString(atmDTO1);
-        mockMvc.perform(post("/atm")
+    public void createBranchTest() throws Exception {
+        String branchJson = objectMapper.writeValueAsString(branchDTO1);
+        mockMvc.perform(post("/branch")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(atmJson))
+                        .content(branchJson))
                 .andExpect(status().isOk());
-        verify(atmService).save(any(AtmDTO.class));
+        verify(branchService).save(any(BranchDTO.class));
     }
 
     @Test
-    public void notValidCreateAtmTest() throws Exception {
-        AtmDTO badAtmDto = atmDTO2;
-        badAtmDto.setAddress(null);
-        String atmJson = objectMapper.writeValueAsString(badAtmDto);
+    public void notValidCreateBranchTest() throws Exception {
+        BranchDTO badBranchDto = branchDTO1;
+        badBranchDto.setAddress(null);
+        String branchJson = objectMapper.writeValueAsString(badBranchDto);
 
-        mockMvc.perform(post("/atm")
+        mockMvc.perform(post("/branch")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(atmJson))
+                        .content(branchJson))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void editBranchTest() throws Exception {
+        String branchJson = objectMapper.writeValueAsString(branchDTO1);
+        mockMvc.perform(put("/branch")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(branchJson))
+                .andExpect(status().isOk());
+        verify(branchService).update(any(BranchDTO.class));
+    }
+
+    @Test
+    public void notValidEditBranchTest() throws Exception {
+        BranchDTO badBranchDto = branchDTO1;
+        badBranchDto.setAddress(null);
+        String branchJson = objectMapper.writeValueAsString(badBranchDto);
+
+        mockMvc.perform(put("/branch")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(branchJson))
                 .andExpect(status().isBadRequest());
     }
     @Test
-    void editAtmTest() throws Exception {
-        String atmJson = objectMapper.writeValueAsString(atmDTO2);
-        mockMvc.perform(put("/atm")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(atmJson))
-                .andExpect(status().isOk());
-        verify(atmService).update(any(AtmDTO.class));
-    }
-
-    @Test
-    public void notValidEditAtmTest() throws Exception {
-        AtmDTO badAtmDto = atmDTO2;
-        badAtmDto.setAddress(null);
-        String atmJson = objectMapper.writeValueAsString(badAtmDto);
-
-        mockMvc.perform(put("/atm")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(atmJson))
-                .andExpect(status().isBadRequest());
-    }
-    
-    @Test
-    void deleteAtmTest() throws Exception {
+    public void deleteBranchTest() throws Exception {
         Long id = 1L;
-        mockMvc.perform(delete("/atm/"+ id))
+        mockMvc.perform(delete("/branch/"+ id))
                 .andExpect(status().isOk());
-        verify(atmService).delete(id);
+        verify(branchService).delete(id);
     }
 }
