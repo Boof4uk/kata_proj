@@ -2,10 +2,13 @@ package com.bank.antifraud.serviceImpl;
 
 import com.bank.antifraud.dto.AntifraudAuditDTO;
 import com.bank.antifraud.entity.AntifraudAudit;
+import com.bank.antifraud.exception.EntityNotFoundException;
 import com.bank.antifraud.mapper.AntifraudAuditMapper;
 import com.bank.antifraud.repository.AntifraudAuditRepository;
 import com.bank.antifraud.service.AntifraudAuditService;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,11 +19,13 @@ import java.util.List;
  */
 @Service
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
+@NoArgsConstructor(force = true)
+@Slf4j
 public class AntifraudAuditServiceImpl implements AntifraudAuditService {
     /**
      * Репозиторий для сущности AntifraudAudit
      */
-    private final AntifraudAuditRepository auditRepository;
+    private final AntifraudAuditRepository antifraudAuditRepository;
     /**
      * Маппер для сущности AntifraudAudit
      */
@@ -34,7 +39,7 @@ public class AntifraudAuditServiceImpl implements AntifraudAuditService {
      */
     @Override
     public AntifraudAuditDTO add(AntifraudAuditDTO suspiciousAuditDTO) {
-        AntifraudAudit antifraudAudit = auditRepository.save(auditMapper.toEntity(suspiciousAuditDTO));
+        AntifraudAudit antifraudAudit = antifraudAuditRepository.save(auditMapper.toEntity(suspiciousAuditDTO));
         return auditMapper.toDTO(antifraudAudit);
 
     }
@@ -46,8 +51,8 @@ public class AntifraudAuditServiceImpl implements AntifraudAuditService {
      */
     @Override
     public List<AntifraudAuditDTO> getAll() {
-
-        return auditMapper.toDtoList(auditRepository.findAll());
+        List<AntifraudAudit> antifraudAudit = antifraudAuditRepository.findAll();
+        return auditMapper.toDtoList(antifraudAudit);
     }
 
     /**
@@ -58,10 +63,11 @@ public class AntifraudAuditServiceImpl implements AntifraudAuditService {
      */
     @Override
     public AntifraudAuditDTO update(Long id, AntifraudAuditDTO suspiciousAuditDTO) {
-        auditRepository.findById(id).orElseThrow(() -> new RuntimeException("AntifraudAudit not found with id: " + id));
+        AntifraudAudit antifraudAudit = antifraudAuditRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("AntifraudAudit update", id));
         AntifraudAudit antifraudAuditUpdate = auditMapper.toEntity(suspiciousAuditDTO);
-        antifraudAuditUpdate.setId(id);
-        return auditMapper.toDTO(auditRepository.save(antifraudAuditUpdate));
+        antifraudAuditUpdate.setId(antifraudAudit.getId());
+        return auditMapper.toDTO(antifraudAuditRepository.save(antifraudAuditUpdate));
     }
 
     /**
@@ -71,7 +77,9 @@ public class AntifraudAuditServiceImpl implements AntifraudAuditService {
      */
     @Override
     public void delete(Long id) {
-        auditRepository.deleteById(id);
+        antifraudAuditRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("AntifraudAudit delete", id));
+        antifraudAuditRepository.deleteById(id);
     }
 
     /**
@@ -82,8 +90,8 @@ public class AntifraudAuditServiceImpl implements AntifraudAuditService {
      */
     @Override
     public AntifraudAuditDTO getById(Long id) {
-        AntifraudAudit antifraudAudit = auditRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("AntifraudAudit not found with id: " + id));
+        AntifraudAudit antifraudAudit = antifraudAuditRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("AntifraudAudit getById", id));
         return auditMapper.toDTO(antifraudAudit);
     }
 }

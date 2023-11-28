@@ -1,10 +1,10 @@
 package com.bank.antifraud.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.Column;
@@ -20,10 +20,10 @@ import javax.validation.constraints.NotNull;
  */
 @Getter
 @Setter
-@ToString
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 @Table(schema = "anti_fraud", name = "suspicious_card_transfer")
 public class SuspiciousCardTransfer {
     /**
@@ -37,7 +37,7 @@ public class SuspiciousCardTransfer {
      */
     @NotNull
     @Column(name = "card_transfer_id", unique = true)
-    private Integer cardTransferId;
+    private Long cardTransferId;
     /**
      * Заблокировано ли
      */

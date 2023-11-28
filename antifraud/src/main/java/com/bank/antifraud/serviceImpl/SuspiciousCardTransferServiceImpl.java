@@ -2,6 +2,7 @@ package com.bank.antifraud.serviceImpl;
 
 import com.bank.antifraud.dto.SuspiciousCardTransferDTO;
 import com.bank.antifraud.entity.SuspiciousCardTransfer;
+import com.bank.antifraud.exception.EntityNotFoundException;
 import com.bank.antifraud.mapper.SuspiciousCardTransferMapper;
 import com.bank.antifraud.repository.SuspiciousCardTransferRepository;
 import com.bank.antifraud.service.SuspiciousCardTransferService;
@@ -55,8 +56,8 @@ public class SuspiciousCardTransferServiceImpl implements SuspiciousCardTransfer
      * @return объект SuspiciousCardTransferDTO
      */
     @Override
-    public SuspiciousCardTransferDTO update(Long id,SuspiciousCardTransferDTO suspiciousCardTransferDTO) {
-        cardRepository.findById(id).orElseThrow(() -> new RuntimeException("CardTransfer not found with id: " + id));
+    public SuspiciousCardTransferDTO update(Long id, SuspiciousCardTransferDTO suspiciousCardTransferDTO) {
+        cardRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("CardTransfer update", id));
         SuspiciousCardTransfer cardTransferUpdate = cardMapper.toEntity(suspiciousCardTransferDTO);
         cardTransferUpdate.setId(id);
         return cardMapper.toDto(cardRepository.save(cardTransferUpdate));
@@ -69,6 +70,8 @@ public class SuspiciousCardTransferServiceImpl implements SuspiciousCardTransfer
      */
     @Override
     public void delete(Long id) {
+        cardRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("CardTransfer delete", id));
         cardRepository.deleteById(id);
     }
 
@@ -81,7 +84,7 @@ public class SuspiciousCardTransferServiceImpl implements SuspiciousCardTransfer
     @Override
     public SuspiciousCardTransferDTO getById(Long id) {
         SuspiciousCardTransfer cardTransfer = cardRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("CardTransfer not found with id: " + id));
+                .orElseThrow(() -> new EntityNotFoundException("CardTransfer getById", id));
         return cardMapper.toDto(cardTransfer);
     }
 

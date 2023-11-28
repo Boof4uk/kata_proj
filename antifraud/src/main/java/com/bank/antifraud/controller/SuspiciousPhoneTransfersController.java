@@ -7,12 +7,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -76,16 +75,16 @@ public class SuspiciousPhoneTransfersController {
      * @return объект ResponseEntity с объектом SuspiciousPhoneTransfersDTO и статусом ответа
      */
 
-    @PatchMapping("/{id}")
+    @PutMapping("/{id}")
     @ApiOperation(value = "Обновить подозрительный перевод по номеру телефона")
     public ResponseEntity<SuspiciousPhoneTransfersDTO> update(@Valid @PathVariable Long id, @RequestBody SuspiciousPhoneTransfersDTO suspiciousPhoneTransfersDTO) {
-        return new ResponseEntity<>(suspiciousPhoneTransfersService.update(id,suspiciousPhoneTransfersDTO), HttpStatus.OK);
+        return new ResponseEntity<>(suspiciousPhoneTransfersService.update(id, suspiciousPhoneTransfersDTO), HttpStatus.OK);
     }
 
     /**
      * Удалить подозрительный перевод по номеру телефона по id
      *
-     * @param id            идентификатор подозрительного перевода
+     * @param id идентификатор подозрительного перевода
      * @return объект ResponseEntity со строкой ответа
      */
 

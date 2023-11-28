@@ -2,9 +2,11 @@ package com.bank.antifraud.serviceImpl;
 
 import com.bank.antifraud.dto.SuspiciousAccountTransfersDTO;
 import com.bank.antifraud.entity.SuspiciousAccountTransfers;
+import com.bank.antifraud.exception.EntityNotFoundException;
 import com.bank.antifraud.mapper.SuspiciousAccountTransfersMapper;
 import com.bank.antifraud.repository.SuspiciousAccountTransfersRepository;
 import com.bank.antifraud.service.SuspiciousAccountTransfersService;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,7 @@ import java.util.List;
  * Класс сервиса для сущности SuspiciousAccountTransfers
  */
 @Service
+@NoArgsConstructor(force = true)
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class SuspiciousAccountTransfersServiceImpl implements SuspiciousAccountTransfersService {
     /**
@@ -55,8 +58,9 @@ public class SuspiciousAccountTransfersServiceImpl implements SuspiciousAccountT
      * @return объект SuspiciousAccountTransfersDTO
      */
     @Override
-    public SuspiciousAccountTransfersDTO update(Long id,SuspiciousAccountTransfersDTO suspiciousAccountTransfersDTO) {
-        accountRepository.findById(id).orElseThrow(() -> new RuntimeException("AccountTransfer not found with id: " + id));
+    public SuspiciousAccountTransfersDTO update(Long id, SuspiciousAccountTransfersDTO suspiciousAccountTransfersDTO) {
+
+        accountRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("AccountTransfer update", id));
         SuspiciousAccountTransfers accountTransfersUpdate = accountMapper.toEntity(suspiciousAccountTransfersDTO);
         accountTransfersUpdate.setId(id);
         return accountMapper.toDto(accountRepository.save(accountTransfersUpdate));
@@ -69,6 +73,8 @@ public class SuspiciousAccountTransfersServiceImpl implements SuspiciousAccountT
      */
     @Override
     public void delete(Long id) {
+        accountRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("AccountTransfer delete", id));
         accountRepository.deleteById(id);
     }
 
@@ -81,7 +87,7 @@ public class SuspiciousAccountTransfersServiceImpl implements SuspiciousAccountT
     @Override
     public SuspiciousAccountTransfersDTO getById(Long id) {
         SuspiciousAccountTransfers accountTransfers = accountRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("AccountTransfer not found with id: " + id));
+                .orElseThrow(() -> new EntityNotFoundException("AccountTransfer getById", id));
         return accountMapper.toDto(accountTransfers);
     }
 }

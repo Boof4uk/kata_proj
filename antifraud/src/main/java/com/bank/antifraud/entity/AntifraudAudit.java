@@ -1,10 +1,10 @@
 package com.bank.antifraud.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 import org.springframework.lang.Nullable;
 
 
@@ -22,10 +22,10 @@ import java.time.LocalDateTime;
  */
 @Getter
 @Setter
-@ToString
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 @Table(schema = "anti_fraud", name = "audit")
 public class AntifraudAudit {
     /**
@@ -82,5 +82,4 @@ public class AntifraudAudit {
     @NotNull
     @Column(name = "entity_json")
     private String entityJson;
-
 }
