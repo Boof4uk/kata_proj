@@ -43,7 +43,7 @@ public class AuditController {
                             schema = @Schema(implementation = ApiErrorResponse.class))
             })
     })
-    public ResponseEntity<AuditResponseDto> create(@RequestBody AuditRequestDto auditRequestDto) {
+    public ResponseEntity<AuditResponseDto> create(@Valid @RequestBody AuditRequestDto auditRequestDto) {
         final AuditResponseDto audResponseDto = auditService.create(auditRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(audResponseDto);
     }
@@ -64,8 +64,9 @@ public class AuditController {
                             schema = @Schema(implementation = ApiErrorResponse.class))
             })
     })
-    public ResponseEntity<AuditResponseDto> update(@PathVariable Long id,@Valid @RequestBody AuditRequestDto auditRequestDto) {
-        AuditResponseDto audResponseDto = auditService.update(id,auditRequestDto);
+    public ResponseEntity<AuditResponseDto> update(@PathVariable Long id,
+                                                   @Valid @RequestBody AuditRequestDto auditRequestDto) {
+        final AuditResponseDto audResponseDto = auditService.update(id, auditRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body(audResponseDto);
     }
 

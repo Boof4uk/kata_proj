@@ -4,6 +4,7 @@ import com.bank.profile.component.ApiErrorResponse;
 import com.bank.profile.dto.request.RegistrationRequestDto;
 import com.bank.profile.dto.response.RegistrationResponseDto;
 import com.bank.profile.service.RegistrationService;
+import io.micrometer.core.annotation.Timed;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -92,6 +93,7 @@ public class RegistrationController {
     }
 
     @GetMapping("/all")
+    @Timed("getAllRegistry")
     @Operation(summary = "Get all registration", description = "Get all registration")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Registration list returned", content = {

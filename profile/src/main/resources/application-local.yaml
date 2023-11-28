@@ -5,17 +5,31 @@ server:
 logging:
   level:
     org.springframework.boot.autoconfigure.jdbc: DEBUG
+
+    logging:
+      level:
+        org:
+          springframework:
+            boot:
+              actuate:
+                endpoint=DEBUG:
+                    prometheus:
+                        PrometheusScrapeEndpointAutoConfiguration: DEBUG
 management:
   server:
-    port: 8189
+    port: ${PORT_ACTUATOR:8189}
   endpoint:
     shutdown:
       enabled: true
-  endpoints:
-    web:
-      exposure:
-        include: '*'
 
+  endpoints.web.exposure.include: 'prometheus, health, info, shutdown'
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+    distribution:
+      percentiles-histogram:
+        "[http.server.requests]": true
 spring:
   datasource:
     url: ${SPRING_DATASOURCE_URL}
@@ -36,3 +50,4 @@ eureka:
   instance:
     preferIpAddress: true
     lease-renewal-interval-in-seconds: 30
+
