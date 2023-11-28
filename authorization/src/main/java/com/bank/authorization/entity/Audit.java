@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.Column;
@@ -22,7 +21,6 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Table(schema = "\"authorization\"", name = "audit")
 public class Audit {
 
