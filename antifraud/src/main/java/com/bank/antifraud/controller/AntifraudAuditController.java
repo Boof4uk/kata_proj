@@ -38,7 +38,6 @@ public class AntifraudAuditController {
      *
      * @return объект ResponseEntity с коллекцией AntifraudAuditDTO и статусом ответа
      */
-
     @Timed("getAll")
     @GetMapping
     @ApiOperation(value = "Получить все")
