@@ -1,14 +1,14 @@
 package com.bank.antifraud.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 import org.springframework.lang.Nullable;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+
 import java.time.LocalDateTime;
 
 /**
@@ -16,15 +16,15 @@ import java.time.LocalDateTime;
  */
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 public class AntifraudAuditDTO {
 
     private Long id;
 
     @NotNull
-    @Size(max = 40)
+//    @Size(max = 40)
     private String entityType;
 
     @NotNull

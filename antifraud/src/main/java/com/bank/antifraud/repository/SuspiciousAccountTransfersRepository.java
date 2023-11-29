@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
  * Репозиторий для сущности SuspiciousAccountTransfers
  */
 @Repository
-public interface SuspiciousAccountTransfersRepository extends JpaRepository <SuspiciousAccountTransfers,Long > {
+public interface SuspiciousAccountTransfersRepository extends JpaRepository<SuspiciousAccountTransfers, Long> {
 }

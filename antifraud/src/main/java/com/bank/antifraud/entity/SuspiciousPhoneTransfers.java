@@ -2,10 +2,10 @@ package com.bank.antifraud.entity;
 
 import io.micrometer.core.lang.Nullable;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,10 +20,10 @@ import javax.validation.constraints.NotNull;
  */
 @Getter
 @Setter
-@ToString
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 @Table(schema = "anti_fraud", name = "suspicious_phone_transfers")
 public class SuspiciousPhoneTransfers {
     /**
@@ -37,7 +37,7 @@ public class SuspiciousPhoneTransfers {
      */
     @NotNull
     @Column(name = "phone_transfer_id", unique = true)
-    private Integer phoneTransferId;
+    private Long phoneTransferId;
     /**
      * Заблокировано ли
      */

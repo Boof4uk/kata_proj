@@ -3,10 +3,10 @@ package com.bank.antifraud.entity;
 import io.micrometer.core.lang.Nullable;
 import lombok.AllArgsConstructor;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,10 +20,10 @@ import javax.persistence.Table;
  */
 @Getter
 @Setter
-@ToString
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 @Table(schema = "anti_fraud", name = "suspicious_account_transfers")
 public class SuspiciousAccountTransfers {
     /**

@@ -1,6 +1,9 @@
 package com.bank.antifraud.service;
+
 import com.bank.antifraud.dto.SuspiciousPhoneTransfersDTO;
+
 import java.util.List;
+
 /**
  * Интерфейс сервиса для сущности SuspiciousPhoneTransfers
  */
@@ -9,7 +12,7 @@ public interface SuspiciousPhoneTransfersService {
 
     List<SuspiciousPhoneTransfersDTO> getAll();
 
-    SuspiciousPhoneTransfersDTO update(Long id,SuspiciousPhoneTransfersDTO suspiciousPhoneTransfersDTO);
+    SuspiciousPhoneTransfersDTO update(Long id, SuspiciousPhoneTransfersDTO suspiciousPhoneTransfersDTO);
 
     void delete(Long id);
 

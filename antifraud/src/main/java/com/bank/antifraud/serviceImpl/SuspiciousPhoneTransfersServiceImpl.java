@@ -2,6 +2,7 @@ package com.bank.antifraud.serviceImpl;
 
 import com.bank.antifraud.dto.SuspiciousPhoneTransfersDTO;
 import com.bank.antifraud.entity.SuspiciousPhoneTransfers;
+import com.bank.antifraud.exception.EntityNotFoundException;
 import com.bank.antifraud.mapper.SuspiciousPhoneTransfersMapper;
 import com.bank.antifraud.repository.SuspiciousPhoneTransfersRepository;
 import com.bank.antifraud.service.SuspiciousPhoneTransfersService;
@@ -57,8 +58,8 @@ public class SuspiciousPhoneTransfersServiceImpl implements SuspiciousPhoneTrans
      */
 
     @Override
-    public SuspiciousPhoneTransfersDTO update(Long id,SuspiciousPhoneTransfersDTO suspiciousPhoneTransfersDTO) {
-        suspiciousPhoneTransfersRepository.findById(id).orElseThrow(() -> new RuntimeException("CardTransfer not found with id: " + id));
+    public SuspiciousPhoneTransfersDTO update(Long id, SuspiciousPhoneTransfersDTO suspiciousPhoneTransfersDTO) {
+        suspiciousPhoneTransfersRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("PhoneTransfers update", id));
         SuspiciousPhoneTransfers phoneTransferUpdate = suspiciousPhoneTransfersMapper.toEntity(suspiciousPhoneTransfersDTO);
         phoneTransferUpdate.setId(id);
         return suspiciousPhoneTransfersMapper.toDto(suspiciousPhoneTransfersRepository.save(phoneTransferUpdate));
@@ -71,6 +72,8 @@ public class SuspiciousPhoneTransfersServiceImpl implements SuspiciousPhoneTrans
      */
     @Override
     public void delete(Long id) {
+        suspiciousPhoneTransfersRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("PhoneTransfers delete", id));
         suspiciousPhoneTransfersRepository.deleteById(id);
     }
 
@@ -84,7 +87,7 @@ public class SuspiciousPhoneTransfersServiceImpl implements SuspiciousPhoneTrans
     public SuspiciousPhoneTransfersDTO getById(Long id) {
 
         SuspiciousPhoneTransfers cardTransfer = suspiciousPhoneTransfersRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("PhoneTransfers not found with id: " + id));
+                .orElseThrow(() -> new EntityNotFoundException("PhoneTransfers getById", id));
         return suspiciousPhoneTransfersMapper.toDto(cardTransfer);
     }
 }
