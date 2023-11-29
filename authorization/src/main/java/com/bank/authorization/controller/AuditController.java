@@ -3,6 +3,7 @@ package com.bank.authorization.controller;
 
 import com.bank.authorization.dto.AuditDto;
 import com.bank.authorization.service.AuditService;
+import io.micrometer.core.annotation.Timed;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -29,6 +30,7 @@ public class AuditController {
 
     private final AuditService auditService;
 
+    @Timed("getAllAudit")
     @GetMapping
     @Operation(summary = "Получить список аудитов", description = "Получить список всех аудитов")
     @ApiResponse(responseCode = "200",
