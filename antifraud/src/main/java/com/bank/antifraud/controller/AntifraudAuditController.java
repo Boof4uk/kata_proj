@@ -2,6 +2,7 @@ package com.bank.antifraud.controller;
 
 import com.bank.antifraud.dto.AntifraudAuditDTO;
 import com.bank.antifraud.service.AntifraudAuditService;
+import io.micrometer.core.annotation.Timed;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 
@@ -37,7 +38,7 @@ public class AntifraudAuditController {
      *
      * @return объект ResponseEntity с коллекцией AntifraudAuditDTO и статусом ответа
      */
-
+    @Timed("getAll")
     @GetMapping
     @ApiOperation(value = "Получить все")
     public ResponseEntity<List<AntifraudAuditDTO>> getAll() {
