@@ -3,6 +3,8 @@ package com.bank.publicinfo.controller;
 import com.bank.publicinfo.dto.BankDetailsDTO;
 import com.bank.publicinfo.service.BankDetailsService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import liquibase.pro.packaged.B;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +28,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(BankDetailsController.class)
 class BankDetailsControllerTest {
 
-
     @MockBean
     BankDetailsService bankDetailsService;
 
@@ -36,8 +37,11 @@ class BankDetailsControllerTest {
     @Autowired
     ObjectMapper objectMapper;
 
-    private List<BankDetailsDTO> getBankDetails(){
-        BankDetailsDTO bankDetailsDTO1 = new BankDetailsDTO(1L,
+    private BankDetailsDTO bankDetailsDTO1;
+    private BankDetailsDTO bankDetailsDTO2;
+    @BeforeEach
+    public void setUp(){
+        bankDetailsDTO1 = new BankDetailsDTO(1L,
                 100L,
                 200L,
                 300L,
@@ -45,7 +49,7 @@ class BankDetailsControllerTest {
                 "city",
                 "company",
                 "name");
-        BankDetailsDTO bankDetailsDTO2 = new BankDetailsDTO(2L,
+        bankDetailsDTO2 = new BankDetailsDTO(2L,
                 200L,
                 222L,
                 333L,
@@ -53,12 +57,11 @@ class BankDetailsControllerTest {
                 "city2",
                 "company2",
                 "name2");
-        return List.of(bankDetailsDTO1,bankDetailsDTO2);
     }
 
     @Test
-    void getAllTest() throws Exception {
-        Mockito.when(bankDetailsService.getAll()).thenReturn(getBankDetails());
+    public void getAllTest() throws Exception {
+        Mockito.when(bankDetailsService.getAll()).thenReturn(List.of(bankDetailsDTO1,bankDetailsDTO2));
 
         mockMvc.perform(get("/bankdetails"))
                 .andExpect(status().isOk())
@@ -67,8 +70,8 @@ class BankDetailsControllerTest {
     }
 
     @Test
-    void getBankDetailsTest() throws Exception {
-        Mockito.when(bankDetailsService.find(1L)).thenReturn(getBankDetails().get(0));
+    public void getBankDetailsTest() throws Exception {
+        Mockito.when(bankDetailsService.find(1L)).thenReturn(bankDetailsDTO1);
 
         mockMvc.perform(get("/bankdetails/1"))
                 .andExpect(status().isOk())
@@ -86,8 +89,8 @@ class BankDetailsControllerTest {
     }
 
     @Test
-    void createBankDetailsTest() throws Exception {
-        String auditJson = objectMapper.writeValueAsString(getBankDetails().get(1));
+    public void createBankDetailsTest() throws Exception {
+        String auditJson = objectMapper.writeValueAsString(bankDetailsDTO1);
         mockMvc.perform(post("/bankdetails")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(auditJson))
@@ -97,7 +100,7 @@ class BankDetailsControllerTest {
 
     @Test
     public void notValidCreateBankDetailsTest() throws Exception {
-        BankDetailsDTO badBankDetailsDto = getBankDetails().get(1);
+        BankDetailsDTO badBankDetailsDto = bankDetailsDTO1;
         badBankDetailsDto.setBik(null);
         String auditJson = objectMapper.writeValueAsString(badBankDetailsDto);
 
@@ -108,8 +111,8 @@ class BankDetailsControllerTest {
     }
 
     @Test
-    void editBankDetailsTest() throws Exception {
-        String bankDetailsJson = objectMapper.writeValueAsString(getBankDetails().get(1));
+    public void editBankDetailsTest() throws Exception {
+        String bankDetailsJson = objectMapper.writeValueAsString(bankDetailsDTO1);
         mockMvc.perform(put("/bankdetails")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(bankDetailsJson))
@@ -119,7 +122,7 @@ class BankDetailsControllerTest {
 
     @Test
     public void notValidEditAuditTest() throws Exception {
-        BankDetailsDTO bankDetailsDTO = getBankDetails().get(1);
+        BankDetailsDTO bankDetailsDTO = bankDetailsDTO1;
         bankDetailsDTO.setBik(null);
         String BankDetailsJson = objectMapper.writeValueAsString(bankDetailsDTO);
 
@@ -130,7 +133,7 @@ class BankDetailsControllerTest {
     }
 
     @Test
-    void deleteBankDetailsTest() throws Exception {
+    public void deleteBankDetailsTest() throws Exception {
         Long id = 1L;
         mockMvc.perform(delete("/bankdetails/"+ id))
                 .andExpect(status().isOk());

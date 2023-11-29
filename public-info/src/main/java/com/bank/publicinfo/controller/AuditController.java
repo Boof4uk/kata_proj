@@ -2,6 +2,7 @@ package com.bank.publicinfo.controller;
 
 import com.bank.publicinfo.dto.AuditDTO;
 import com.bank.publicinfo.service.AuditService;
+import io.micrometer.core.annotation.Timed;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -36,6 +37,7 @@ import java.util.List;
 public class AuditController {
 
     private final AuditService auditService;
+    @Timed("getAllAudit")
     @Operation(summary = "Получить все записи аудита", description = "Получить список всех записей аудита")
     @ApiResponse(responseCode = "200"
             , description = "Успешная операция"
