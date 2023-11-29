@@ -11,7 +11,14 @@ management:
   endpoints:
     web:
       exposure:
-        include: '*'
+        include: health,prometheus
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+    distribution:
+      percentiles-histogram:
+        "[http.server.requests]": true
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5433/postgres
@@ -25,4 +32,4 @@ spring:
   application:
     name: authorization-app
   jpa:
-    show-sql: false
+    show-sql: true
